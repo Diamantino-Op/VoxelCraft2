@@ -198,7 +198,7 @@ void Window::drawFrame() {
     // Acquire the next image
     unsigned int imageIndex;
     try {
-        imageIndex = _renderer->Device.acquireNextImageKHR(_swapChain, UINT64_MAX, _imageAvailableSemaphores[_currentFrame], nullptr);
+        imageIndex = _renderer->Device.acquireNextImageKHR(_swapChain, UINT64_MAX, _imageAvailableSemaphores[_currentFrame], nullptr).value;
     } catch (vk::OutOfDateKHRError const &e) {
         _framebufferResized = false;
         recreateSwapchain();
@@ -271,7 +271,7 @@ void Window::recordCommandBuffers(int i) {
 
     vk::ClearValue clearValues[2];
     clearValues[0].color = { std::array<float, 4>({ (1.0f/255)*139, (1.0f/255)*136, (1.0f/255)*142, 1.0f })};
-    clearValues[1].depthStencil = {1.0f, 0};
+    clearValues[1].depthStencil = vk::ClearDepthStencilValue{1.0f, 0};
 
     vk::RenderPassBeginInfo renderPassInfo = {
             .renderPass = _renderPass,

@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2020, assimp team
+Copyright (c) 2006-2022, assimp team
 
 
 All rights reserved.
@@ -256,7 +256,7 @@ AssimpVertexBoneWeightList IVertexData::AssimpBoneWeights(size_t vertices) {
         for (VertexBoneAssignmentList::const_iterator iter = vertexWeights.begin(), end = vertexWeights.end();
                 iter != end; ++iter) {
             std::vector<aiVertexWeight> &boneWeights = weights[iter->boneIndex];
-            boneWeights.push_back(aiVertexWeight(static_cast<unsigned int>(vi), iter->weight));
+            boneWeights.emplace_back(static_cast<unsigned int>(vi), iter->weight);
         }
     }
     return weights;
@@ -272,8 +272,7 @@ std::set<uint16_t> IVertexData::ReferencedBonesByWeights() const {
 
 // VertexData
 
-VertexData::VertexData() {
-}
+VertexData::VertexData() = default;
 
 VertexData::~VertexData() {
     Reset();
@@ -310,8 +309,7 @@ VertexElement *VertexData::GetVertexElement(VertexElement::Semantic semantic, ui
 
 // VertexDataXml
 
-VertexDataXml::VertexDataXml() {
-}
+VertexDataXml::VertexDataXml() = default;
 
 bool VertexDataXml::HasPositions() const {
     return !positions.empty();
@@ -476,7 +474,7 @@ void SubMesh::Reset(){
 
 aiMesh *SubMesh::ConvertToAssimpMesh(Mesh *parent) {
     if (operationType != OT_TRIANGLE_LIST) {
-        throw DeadlyImportError(Formatter::format() << "Only mesh operation type OT_TRIANGLE_LIST is supported. Found " << operationType);
+        throw DeadlyImportError("Only mesh operation type OT_TRIANGLE_LIST is supported. Found ", operationType);
     }
 
     aiMesh *dest = new aiMesh();
@@ -545,7 +543,7 @@ aiMesh *SubMesh::ConvertToAssimpMesh(Mesh *parent) {
             dest->mNumUVComponents[0] = static_cast<unsigned int>(uv1Element->ComponentCount());
             dest->mTextureCoords[0] = new aiVector3D[dest->mNumVertices];
         } else {
-            ASSIMP_LOG_WARN(Formatter::format() << "Ogre imported UV0 type " << uv1Element->TypeToString() << " is not compatible with Assimp. Ignoring UV.");
+            ASSIMP_LOG_WARN("Ogre imported UV0 type ", uv1Element->TypeToString(), " is not compatible with Assimp. Ignoring UV.");
             uv1 = 0;
         }
     }
@@ -554,7 +552,7 @@ aiMesh *SubMesh::ConvertToAssimpMesh(Mesh *parent) {
             dest->mNumUVComponents[1] = static_cast<unsigned int>(uv2Element->ComponentCount());
             dest->mTextureCoords[1] = new aiVector3D[dest->mNumVertices];
         } else {
-            ASSIMP_LOG_WARN(Formatter::format() << "Ogre imported UV0 type " << uv2Element->TypeToString() << " is not compatible with Assimp. Ignoring UV.");
+            ASSIMP_LOG_WARN("Ogre imported UV0 type ", uv2Element->TypeToString(), " is not compatible with Assimp. Ignoring UV.");
             uv2 = 0;
         }
     }
@@ -944,7 +942,7 @@ void Bone::AddChild(Bone *bone) {
     if (!bone)
         return;
     if (bone->IsParented())
-        throw DeadlyImportError("Attaching child Bone that is already parented: " + bone->name);
+        throw DeadlyImportError("Attaching child Bone that is already parented: ", bone->name);
 
     bone->parent = this;
     bone->parentId = id;
@@ -963,7 +961,7 @@ void Bone::CalculateWorldMatrixAndDefaultPose(Skeleton *skeleton) {
     for (auto boneId : children) {
         Bone *child = skeleton->BoneById(boneId);
         if (!child) {
-            throw DeadlyImportError(Formatter::format() << "CalculateWorldMatrixAndDefaultPose: Failed to find child bone " << boneId << " for parent " << id << " " << name);
+            throw DeadlyImportError("CalculateWorldMatrixAndDefaultPose: Failed to find child bone ", boneId, " for parent ", id, " ", name);
         }
         child->CalculateWorldMatrixAndDefaultPose(skeleton);
     }
@@ -983,7 +981,7 @@ aiNode *Bone::ConvertToAssimpNode(Skeleton *skeleton, aiNode *parentNode) {
         for (size_t i = 0, len = children.size(); i < len; ++i) {
             Bone *child = skeleton->BoneById(children[i]);
             if (!child) {
-                throw DeadlyImportError(Formatter::format() << "ConvertToAssimpNode: Failed to find child bone " << children[i] << " for parent " << id << " " << name);
+                throw DeadlyImportError("ConvertToAssimpNode: Failed to find child bone ", children[i], " for parent ", id, " ", name);
             }
             node->mChildren[i] = child->ConvertToAssimpNode(skeleton, node);
         }
@@ -1022,7 +1020,7 @@ aiNodeAnim *VertexAnimationTrack::ConvertToAssimpAnimationNode(Skeleton *skeleto
 
     Bone *bone = skeleton->BoneByName(boneName);
     if (!bone) {
-        throw DeadlyImportError("VertexAnimationTrack::ConvertToAssimpAnimationNode: Failed to find bone " + boneName + " from parent Skeleton");
+        throw DeadlyImportError("VertexAnimationTrack::ConvertToAssimpAnimationNode: Failed to find bone ", boneName, " from parent Skeleton");
     }
 
     // Keyframes

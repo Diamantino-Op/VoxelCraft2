@@ -228,12 +228,12 @@ void Renderer::generateMipmaps(vk::Image image, vk::Format imageFormat, int32_t 
                                       1, &barrier);
 
         std::array<vk::Offset3D, 2> srcOffsets;
-        srcOffsets[0] =  { 0, 0, 0 };
-        srcOffsets[1] = { mipWidth, mipHeight, 1 };
+        srcOffsets[0] =  vk::Offset3D{ 0, 0, 0 };
+        srcOffsets[1] = vk::Offset3D{ mipWidth, mipHeight, 1 };
 
         std::array<vk::Offset3D, 2> dstOffsets;
-        dstOffsets[0] =  { 0, 0, 0 };
-        dstOffsets[1] = { mipWidth > 1 ? mipWidth / 2 : 1, mipHeight > 1 ? mipHeight / 2 : 1, 1 };
+        dstOffsets[0] =  vk::Offset3D{ 0, 0, 0 };
+        dstOffsets[1] = vk::Offset3D{ mipWidth > 1 ? mipWidth / 2 : 1, mipHeight > 1 ? mipHeight / 2 : 1, 1 };
 
         vk::ImageBlit blit = {
                 .srcSubresource = {

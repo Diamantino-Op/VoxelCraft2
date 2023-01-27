@@ -1,7 +1,6 @@
 # Open Asset Import Library (assimp)
 # ----------------------------------------------------------------------
-#
-# Copyright (c) 2006-2020, assimp team
+# Copyright (c) 2006-2022, assimp team
 #
 # All rights reserved.
 #
@@ -36,15 +35,22 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 #----------------------------------------------------------------------
-cmake_minimum_required( VERSION 3.0 )
+cmake_minimum_required( VERSION 3.10 )
 
 INCLUDE_DIRECTORIES(
-    ${Assimp_SOURCE_DIR}/contrib/gtest/include
-    ${Assimp_SOURCE_DIR}/contrib/gtest/
     ${Assimp_SOURCE_DIR}/test/unit
     ${Assimp_SOURCE_DIR}/include
     ${Assimp_SOURCE_DIR}/code
 )
+
+if(NOT ASSIMP_HUNTER_ENABLED)
+  INCLUDE_DIRECTORIES(
+    ${Assimp_SOURCE_DIR}/contrib/gtest/include
+    ${Assimp_SOURCE_DIR}/contrib/gtest/
+    ${Assimp_SOURCE_DIR}/contrib/pugixml/src
+  )
+endif()
+
 if (MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING")
 endif()
@@ -83,11 +89,17 @@ SET( COMMON
   unit/utProfiler.cpp
   unit/utSharedPPData.cpp
   unit/utStringUtils.cpp
+  unit/Common/utMaybe.cpp
+  unit/Common/utMesh.cpp
   unit/Common/utStandardShapes.cpp
   unit/Common/uiScene.cpp
   unit/Common/utLineSplitter.cpp
   unit/Common/utSpatialSort.cpp
   unit/Common/utAssertHandler.cpp
+  unit/Common/utXmlParser.cpp
+  unit/Common/utBase64.cpp
+  unit/Common/utHash.cpp
+  unit/Common/utBaseProcess.cpp
 )
 
 SET( IMPORTERS
@@ -129,7 +141,7 @@ SET( IMPORTERS
   unit/utColladaImportExport.cpp
   unit/utCSMImportExport.cpp
   unit/utB3DImportExport.cpp
-  unit/utM3DImportExport.cpp
+  #unit/utM3DImportExport.cpp
   unit/utMDCImportExport.cpp
   unit/utAssbinImportExport.cpp
   unit/ImportExport/utAssjsonImportExport.cpp
@@ -140,14 +152,13 @@ SET( IMPORTERS
   unit/ImportExport/utNFFImportExport.cpp
   unit/ImportExport/utXGLImportExport.cpp
   unit/ImportExport/utMD2Importer.cpp
-  unit/ImportExport/utMD3Importer.cpp
+  #unit/ImportExport/utMD3Importer.cpp
   unit/ImportExport/utMD5Importer.cpp
   unit/ImportExport/utMDLImporter.cpp
   unit/ImportExport/MDL/MDLHL1TestFiles.h
   unit/ImportExport/MDL/utMDLImporter_HL1_ImportSettings.cpp
   unit/ImportExport/MDL/utMDLImporter_HL1_Materials.cpp
   unit/ImportExport/MDL/utMDLImporter_HL1_Nodes.cpp
-  #unit/ImportExport/IRR/utIrrImportExport.cpp
   unit/ImportExport/RAW/utRAWImportExport.cpp
   unit/ImportExport/Terragen/utTerragenImportExport.cpp
 )
@@ -197,16 +208,41 @@ SOURCE_GROUP( UnitTests\\Math         FILES  ${MATH} )
 SOURCE_GROUP( UnitTests\\PostProcess  FILES  ${POST_PROCESSES})
 
 add_executable( unit
-    ../contrib/gtest/src/gtest-all.cc
     unit/CCompilerTest.c
     unit/Main.cpp
     ../code/Common/Version.cpp
+	../code/Common/Base64.cpp
 	${COMMON}
 	${IMPORTERS}
 	${MATERIAL}
 	${MATH}
-    ${POST_PROCESSES}
+  ${POST_PROCESSES}
 )
+
+if(ASSIMP_HUNTER_ENABLED)
+    hunter_add_package(GTest)
+    find_package(GTest CONFIG REQUIRED)
+    target_link_libraries(unit GTest::gtest_main GTest::gmock)
+else()
+    target_sources(unit PUBLIC ${Assimp_SOURCE_DIR}/contrib/gtest/src/gtest-all.cc)
+endif()
+
+# RapidJSON
+IF(ASSIMP_HUNTER_ENABLED)
+  hunter_add_package(RapidJSON)
+  find_package(RapidJSON CONFIG REQUIRED)
+ELSE()
+  INCLUDE_DIRECTORIES("../contrib/rapidjson/include")
+  ADD_DEFINITIONS( -DRAPIDJSON_HAS_STDSTRING=1)
+  option( ASSIMP_RAPIDJSON_NO_MEMBER_ITERATOR "Suppress rapidjson warning on MSVC (NOTE: breaks android build)" ON )
+  if(ASSIMP_RAPIDJSON_NO_MEMBER_ITERATOR)
+    ADD_DEFINITIONS( -DRAPIDJSON_NOMEMBERITERATORCLASS )
+  endif()
+ENDIF()
+
+IF (ASSIMP_BUILD_DRACO)
+  ADD_DEFINITIONS( -DASSIMP_ENABLE_DRACO )
+ENDIF()
 
 TARGET_USE_COMMON_OUTPUT_DIRECTORY(unit)
 
@@ -217,12 +253,14 @@ SET_PROPERTY( TARGET assimp PROPERTY DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX} )
 
 IF( WIN32 )
     SET( platform_libs )
+ELSEIF(ANDROID)
+    SET( platform_libs )
 ELSE()
     SET( platform_libs pthread )
 ENDIF()
 
 IF(MSVC)
-		add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 ENDIF()
 
 target_link_libraries( unit assimp ${platform_libs} )
@@ -230,4 +268,3 @@ target_link_libraries( unit assimp ${platform_libs} )
 add_subdirectory(headercheck)
 
 add_test( unittests unit )
-
