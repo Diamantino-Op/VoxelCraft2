@@ -1,54 +1,56 @@
 #pragma once
 
-#include <pch.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-class Camera {
-private:
-    // Used for storing the camera ubo
-    vk::Buffer _cameraUboBuffer;
-    VmaAllocation _cameraUboAllocation;
-    vk::DescriptorSet _cameraDescriptorSet;
-
-    // Vectors
-    glm::vec3 _position;
-
-    // Matrices
-    glm::mat4 _viewMatrix;
-    glm::mat4 _projectionMatrix;
-
-    // Extra
-    glm::vec3 _front;
-    glm::vec3 _up;
-    glm::vec3 _worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 _right;
-
-    // Constants
-    float _speed = 20.0f;
-    float _mouseSensitivity = 0.1f;
-    float _yaw = -90;
-    float _pitch = 0;
-
-    bool _firstMouse;
-    float _lastMouseX;
-    float _lastMouseY;
-
+// Handles camera data and matrix generation
+class Camera
+{
 public:
-    SceneUBO SceneUBO;
+	Camera(glm::vec3 position, float fov = 75.0f);
 
-    Camera(glm::vec3 position);
-    ~Camera();
+	// Camera getters
+	glm::vec3 GetPosition() const;
+	float GetFov() const;
+	float GetPitch() const;
+	float GetYaw() const;
+	float GetNearPlane() const;
+	float GetFarPlane() const;
+	float GetAspect() const;
 
-    void update();
+	// Matrix getters
+	glm::mat4 GetViewMatrix() const;
+	glm::mat4 GetProjectionMatrix() const;
+	glm::mat4 GetMatrix() const;
 
-    void bind(vk::CommandBuffer &commandBuffer);
+	// Vector getters
+	glm::vec3 GetForward() const;
+	glm::vec3 GetRight() const;
+	glm::vec3 GetUp() const;
+	glm::vec3 GetForwardAligned() const;
+	glm::vec3 GetUpAligned() const;
 
-    glm::mat4 getProjectionMatrix();
-    glm::mat4 getViewMatrix();
-    glm::vec3 getPosition();
+	// Movement setters
+	void MoveForward(float amount);
+	void MoveRight(float amount);
+	void MoveUp(float amount);
 
-    void setProjectionMatrix(glm::mat4 projMatrix);
+	// Camera setters
+	void SetPosition(glm::vec3 pos);
+	void SetFov(float fov);
+	void SetPitch(float pitch);
+	void SetYaw(float yaw);
+	void SetNearPlane(float nearPlane);
+	void SetFarPlane(float farPlane);
+	void SetAspect(float aspect);
 
-    void processKeyboardInput(GLFWwindow *window, float deltaTime);
-
-    void processMouseInput(float xPos, float yPos, bool constrainPitch = true);
+private:
+	glm::vec3 pos_;
+	float fov_;
+	float pitch_ = 0;
+	float yaw_ = 0;
+	float nearPlane_ = 0.1f;
+	float farPlane_ = 2000.0f;
+	float aspect_ = 16.0f / 9.0f;
 };

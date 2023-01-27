@@ -1,155 +1,148 @@
 #include "Camera.h"
-#include "core/Renderer.h"
-#include "core/managers/PipelineManager.h"
+#include "Math.h"
 
-Camera::Camera(glm::vec3 position) {
-    // Initial position of the camera
-    _position = position;
-
-    // Create a uniform buffer for the view projection matrix for the camera
-    VmaAllocationInfo uniformBufferAllocInfo = {};
-    Renderer::Instance->createBuffer(_cameraUboBuffer, _cameraUboAllocation, uniformBufferAllocInfo,
-                                     sizeof(SceneUBO), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VMA_MEMORY_USAGE_CPU_TO_GPU,
-                                     VMA_ALLOCATION_CREATE_MAPPED_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-
-    // Allocate the descriptor set
-    auto* pipeline = PipelineManager::getPipeline("basic");
-    _cameraDescriptorSet = pipeline->createUBODescriptorSet();
-
-    // Bind the uniform buffer
-    vk::DescriptorBufferInfo bufferInfo = {
-            .buffer = _cameraUboBuffer,
-            .offset = 0,
-            .range = sizeof(SceneUBO)
-    };
-
-    vk::WriteDescriptorSet descriptorWrite = {
-            .dstSet = _cameraDescriptorSet,
-            .dstBinding = 0,
-            .dstArrayElement = 0,
-            .descriptorCount = 1,
-            .descriptorType = vk::DescriptorType::eUniformBuffer,
-            .pBufferInfo = &bufferInfo };
-
-    Renderer::Instance->Device.updateDescriptorSets(descriptorWrite, nullptr);
-
-    SceneUBO.light.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
-    SceneUBO.light.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
-    SceneUBO.light.specular = glm::vec3(1.0f, 1.0f, 1.0f);
-
-    SceneUBO.light.direction = glm::vec3(-0.2f, -0.2f, -0.2f);
-
-    SceneUBO.camPos = _position;
-
-    // Run an initial update to get the correct values
-    update();
+Camera::Camera(glm::vec3 position, float fov)
+{
+	SetPosition(position);
+	SetFov(fov);
 }
 
-Camera::~Camera() {
-    vmaDestroyBuffer(Renderer::Instance->Allocator, _cameraUboBuffer, _cameraUboAllocation);
+glm::vec3 Camera::GetPosition() const
+{
+	return pos_;
 }
 
-glm::mat4 Camera::getProjectionMatrix() {
-    return _projectionMatrix;
+float Camera::GetFov() const
+{
+	return fov_;
 }
 
-glm::mat4 Camera::getViewMatrix() {
-    return glm::lookAt(_position, _position + _front, _up);
+float Camera::GetPitch() const
+{
+	return pitch_;
 }
 
-glm::vec3 Camera::getPosition() {
-    return _position;
+float Camera::GetYaw() const
+{
+	return yaw_;
 }
 
-void Camera::update() {
-    // Calculate the new Front vector
-    glm::vec3 front;
-    front.x = cos(glm::radians(_yaw)) * cos(glm::radians(_pitch));
-    front.y = sin(glm::radians(_pitch));
-    front.z = sin(glm::radians(_yaw)) * cos(glm::radians(_pitch));
-    _front = glm::normalize(front);
-
-    // Also re-calculate the Right and Up vector
-    _right = glm::normalize(glm::cross(_front, _worldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-    _up = glm::normalize(glm::cross(_right, _front));
-
-    // Write updates for the camera
-    SceneUBO.view = getViewMatrix();
-
-    // matrix does perspective divide and flips vulkan y axis
-    const glm::mat4 clip(1.0f, 0.0f, 0.0f, 0.0f,
-                         0.0f,-1.0f, 0.0f, 0.0f,
-                         0.0f, 0.0f, 0.5f, 0.0f,
-                         0.0f, 0.0f, 0.5f, 1.0f);
-
-    SceneUBO.proj = clip * getProjectionMatrix();
-
-    SceneUBO.camPos = _position;
-
-    // Copy to the correct memory location
-    void* mappedData;
-    vmaMapMemory(Renderer::Instance->Allocator, _cameraUboAllocation, &mappedData);
-    memcpy(mappedData, &SceneUBO, sizeof(SceneUBO));
-    vmaUnmapMemory(Renderer::Instance->Allocator, _cameraUboAllocation);
+float Camera::GetNearPlane() const
+{
+	return nearPlane_;
 }
 
-void Camera::setProjectionMatrix(glm::mat4 projMatrix) {
-    _projectionMatrix = projMatrix;
-
-    // The projection matrix changed, run updates to ensure the camera is still positioned correctly
-    update();
+float Camera::GetFarPlane() const
+{
+	return farPlane_;
 }
 
-void Camera::processKeyboardInput(GLFWwindow *window, float deltaTime) {
-    float speed = _speed;
-
-    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-        speed *= 3.0f;
-
-    float velocity = speed * deltaTime;
-
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        _position += _front * velocity;
-
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        _position -= _front * velocity;
-
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        _position -= _right * velocity;
-
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        _position += _right * velocity;
+float Camera::GetAspect() const
+{
+	return aspect_;
 }
 
-void Camera::processMouseInput(float xPos, float yPos, bool constrainPitch) {
-    if (_firstMouse) {
-        _lastMouseX = xPos;
-        _lastMouseY = yPos;
-        _firstMouse = false;
-    }
-
-    float xOffset = xPos - _lastMouseX;
-    float yOffset = _lastMouseY - yPos; // reversed since y-coordinates go from bottom to top
-
-    _lastMouseX = xPos;
-    _lastMouseY = yPos;
-
-    xOffset *= _mouseSensitivity;
-    yOffset *= _mouseSensitivity;
-
-    _yaw += xOffset;
-    _pitch += yOffset;
-
-    // Make sure that when pitch is out of bounds, screen doesn't get flipped
-    if (constrainPitch) {
-        if (_pitch > 89.0f)
-            _pitch = 89.0f;
-        if (_pitch < -89.0f)
-            _pitch = -89.0f;
-    }
+glm::mat4 Camera::GetViewMatrix() const
+{
+	return glm::lookAt(pos_, pos_ + GetForward(), GetUp());
 }
 
-void Camera::bind(vk::CommandBuffer &commandBuffer) {
-    auto* pipeline = PipelineManager::getPipeline("basic");
-    commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, pipeline->getPipelineLayout(), 0, 1, &_cameraDescriptorSet, 0, nullptr);
+glm::mat4 Camera::GetProjectionMatrix() const
+{
+	return glm::perspective(glm::radians(fov_), aspect_, nearPlane_, farPlane_);
+}
+
+glm::mat4 Camera::GetMatrix() const
+{
+	return GetProjectionMatrix() * GetViewMatrix();
+}
+
+glm::vec3 Camera::GetForward() const
+{
+	// Spherical coordinates
+	return glm::normalize(glm::vec3(
+		-cos(pitch_) * sin(yaw_),
+		sin(pitch_),
+		-cos(pitch_) * cos(yaw_)
+	));
+}
+
+glm::vec3 Camera::GetRight() const
+{
+	float angle = yaw_ - glm::half_pi<float>();
+
+	return glm::vec3(
+		-sin(angle),
+		0,
+		-cos(angle)
+	);
+}
+
+glm::vec3 Camera::GetUp() const
+{
+	return glm::cross(GetRight(), GetForward());
+}
+
+glm::vec3 Camera::GetForwardAligned() const
+{
+	return glm::vec3(
+		-sin(yaw_),
+		0,
+		-cos(yaw_)
+	);
+}
+
+glm::vec3 Camera::GetUpAligned() const
+{
+	return glm::vec3(0.0f, 1.0f, 0.0f);
+}
+
+void Camera::MoveForward(float amount)
+{
+	pos_ += GetForward() * amount;
+}
+
+void Camera::MoveRight(float amount)
+{
+	pos_ += GetRight() * amount;
+}
+
+void Camera::MoveUp(float amount)
+{
+	pos_ += GetUp() * amount;
+}
+
+void Camera::SetPosition(glm::vec3 pos)
+{
+	pos_ = pos;
+}
+
+void Camera::SetFov(float fov)
+{
+	fov_ = glm::clamp(fov, 0.0f, 180.0f);
+}
+
+void Camera::SetPitch(float pitch)
+{
+	pitch_ = glm::clamp(pitch, -glm::half_pi<float>(), glm::half_pi<float>());
+}
+
+void Camera::SetYaw(float yaw)
+{
+	yaw_ = Math::PositiveMod(yaw, glm::two_pi<float>());
+}
+
+void Camera::SetNearPlane(float nearPlane)
+{
+	nearPlane_ = glm::clamp(nearPlane, 0.0f, INFINITY);
+}
+
+void Camera::SetFarPlane(float farPlane)
+{
+	 farPlane_ = glm::clamp(farPlane, 0.0f, INFINITY);
+}
+
+void Camera::SetAspect(float aspect)
+{
+	aspect_ = aspect;
 }

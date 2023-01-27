@@ -1,75 +1,82 @@
 #include "Entity.h"
-#include "core/managers/PipelineManager.h"
-#include "core/Renderer.h"
+#include "ChunkManager.h"
+#include "WorldConstants.h"
 
-Entity::Entity(World *world, Model *model, reactphysics3d::CollisionShape* shape, glm::vec3 position, glm::vec3 rotation) {
-    this->_world = world;
-    this->_model = model;
-    this->_position = position;
-    this->_rotation = rotation;
-
-    // Setup physics
-    //_rigidBody = world->getPhysicsWorld()->createRigidBody(getPhysicsPosition());
-    //_rigidBody->setType(reactphysics3d::BodyType::DYNAMIC);
-
-    // Setup the collider
-    //_collider = _rigidBody->addCollider(shape, reactphysics3d::Transform::identity());
-
-    // ------------------ Create Uniform Buffer ------------------ //
-
-    // Create the descriptor set to store the chunk position
-    auto* pipeline = PipelineManager::getPipeline("basic");
-    if (pipeline == nullptr) {
-        throw std::invalid_argument("Unable to retrieve the specified pipeline ('basic')");
-    }
-
-    pipeline->createModelUBO(_uniformBuffer, _uniformAllocation, _descriptorSet);
-
-    ModelUBO ubo {};
-    ubo.model = getModelMatrix();
-
-    // Copy this data across to the local memory
-    // TODO: Maybe move this to the GPU memory?
-    void* mappedData;
-    vmaMapMemory(Renderer::Instance->Allocator, _uniformAllocation, &mappedData);
-    memcpy(mappedData, &ubo, sizeof(ubo));
-    vmaUnmapMemory(Renderer::Instance->Allocator, _uniformAllocation);
+Entity::Entity() : position_(glm::vec3(0.0f, 0.0f, 0.0f)), velocity_(glm::vec3(0.0f, 0.0f, 0.0f)), size_(glm::vec3(0.8f, 1.8f, 0.8f))
+{
 }
 
-Entity::~Entity() {
-    // Remove collider
-    //_rigidBody->removeCollider(_collider);
+void Entity::Update(float dt)
+{
+	velocity_ -= glm::vec3(0.0f, World::gravity, 0.0f) * dt;
 
-    // Remove rigid body
-    //_world->getPhysicsWorld()->destroyRigidBody(_rigidBody);
-
-    vmaDestroyBuffer(Renderer::Instance->Allocator, _uniformBuffer, _uniformAllocation);
+	Move(velocity_ * dt);
 }
 
-void Entity::render(vk::CommandBuffer &commandBuffer) {
-    // Bind the descriptor set for the position
-    auto* pipeline = PipelineManager::getPipeline("basic");
-    commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, pipeline->getPipelineLayout(), 1, 1, &_descriptorSet, 0, nullptr);
-
-    // Render
-    _model->render(commandBuffer, "basic");
+glm::vec3 Entity::GetPosition() const
+{
+	return position_;
 }
 
-void Entity::update(float deltaTime) {
-
+glm::vec3 Entity::GetVelocity() const
+{
+	return velocity_;
 }
 
-void Entity::updatePhysics(long double timeStep, long double accumulator) {
-    // Compute the time interpolation factor
-    //auto factor = accumulator / timeStep;
+glm::vec3 Entity::GetSize() const
+{
+	return size_;
+}
 
-    // Get the updated transform of the body
-    //auto currTransform = _rigidBody->getTransform();
-    //auto prevTransform = getPhysicsPosition();
+void Entity::Move(glm::vec3 delta)
+{
+	// Check x, then z, then y
+	int axes[] = { Math::AXIS_X, Math::AXIS_Z, Math::AXIS_Y };
 
-    //setPosition(glm::vec3(currTransform.getPosition().x, currTransform.getPosition().y, currTransform.getPosition().z));
+	// For each axis
+	for (std::size_t i = 0; i < std::size(axes); i++)
+	{
+		while (delta[axes[i]] != 0)
+		{
+			float sign = glm::sign(delta[axes[i]]); // direction
+			float edge = position_[axes[i]] + sign * size_[axes[i]] / 2.0f; // entity edge offset
 
-    // Compute the interpolated transform of the rigid body
-    //auto interpolatedTransform = reactphysics3d::Transform::interpolateTransforms(prevTransform, currTransform, factor);
-    //setPosition(glm::vec3(interpolatedTransform.getPosition().x, interpolatedTransform.getPosition().y, interpolatedTransform.getPosition().z));
+			float distToNext = Math::DistToBlock(edge, Math::Axis(axes[i]), sign == -1.0f); // distance to next block
+			float offset = sign * glm::min(distToNext, glm::abs(delta[axes[i]])); // distance to move
+
+			glm::vec3 targetPos = position_;
+			targetPos[axes[i]] += offset;
+
+			// Check for collisions in the target location
+			std::vector<BlockInfo> collisions = ChunkManager::Instance().GetBlocksInVolume(targetPos, size_);
+
+			if (collisions.size() == 0)
+			{
+				// No collision, take axis movement
+				position_ = targetPos;
+				delta[axes[i]] -= offset;
+			}
+			else
+			{
+				// Collision, stop moving on axis
+				OnCollision(std::make_pair(collisions, Math::AxisToDir(Math::Axis(axes[i]), sign == -1.f)));
+				break;
+			}
+		}
+	}
+}
+
+void Entity::Teleport(glm::vec3 destination)
+{
+	position_ = destination;
+}
+
+void Entity::SetVelocity(glm::vec3 vel)
+{
+	velocity_ = vel;
+}
+
+void Entity::OnCollision(std::pair<std::vector<BlockInfo>, Math::Direction> collision)
+{
+	velocity_[collision.second / 2] = 0.0f;
 }

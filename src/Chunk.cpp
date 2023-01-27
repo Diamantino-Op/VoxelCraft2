@@ -1,296 +1,340 @@
 #include "Chunk.h"
-#include "core/managers/ResourceManager.h"
-#include "core/managers/PipelineManager.h"
-#include "core/Renderer.h"
+#include "ChunkManager.h"
+#include "glm/gtc/noise.hpp"
+#include "glm/gtx/compatibility.hpp"
 
-Chunk::Chunk(glm::vec3 position, World *world) {
-    // Set chunk details
-    _position = position;
-    _world = world;
-
-    // Update the model matrix to the correct position
-    _modelMatrix = glm::translate(glm::mat4(1.0f), _position);
-
-    // Create a new empty mesh
-    _mesh = new Mesh();
-
-    // ------------------ Create Uniform Buffer ------------------ //
-
-    // Create the descriptor set to store the chunk position
-    auto* pipeline = PipelineManager::getPipeline("basic");
-    if (pipeline == nullptr) {
-        throw std::invalid_argument("Unable to retrieve the specified pipeline ('basic')");
-    }
-
-    pipeline->createModelUBO(_uniformBuffer, _uniformAllocation, _descriptorSet);
-
-    ModelUBO ubo {};
-    ubo.model = _modelMatrix;
-
-    // Copy this data across to the local memory
-    // TODO: Maybe move this to the GPU memory?
-    void* mappedData;
-    vmaMapMemory(Renderer::Instance->Allocator, _uniformAllocation, &mappedData);
-    memcpy(mappedData, &ubo, sizeof(ubo));
-    vmaUnmapMemory(Renderer::Instance->Allocator, _uniformAllocation);
-
-    // Create the blocks
-    _blocks.resize(CHUNK_WIDTH * CHUNK_HEIGHT * CHUNK_WIDTH);
+Chunk::Chunk(glm::ivec2 pos) : position_(pos), mesh_(World::chunkArea * 8), heightTimer_(0.0f), heightTimerIncreasing_(true), highestSolidBlock_(0)
+{
 }
 
-Chunk::~Chunk() {
-    // Remove the world collider
-    if (_collider != nullptr) {
-        _world->getWorldBody()->removeCollider(_collider);
-    }
+void Chunk::Generate(TerrainGenerator &gen)
+{
+	glm::ivec3 chunk_pos = GetWorldPos();
 
-    vmaDestroyBuffer(Renderer::Instance->Allocator, _uniformBuffer, _uniformAllocation);
+	// Terrain
 
-    // Delete the mesh
-    delete _mesh;
+	// Loop over z and x and generate heights
+	for (int z = 0; z < World::chunkSize; z++)
+	{
+		for (int x = 0; x < World::chunkSize; x++)
+		{
+			// Get the height for this coord
+			glm::ivec2 pos = glm::ivec2(chunk_pos.x + x, chunk_pos.z + z);
+			int height = gen.GetHeight(pos);
+
+			for (int y = 0; y < height; y++)
+			{
+				Block block;
+
+				// Hardcoded type based on elevation
+				if (y < height - 8)
+					block = { Block::BLOCK_STONE };
+				else if (y < height - 1)
+					block = { Block::BLOCK_DIRT };
+				else
+					block = { Block::BLOCK_GRASS };
+
+				SetBlockLocal({ x, y, z }, block);
+			}
+		}
+	}
+	
+	// Trees
+
+	glm::ivec3 treeSize = {
+		std::size(*TerrainGenerator::tree),
+		std::size(TerrainGenerator::tree),
+		std::size(**TerrainGenerator::tree)
+	};
+	glm::ivec2 treeRad = {
+		(treeSize.x - 1) / 2,
+		(treeSize.z - 1) / 2
+	};
+	glm::ivec2 chunkPos2d = {
+		chunk_pos.x,
+		chunk_pos.z
+	};
+	
+	// Get all points of trees around this chunk
+	std::vector<glm::ivec2> treePoints = gen.GenerateTreePoints(
+		chunkPos2d - treeRad,
+		chunkPos2d + glm::ivec2(World::chunkSize, World::chunkSize) + treeRad
+	);
+
+	// For each tree, loop over all it's blocks and set them
+	for (unsigned i = 0; i < treePoints.size(); i++)
+	{
+		for (int y = 0; y < treeSize.y; y++)
+		{
+			for (int x = -treeRad.x; x <= treeRad.x; x++)
+			{
+				for (int z = -treeRad.y; z <= treeRad.y; z++)
+				{
+					// Get block from tree data
+					Block newBlock = { Block::BlockType(TerrainGenerator::tree[y][x + treeRad.x][z + treeRad.y]) };
+
+					if (newBlock.type != Block::BLOCK_AIR)
+					{
+						glm::ivec3 blockPos = {
+							treePoints[i].x + x,
+							gen.GetHeight(treePoints[i]) + y,
+							treePoints[i].y + z
+						};
+
+						const Block &oldBlock = GetBlock(blockPos);
+
+						// Only allow leaves to replace air
+						if (newBlock.type != Block::BLOCK_LEAVES || oldBlock.type == Block::BLOCK_AIR)
+							SetBlock(blockPos, newBlock);
+					}
+				}
+			}
+		}
+	}
 }
 
-void Chunk::load() {
-    _loading = true;
+void Chunk::BuildMesh()
+{
+	mesh_.Clear();
 
-    // Build height map
-    for (int x = 0; x < CHUNK_WIDTH; x++)
-        for (int y = 0; y < CHUNK_HEIGHT; y++)
-            for (int z = 0; z < CHUNK_WIDTH; z++) {
-                auto material = _world->getWorldGen()->getTheoreticalBlockType(_position.x + x, _position.y + y,
-                                                                               _position.z + z);
+	// Loop over all blocks before sky
+	for (int y = 0; y <= highestSolidBlock_; y++)
+	{
+		for (int z = 0; z < World::chunkSize; z++)
+		{
+			for (int x = 0; x < World::chunkSize; x++)
+			{
+				const Block &block = GetBlockLocal({ x, y, z });
+				if (block.type == Block::BLOCK_AIR)
+					continue;
 
-                setBlockArrayType(x, y, z, material);
-            }
+				// For each direction
+				for (int d = 0; d < Math::DIRECTION_COUNT; d++)
+				{
+					// Get block in this direction
+					glm::ivec3 adjacent = { x, y, z };
+					glm::vec3 normal = Math::directionVectors[d];
+					adjacent += normal;
 
-    _loaded = true;
-    _loading = false;
+					// If block in this direction
+					if (adjacent.y >= 0 && !CheckForBlock(adjacent))
+					{
+						const int tilesheetSize = 8;
+						unsigned index = 0;
+						
+						// Get texture index
+						switch (d)
+						{
+						case Math::DIRECTION_FORWARD:
+						case Math::DIRECTION_BACKWARD:
+						case Math::DIRECTION_LEFT:
+						case Math::DIRECTION_RIGHT:
+							index = BlockData::sideIndicies[block.type].side;
+							break;
+						case Math::DIRECTION_UP:
+							index = BlockData::sideIndicies[block.type].top;
+							break;
+						case Math::DIRECTION_DOWN:
+							index = BlockData::sideIndicies[block.type].bottom;
+							break;
+						}
+
+						// Get texture coords
+						glm::vec2 offset = Math::GetUVFromSheet(tilesheetSize, tilesheetSize, index, Math::CORNER_TOP_LEFT);
+						offset.y = 1.0f - offset.y - (1.0f / tilesheetSize); // flip texture
+
+						unsigned char ambient[Math::CORNER_COUNT];
+
+						// Generate ambient occlusion vertices
+						for (int i = 0; i < Math::CORNER_COUNT; i++)
+						{
+							// Get block touching this corner
+							glm::ivec3 dir = Math::CornerToVec(Math::Corner(i), Math::Direction(d));
+							glm::ivec3 corner = adjacent + dir;
+							glm::ivec3 sides[2];
+
+							// Get adjacent blocks touching this block
+							unsigned current = 0;
+							for (int j = 0; j < dir.length(); j++)
+							{
+								if (dir[j] == 0)
+									continue;
+
+								// For each dimension, set one to zero
+								sides[current] = dir;
+								sides[current][j] = 0;
+								sides[current] += adjacent;
+								current++;
+							}
+							bool cornerExists = CheckForBlock(corner);
+							bool side0Exists = CheckForBlock(sides[0]);
+							bool side1Exists = CheckForBlock(sides[1]);
+
+							if (side0Exists && side1Exists)
+								ambient[i] = 0; // max darkness
+							else
+								ambient[i] = 3 - (int(side0Exists) + int(side1Exists) + int(cornerExists)); // darkness depends on which sides exist
+						}
+
+						mesh_.AddQuad(
+							Math::Direction(d),
+							glm::vec3(x + 0.5f, y + 0.5f, z + 0.5f) + normal * 0.5f, 1.0f / tilesheetSize, offset, ambient
+						);
+					}
+				}
+			}
+		}
+	}
+	mesh_.TransferToGPU();
 }
 
-void Chunk::render(vk::CommandBuffer &commandBuffer) {
-    // Quick check to make sure this chunk is loaded
-    if (!_loaded) return;
-
-    // Only render if the mesh is ready to render
-    if (!_mesh->isBuilt()) return;
-
-    // Bind the descriptor set for the chunk position
-    auto* pipeline = PipelineManager::getPipeline("basic");
-    commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, pipeline->getPipelineLayout(), 1, 1, &_descriptorSet, 0, nullptr);
-
-    // Render the mesh
-    _mesh->render(commandBuffer);
+void Chunk::ClearMesh()
+{
+	mesh_.Clear();
+	heightTimer_ = 0.0f;
 }
 
-bool Chunk::isTransparent(int x, int y, int z) {
-    if (y < 0) return false;
-
-    if (getBlockType(x, y, z) == BlockManager::BLOCK_AIR)
-        return true;
-
-    return false;
+bool Chunk::MeshBuilt() const
+{
+	return mesh_.IndexCount() != 0;
 }
 
-unsigned char Chunk::getBlockType(int x, int y, int z) {
-    if ((y >= CHUNK_HEIGHT))
-        return BlockManager::BLOCK_AIR;
+void Chunk::SetBlock(glm::ivec3 pos, const Block &block)
+{
+	glm::ivec3 local = WorldToLocal(pos);
 
-    if ((x < 0) || (z < 0) || (x >= CHUNK_WIDTH) || (z >= CHUNK_WIDTH)) {
-        // Calculate world coordinates
-        glm::vec3 worldPos(x, y, z);
-        worldPos += _position;
-
-        // Find the chunk that contains these coordinates
-        Chunk *c = _world->findChunk(worldPos);
-
-        // This is "air", render the side of the face
-        if (c == nullptr || !c->isLoaded())
-            return _world->getWorldGen()->getTheoreticalBlockType(worldPos.x, worldPos.y, worldPos.z);
-
-        // Calculate local space coordinates
-        glm::vec3 cLocal = worldPos -= c->getPosition();
-        return c->getBlockType(cLocal.x, cLocal.y, cLocal.z);
-    }
-
-    return getBlockArrayType(x, y, z);;
+	if (!OutOfBounds(local))
+		SetBlockLocal(local, block);
 }
 
-void Chunk::rebuild() {
-    // Do not rebuild if the chunk has not yet been loaded
-    if (!_loaded) return;
+const Block &Chunk::GetBlock(glm::ivec3 pos) const
+{
+	glm::ivec3 local = WorldToLocal(pos);
 
-    std::vector<Vertex> vertices;
-    std::vector<unsigned short> indices;
-
-    int currIndex = 0;
-
-    for (int x = 0; x < CHUNK_WIDTH; x++) {
-        for (int y = 0; y < CHUNK_HEIGHT; y++) {
-            for (int z = 0; z < CHUNK_WIDTH; z++) {
-                // Get the id at this position
-                char material = getBlockType(x, y, z);
-
-                // Don't render Air
-                if (material == BlockManager::BLOCK_AIR)
-                    continue;
-
-                // Check all edges of the block
-                int index = 0;
-
-                if (isTransparent(x, y, z)) index |= 1;
-                if (isTransparent(x + 1, y, z)) index |= 2;
-                if (isTransparent(x + 1, y + 1, z)) index |= 4;
-                if (isTransparent(x, y + 1, z)) index |= 8;
-                if (isTransparent(x, y, z + 1)) index |= 16;
-                if (isTransparent(x + 1, y, z + 1)) index |= 32;
-                if (isTransparent(x + 1, y + 1, z + 1)) index |= 64;
-                if (isTransparent(x, y + 1, z + 1)) index |= 128;
-
-                // Get block data
-                glm::vec2 texCoords[BlockManager::BLOCK_FACE_SIZE][BlockManager::TEX_COORD_SIZE];
-                BlockManager::getTextureFromId(material, texCoords);
-
-                // Front
-                if (isTransparent(x, y, z - 1)) {
-                    vertices.push_back(Vertex(1 + x, 1 + y, 0 + z, 0, 0, -1, texCoords[BlockManager::Front][BlockManager::TopRight]));
-                    vertices.push_back(Vertex(1 + x, 0 + y, 0 + z, 0, 0, -1, texCoords[BlockManager::Front][BlockManager::BottomRight]));
-                    vertices.push_back(Vertex(0 + x, 0 + y, 0 + z, 0, 0, -1, texCoords[BlockManager::Front][BlockManager::BottomLeft]));
-                    vertices.push_back(Vertex(0 + x, 1 + y, 0 + z, 0, 0, -1, texCoords[BlockManager::Front][BlockManager::TopLeft]));
-
-                    indices.push_back(currIndex + 0);
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 3);
-
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 2);
-                    indices.push_back(currIndex + 3);
-
-                    currIndex += 4;
-                }
-
-                // Back
-                if (isTransparent(x, y, z + 1)) {
-                    vertices.push_back(Vertex(0 + x, 0 + y, 1 + z, 0, 0, 1, texCoords[BlockManager::Back][BlockManager::BottomLeft]));
-                    vertices.push_back(Vertex(1 + x, 0 + y, 1 + z, 0, 0, 1, texCoords[BlockManager::Back][BlockManager::BottomRight]));
-                    vertices.push_back(Vertex(1 + x, 1 + y, 1 + z, 0, 0, 1, texCoords[BlockManager::Back][BlockManager::TopRight]));
-                    vertices.push_back(Vertex(0 + x, 1 + y, 1 + z, 0, 0, 1, texCoords[BlockManager::Back][BlockManager::TopLeft]));
-
-                    indices.push_back(currIndex + 0);
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 3);
-
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 2);
-                    indices.push_back(currIndex + 3);
-
-                    currIndex += 4;
-                }
-
-                // Right
-                if (isTransparent(x - 1, y, z)) {
-                    vertices.push_back(Vertex(0 + x, 1 + y, 1 + z, -1, 0, 0, texCoords[BlockManager::Right][BlockManager::TopRight]));
-                    vertices.push_back(Vertex(0 + x, 1 + y, 0 + z, -1, 0, 0, texCoords[BlockManager::Right][BlockManager::TopLeft]));
-                    vertices.push_back(Vertex(0 + x, 0 + y, 0 + z, -1, 0, 0, texCoords[BlockManager::Right][BlockManager::BottomLeft]));
-                    vertices.push_back(Vertex(0 + x, 0 + y, 1 + z, -1, 0, 0, texCoords[BlockManager::Right][BlockManager::BottomRight]));
-
-                    indices.push_back(currIndex + 0);
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 3);
-
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 2);
-                    indices.push_back(currIndex + 3);
-
-                    currIndex += 4;
-                }
-
-                // Left
-                if (isTransparent(x + 1, y, z)) {
-                    vertices.push_back(Vertex(1 + x, 0 + y, 0 + z, 1, 0, 0, texCoords[BlockManager::Left][BlockManager::BottomLeft]));
-                    vertices.push_back(Vertex(1 + x, 1 + y, 0 + z, 1, 0, 0, texCoords[BlockManager::Left][BlockManager::TopLeft]));
-                    vertices.push_back(Vertex(1 + x, 1 + y, 1 + z, 1, 0, 0, texCoords[BlockManager::Left][BlockManager::TopRight]));
-                    vertices.push_back(Vertex(1 + x, 0 + y, 1 + z, 1, 0, 0, texCoords[BlockManager::Left][BlockManager::BottomRight]));
-
-                    indices.push_back(currIndex + 0);
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 3);
-
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 2);
-                    indices.push_back(currIndex + 3);
-
-                    currIndex += 4;
-                }
-
-                // Down
-                if (isTransparent(x, y - 1, z)) {
-                    vertices.push_back(Vertex(0 + x, 0 + y, 0 + z, 0, -1, 0, texCoords[BlockManager::Bottom][BlockManager::TopLeft]));
-                    vertices.push_back(Vertex(1 + x, 0 + y, 0 + z, 0, -1, 0, texCoords[BlockManager::Bottom][BlockManager::TopRight]));
-                    vertices.push_back(Vertex(1 + x, 0 + y, 1 + z, 0, -1, 0, texCoords[BlockManager::Bottom][BlockManager::BottomRight]));
-                    vertices.push_back(Vertex(0 + x, 0 + y, 1 + z, 0, -1, 0, texCoords[BlockManager::Bottom][BlockManager::BottomLeft]));
-
-                    indices.push_back(currIndex + 0);
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 3);
-
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 2);
-                    indices.push_back(currIndex + 3);
-
-                    currIndex += 4;
-                }
-
-                // Up
-                if (isTransparent(x, y + 1, z)) {
-                    vertices.push_back(Vertex(1 + x, 1 + y, 1 + z, 0, 1, 0, texCoords[BlockManager::Top][BlockManager::BottomRight]));
-                    vertices.push_back(Vertex(1 + x, 1 + y, 0 + z, 0, 1, 0, texCoords[BlockManager::Top][BlockManager::TopRight]));
-                    vertices.push_back(Vertex(0 + x, 1 + y, 0 + z, 0, 1, 0, texCoords[BlockManager::Top][BlockManager::TopLeft]));
-                    vertices.push_back(Vertex(0 + x, 1 + y, 1 + z, 0, 1, 0, texCoords[BlockManager::Top][BlockManager::BottomLeft]));
-
-                    indices.push_back(currIndex + 0);
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 3);
-
-                    indices.push_back(currIndex + 1);
-                    indices.push_back(currIndex + 2);
-                    indices.push_back(currIndex + 3);
-
-                    currIndex += 4;
-                }
-            }
-        }
-    }
-
-    // Rebuild the visual mesh
-    _mesh->rebuild(vertices, indices, std::vector<Texture>());
-
-    if (_collider != nullptr) {
-        _world->getWorldBody()->removeCollider(_collider);
-    }
-
-    // Create the polygon vertex array
-    auto* triangleArray = new reactphysics3d::TriangleVertexArray(
-            _mesh->Vertices.size(), _mesh->Vertices.data(), sizeof(Vertex), indices.size() / 3,
-            _mesh->Indices.data(), 3 * sizeof(unsigned short),
-            reactphysics3d::TriangleVertexArray::VertexDataType::VERTEX_FLOAT_TYPE,
-            reactphysics3d::TriangleVertexArray::IndexDataType::INDEX_SHORT_TYPE);
-
-    // Convert the chunk position into physics coords
-    reactphysics3d::Quaternion orientation = reactphysics3d::Quaternion::identity();
-    reactphysics3d::Transform transform(reactphysics3d::Vector3(_position.x, _position.y, _position.z), orientation);
-
-    // Perform the mesh collider rebuild
-    auto physicsMesh = _world->getPhysicsCommon()->createTriangleMesh();
-    physicsMesh->addSubpart(triangleArray);
-
-    // Create a physics shape based on this mesh
-    auto physicsMeshShape = _world->getPhysicsCommon()->createConcaveMeshShape(physicsMesh);
-
-    // Create the collider for this chunk and add it to the world body
-    _collider = _world->getWorldBody()->addCollider(physicsMeshShape, transform);
-
-    // The chunk has been rebuilt
-    _changed = false;
+	if (OutOfBounds(local))
+	{
+		static Block error = { Block::BLOCK_ERROR };
+		return error;
+	}
+	return GetBlockLocal(local);
 }
 
+glm::ivec2 Chunk::GetCoord() const
+{
+	return position_;
+}
 
+glm::vec3 Chunk::GetWorldPos() const
+{
+	return glm::vec3(position_.x * (float)World::chunkSize, 0, position_.y * (float)World::chunkSize);
+}
+
+glm::vec3 Chunk::GetRenderPos() const
+{
+	float t = 1.0f - heightTimer_;
+
+	// Cubic interpolation
+	return GetWorldPos() - glm::vec3(0.0f, glm::lerp(0.0f, World::chunkFloatDistance, t * t * t), 0.0f);
+}
+
+void Chunk::UpdateHeightTimer(float dt)
+{
+	if (MeshBuilt())
+	{
+		if (heightTimerIncreasing_)
+			heightTimer_ += World::chunkFloatInSpeed * dt; // move up
+		else
+			heightTimer_ -= World::chunkFloatOutSpeed * dt; // move down
+
+		heightTimer_ = glm::clamp(heightTimer_, 0.0f, 1.0f);
+	}
+}
+
+void Chunk::SetHeightTimerIncreasing(bool increasing)
+{
+	heightTimerIncreasing_ = increasing;
+}
+
+bool Chunk::HeightTimerHitZero() const
+{
+	return heightTimer_ == 0.0f && !heightTimerIncreasing_;
+}
+
+bool Chunk::IsVisible(const Math::Frustum &camera) const
+{
+	glm::vec3 position = GetRenderPos();
+
+	for (unsigned i = 0; i < std::size(camera.planes); i++)
+	{
+		// Frustum + aabb collision
+		glm::vec3 positive = position;
+		if (camera.planes[i].a >= 0)
+			positive.x += World::chunkSize;
+		if (camera.planes[i].b >= 0)
+			positive.y += World::chunkHeight;
+		if (camera.planes[i].c >= 0)
+			positive.z += World::chunkSize;
+
+		if (positive.x * camera.planes[i].a + positive.y * camera.planes[i].b + positive.z * camera.planes[i].c + camera.planes[i].d < 0)
+			return false;
+	}
+
+	return true;
+}
+
+void Chunk::Draw()
+{
+	if (MeshBuilt())
+		mesh_.Draw();
+}
+
+glm::ivec3 Chunk::WorldToLocal(glm::ivec3 pos) const
+{
+	glm::vec3 world = GetWorldPos();
+	return glm::ivec3(pos.x - world.x, pos.y, pos.z - world.z);
+}
+
+glm::ivec3 Chunk::LocalToWorld(glm::ivec3 pos) const
+{
+	glm::vec3 world = GetWorldPos();
+	return glm::ivec3(pos.x + world.x, pos.y, pos.z + world.z);
+}
+
+bool Chunk::OutOfBounds(glm::ivec3 pos) const
+{
+	return pos.x < 0 || pos.x >= World::chunkSize || pos.y < 0 || pos.y >= World::chunkHeight || pos.z < 0 || pos.z >= World::chunkSize;
+}
+
+const Block &Chunk::GetBlockLocal(glm::ivec3 pos) const
+{
+	return blocks_[pos.x + pos.y * World::chunkArea + pos.z * World::chunkSize];
+}
+
+void Chunk::SetBlockLocal(glm::ivec3 pos, const Block &block)
+{
+	blocks_[pos.x + pos.y * World::chunkArea + pos.z * World::chunkSize] = block;
+
+	// This operation might change the highest block
+	if (pos.y > highestSolidBlock_)
+		highestSolidBlock_ = pos.y;
+}
+
+bool Chunk::CheckForBlock(glm::ivec3 pos) const
+{
+	if (!OutOfBounds(pos))
+		return GetBlockLocal(pos).type != Block::BLOCK_AIR;
+	else
+	{
+		// Block above/below height limits
+		if (pos.y < 0 || pos.y >= World::chunkHeight)
+			return false;
+
+		// Block in another chunk
+		glm::ivec3 world = LocalToWorld(pos);
+		Block block = ChunkManager::Instance().GetBlock(world);
+
+		assert(block.type != Block::BLOCK_ERROR);
+
+		return block.type != Block::BLOCK_AIR;
+	}
+}

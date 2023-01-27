@@ -1,82 +1,68 @@
 #pragma once
 
-#include <pch.h>
+#include <array>
 
-#include <limits>
-#include <reactphysics3d/reactphysics3d.h>
+#include <glm/glm.hpp>
 
-#include "Camera.h"
-#include "core/managers/BlockManager.h"
-#include "World.h"
+#include "Mesh.h"
+#include "WorldConstants.h"
 #include "Block.h"
-#include "core/Mesh.h"
-#include "core/BlockMap.h"
+#include "TerrainGenerator.h"
 
-// Define World class to prevent compile Issues (Probably a better way to do it)
-class World;
-class Mesh;
-
-class Chunk {
-private:
-    vk::Buffer _uniformBuffer;
-    VmaAllocation _uniformAllocation;
-    vk::DescriptorSet _descriptorSet;
-
-    // Data
-    glm::vec3 _position;
-    std::vector<unsigned char> _blocks;
-
-    Mesh* _mesh;
-
-    glm::mat4 _modelMatrix;
-
-    bool isTransparent(int x, int y, int z);
-
-    unsigned char getBlockType(int x, int y, int z);
-    World *_world;
-
-    bool _changed = true;
-    bool _loaded = false;
-    bool _loading = false;
-
-    reactphysics3d::Collider* _collider = nullptr;
-
-    void setBlockArrayType(int x, int y, int z, unsigned char type)
-    {
-        _blocks[z * CHUNK_WIDTH * CHUNK_HEIGHT + y * CHUNK_WIDTH + x] = type; //Block { .material = type };
-    }
-
-    unsigned char getBlockArrayType(int x, int y, int z)
-    {
-        return _blocks[z * CHUNK_WIDTH * CHUNK_HEIGHT + y * CHUNK_WIDTH + x];//.material;
-    }
-
-
+// Collection of blocks, world is made of a 2d grid of chunks
+class Chunk
+{
 public:
-    Chunk(glm::vec3 position, World *world);
+	Chunk(glm::ivec2 pos);
 
-    ~Chunk();
+	// Generate block data
+	void Generate(TerrainGenerator &gen);
 
-    void load();
+	// Generate mesh from block data
+	void BuildMesh();
 
-    void render(vk::CommandBuffer &commandBuffer);
+	// Remove chunk's mesh
+	void ClearMesh();
 
-    void rebuild();
+	// Does this chunk have a mesh?
+	bool MeshBuilt() const;
 
-    bool shouldRebuildChunk() { return _changed; }
+	// Individual block get/set
+	void SetBlock(glm::ivec3 pos, const Block &block);
+	const Block &GetBlock(glm::ivec3 pos) const;
 
-    void setChanged() { _changed = true; }
+	// Position getters
+	glm::ivec2 GetCoord() const; // chunk coords
+	glm::vec3 GetWorldPos() const;
+	glm::vec3 GetRenderPos() const; // affected by height
 
-    glm::vec3 getPosition() { return _position; }
+	// Float-in timer
+	void UpdateHeightTimer(float dt);
+	void SetHeightTimerIncreasing(bool increasing);
+	bool HeightTimerHitZero() const;
 
-    glm::vec3 getCenter() { return glm::vec3(_position.x + (CHUNK_WIDTH / 2), 0, _position.z + (CHUNK_WIDTH / 2)); }
+	// Is this chunk inside a frustum?
+	bool IsVisible(const Math::Frustum &camera) const;
 
-    bool isLoaded() {
-        return _loaded;
-    }
+	// Draw the chunk
+	void Draw();
 
-    bool isLoading() { return _loading; }
+private:
+	glm::ivec2 position_;
+	Mesh mesh_;
+	float heightTimer_; // 0: down, 1: up
+	bool heightTimerIncreasing_;
+	int highestSolidBlock_; // Currently stores highest ever existed
+	
+	// low to high: x, z, y
+	std::array<Block, World::chunkSize * World::chunkSize * World::chunkHeight> blocks_ = {};
 
-    // Get the collider for the current chunk
-    //reactphysics3d::Collider *getChunkCollider() { return _collider; }
+	glm::ivec3 WorldToLocal(glm::ivec3 pos) const; // world block coord to local block coord
+	glm::ivec3 LocalToWorld(glm::ivec3 pos) const; // local block coord to world block coord
+	bool OutOfBounds(glm::ivec3 pos) const; // is this local block coord invalid?
+	const Block &GetBlockLocal(glm::ivec3 pos) const; // get the block at a local coord
+	void SetBlockLocal(glm::ivec3 pos, const Block &block); // set the block at a local coord
+	bool CheckForBlock(glm::ivec3 pos) const; // is a solid block at coord?
+
 };
+

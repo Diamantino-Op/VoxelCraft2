@@ -1,52 +1,33 @@
 #pragma once
 
-#include <pch.h>
-#include "core/resources/Model.h"
-#include "World.h"
+#include "Math.h"
+#include "Block.h"
 
-class World;
+#include <utility>
+#include <vector>
 
-class Entity {
+// Defines an object that can move in the world
+class Entity
+{
 public:
-    Entity(World* world, Model* model, reactphysics3d::CollisionShape* shape, glm::vec3 position, glm::vec3 rotation);
-    ~Entity();
+	Entity();
+	void Update(float dt);
 
-    glm::vec3 getPosition() { return _position; }
-    glm::vec3 getRotation() { return _rotation; }
+	// Getters
+	glm::vec3 GetPosition() const;
+	glm::vec3 GetVelocity() const;
+	glm::vec3 GetSize() const;
 
-    void setPosition(glm::vec3 position) { _position = position; }
-    void setRotation(glm::vec3 rotation) { _rotation = rotation; }
+	// Movement
+	void Move(glm::vec3 delta);
+	void Teleport(glm::vec3 destination);
 
-    void render(vk::CommandBuffer &commandBuffer);
-    void update(float deltaTime);
-    void updatePhysics(long double timeStep, long double accumulator);
+	void SetVelocity(glm::vec3 vel);
+
+	virtual void OnCollision(std::pair<std::vector<BlockInfo>, Math::Direction> collision);
 
 private:
-    vk::Buffer _uniformBuffer;
-    VmaAllocation _uniformAllocation;
-    vk::DescriptorSet _descriptorSet;
-
-    glm::vec3 _position;
-    glm::vec3 _rotation;
-
-    Model* _model;
-    World* _world;
-
-    reactphysics3d::RigidBody* _rigidBody;
-    reactphysics3d::Collider* _collider;
-
-    glm::mat4 getModelMatrix() {
-        glm::mat4 pos(1.0f);
-        pos = glm::translate(pos, _position);
-        //pos = glm::rotate(pos, _rotation);
-        return pos;
-    }
-
-    reactphysics3d::Transform getPhysicsPosition() const {
-        reactphysics3d::Vector3 position(_position.x, _position.y, _position.x);
-        reactphysics3d::Quaternion orientation = reactphysics3d::Quaternion::identity();
-        reactphysics3d::Transform transform(position, orientation);
-
-        return transform;
-    }
+	glm::vec3 position_;
+	glm::vec3 velocity_;
+	glm::vec3 size_;
 };

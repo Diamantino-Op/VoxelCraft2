@@ -1,14 +1,25 @@
 #pragma once
 
-#include <pch.h>
-#include "Entity.h"
 #include "Camera.h"
+#include "Entity.h"
 
-class Player : Entity {
+// The player is an entity with input logic and a camera
+class Player : public Entity
+{
 public:
-    Camera getCamera() { return _camera; }
+	Player();
 
+	// Handle input
+	void Update(float dt);
+
+	// Gets the player camera
+	const Camera &GetCamera() const;
+
+	// On collision override
+	virtual void OnCollision(std::pair<std::vector<BlockInfo>, Math::Direction> collision) override;
 
 private:
-    Camera _camera;
+	Camera camera_;
+	bool canJump_;
+	bool noclip_;
 };
