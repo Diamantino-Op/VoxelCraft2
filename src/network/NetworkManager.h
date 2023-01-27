@@ -1,12 +1,10 @@
 #pragma once
 
-#include "Texture.h"
-#include "Mesh.h"
-#include "Shader.h"
+#include "../graphics/utility/Texture.h"
+#include "../graphics/utility/Mesh.h"
+#include "../graphics/utility/Shader.h"
 #include "RemotePlayers.h"
-#include "Player.h"
-
-#include <glm/glm.hpp>
+#include "../entity/Player.h"
 
 #include <memory>
 
@@ -35,7 +33,7 @@ public:
 	void Update(const Player &player);
 
 	// Render other players heads
-	void Render(Shader &shader);
+	void Render(const Shader &shader);
 	 
 	~NetworkManager();
 

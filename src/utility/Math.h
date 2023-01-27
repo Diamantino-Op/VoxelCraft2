@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cmath>
 #include <glm/glm.hpp>
 #include <glm/gtx/norm.hpp>
 #include <glm/gtx/compatibility.hpp>
@@ -48,13 +47,13 @@ namespace Math
 	};
 
 	// Bounding planes for frustum
-	struct Frustum
+	struct Frastum
 	{
 		Plane planes[Math::DIRECTION_COUNT];
 	};
 
 	// Vectors corresponding to direction enum
-	const glm::vec3 directionVectors[DIRECTION_COUNT]
+	constexpr glm::vec3 directionVectors[DIRECTION_COUNT]
 	{
 		{ 1, 0, 0 },
 		{ -1, 0, 0 },
@@ -65,7 +64,7 @@ namespace Math
 	};
 
 	// 3x3 vectors of surrounding grid spaces in 2D
-	const glm::ivec2 surrounding[] = {
+	constexpr glm::ivec2 surrounding[] = {
 		glm::ivec2(-1.0f,  0.0f),
 		glm::ivec2(1.0f,  0.0f),
 		glm::ivec2(0.0f, -1.0f),
@@ -89,7 +88,7 @@ namespace Math
 	glm::vec2 GetUVFromSheet(unsigned sizeX, unsigned sizeY, unsigned index, Corner corner);
 
 	// Get frustum from camera matrix
-	Frustum CalculateFrustum(const glm::mat4 &camera);
+	Frastum CalculateFrustum(const glm::mat4 &camera);
 
 	// Axis aligned bounding box collision detection
 	bool AABBCollision(glm::vec3 pos0, glm::vec3 size0, glm::vec3 pos1, glm::vec3 size1);

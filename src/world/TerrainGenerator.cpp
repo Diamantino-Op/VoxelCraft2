@@ -27,9 +27,9 @@ const int TerrainGenerator::tree[10][7][7] = {
 int TerrainGenerator::GetHeight(glm::vec2 pos)
 {
 	// Get grid corners for interpolation
-	glm::vec2 scaled = pos / Gen::terrainInterpGrid;
-	glm::vec2 min = glm::floor(scaled) * Gen::terrainInterpGrid;
-	glm::vec2 max = glm::ceil(scaled) * Gen::terrainInterpGrid;
+	const glm::vec2 scaled = pos / Gen::terrainInterpGrid;
+	glm::vec2 min = floor(scaled) * Gen::terrainInterpGrid;
+	glm::vec2 max = ceil(scaled) * Gen::terrainInterpGrid;
 
 	if (min == max)
 		return static_cast<int>(GetNoiseHeight(pos));
@@ -38,26 +38,26 @@ int TerrainGenerator::GetHeight(glm::vec2 pos)
 	if (min.x != max.x && min.y != max.y)
 	{
 		// Get noise at each corner
-		float bl = GetNoiseHeight(min);
-		float tr = GetNoiseHeight(max);
-		float tl = GetNoiseHeight({ min.x, max.y });
-		float br = GetNoiseHeight({ max.x, min.y });
+		const float bl = GetNoiseHeight(min);
+		const float tr = GetNoiseHeight(max);
+		const float tl = GetNoiseHeight({ min.x, max.y });
+		const float br = GetNoiseHeight({ max.x, min.y });
 
 		// Interpolation values
-		float tx = (pos.x - min.x) / (max.x - min.x);
-		float ty = (pos.y - min.y) / (max.y - min.y);
+		const float tx = (pos.x - min.x) / (max.x - min.x);
+		const float ty = (pos.y - min.y) / (max.y - min.y);
 
 		// Lerp y
-		float ml = glm::lerp(bl, tl, ty);
-		float mr = glm::lerp(br, tr, ty);
+		const float ml = glm::lerp(bl, tl, ty);
+		const float mr = glm::lerp(br, tr, ty);
 
 		// Lerp x
 		return static_cast<int>(glm::lerp(ml, mr, tx));
 	}
 	
 	// Interpolate one dimension
-	float minH = GetNoiseHeight(min);
-	float maxH = GetNoiseHeight(max);
+	const float minH = GetNoiseHeight(min);
+	const float maxH = GetNoiseHeight(max);
 
 	if (min.x == max.x) // Interpolate y
 		return static_cast<int>(glm::lerp(minH, maxH, (pos.y - min.y) / (max.y - min.y)));
@@ -68,16 +68,16 @@ int TerrainGenerator::GetHeight(glm::vec2 pos)
 std::vector<glm::ivec2> TerrainGenerator::GenerateTreePoints(glm::ivec2 startCorner, glm::ivec2 endCorner)
 {
 	std::vector<glm::ivec2> points;
-	std::hash<glm::ivec2> hash;
-	std::uniform_real_distribution<float> dist(0.0f, 1.0f);
+	std::uniform_real_distribution dist(0.0f, 1.0f);
 
 	// Check each point for if a tree should be generated
 	for (int z = startCorner.y; z < endCorner.y; z++)
 	{
 		for (int x = startCorner.x; x < endCorner.x; x++)
 		{
+			std::hash<glm::ivec2> hash;
 			glm::ivec2 pos = { x, z };
-			std::default_random_engine rng(unsigned(hash(pos)));
+			std::default_random_engine rng(static_cast<unsigned>(hash(pos)));
 
 			// Generate tree if using coord as seed passes
 			if (dist(rng) <= Gen::treeDensity)
@@ -98,12 +98,11 @@ float TerrainGenerator::GetNoiseHeight(glm::vec2 pos)
 		return cache;
 
 	// Calculate layered noise
-	float height = ((glm::simplex(pos / float(Gen::heightScale)) + 1) / 2) * Gen::heightWeight * Gen::heightMaxHeight +
-				   ((glm::simplex(pos / float(Gen::detailScale)) + 1) / 2) * Gen::detailWeight * Gen::detailMaxHeight;
+	float height = ((simplex(pos / Gen::heightScale) + 1) / 2) * Gen::heightWeight * Gen::heightMaxHeight + ((simplex(pos / Gen::detailScale) + 1) / 2) * Gen::detailWeight * Gen::detailMaxHeight;
 
 	// Apply biome height scalar
 	height *= (glm::clamp(
-		(glm::simplex(pos / static_cast<float>(Gen::landScale)) + Gen::landMountainBias * 2.0f) * Gen::landTransitionSharpness,
+		(simplex(pos / Gen::landScale) + Gen::landMountainBias * 2.0f) * Gen::landTransitionSharpness,
 		-1.0f + Gen::landMinMult * 2.0f,
 		1.0f
 	) + 1.0f) / 2.0f;
@@ -126,7 +125,7 @@ void TerrainGenerator::AddToCache(glm::vec2 pos, float height)
 	cacheSize_++;
 }
 
-float TerrainGenerator::GetFromCache(glm::vec2 pos)
+float TerrainGenerator::GetFromCache(glm::vec2 pos) const
 {
 	// Search from end
 	for (int i = cacheSize_ - 1; i >= 0; i--)

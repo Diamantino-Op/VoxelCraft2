@@ -1,9 +1,9 @@
 #include "ChunkManager.h"
-#include "WorldConstants.h"
-#include "WindowManager.h"
-#include "NetworkManager.h"
-#include "Camera.h"
-#include "CascadedShadowMap.h"
+#include "../WorldConstants.h"
+#include "../../graphics/WindowManager.h"
+#include "../../network/NetworkManager.h"
+#include "../../input/Camera.h"
+#include "../../graphics/utility/CascadedShadowMap.h"
 #include "Chunk.h"
 
 #define GLFW_INCLUDE_NONE
@@ -42,12 +42,12 @@ Chunk *ChunkManager::AddChunk(glm::ivec2 coord)
 	}
 
 	// Generate surrounding chunks and add
-	for (unsigned i = 0; i < std::size(Math::surrounding); i++)
+	for (auto i : Math::surrounding)
 	{
-		glm::ivec2 newCoord = coord + Math::surrounding[i];
+		glm::ivec2 newCoord = coord + i;
 		if (GetChunk(newCoord) == nullptr)
 		{
-			Chunk *newChunk = new Chunk(newCoord);
+			auto* newChunk = new Chunk(newCoord);
 			newChunk->Generate(noise_);
 			chunks_[newCoord] = newChunk;
 		}
@@ -61,8 +61,8 @@ Chunk *ChunkManager::AddChunk(glm::ivec2 coord)
 bool ChunkManager::ChunkInRange(glm::vec3 playerPos, glm::vec3 chunkPos) const
 {
 	// Check if chunk is closer to player than render distance
-	glm::vec3 pos = chunkPos + glm::vec3(World::chunkSize, 0.0f, World::chunkSize) / 2.f;
-	float distanceSquared = glm::distance2(glm::vec2(pos.x, pos.z), glm::vec2(playerPos.x, playerPos.z));
+	const glm::vec3 pos = chunkPos + glm::vec3(World::chunkSize, 0.0f, World::chunkSize) / 2.f;
+	const float distanceSquared = glm::distance2(glm::vec2(pos.x, pos.z), glm::vec2(playerPos.x, playerPos.z));
 	return distanceSquared <= World::renderDistance * World::renderDistance;
 }
 
@@ -71,9 +71,9 @@ int ChunkManager::BuiltNeighborCount(glm::ivec2 coord, glm::ivec2 exclude) const
 	unsigned count = 0;
 	
 	// Loop over surrounding chunks
-	for (unsigned j = 0; j < std::size(Math::surrounding); j++)
+	for (auto j : Math::surrounding)
 	{
-		glm::ivec2 currentCoord = coord + Math::surrounding[j];
+		glm::ivec2 currentCoord = coord + j;
 
 		if (currentCoord == exclude)
 			continue;
@@ -96,8 +96,8 @@ void ChunkManager::UpdateChunks(glm::vec3 playerPos, float dt)
 	unsigned loadedChunks = 0;
 
 	// Create initial chunks 
-	glm::ivec2 playerChunkCoord = ToChunkPosition(glm::floor(playerPos));
-	Chunk *playerChunk = GetChunk(playerChunkCoord);
+	const glm::ivec2 playerChunkCoord = ToChunkPosition(glm::floor(playerPos));
+	const Chunk *playerChunk = GetChunk(playerChunkCoord);
 	if (playerChunk == nullptr || !playerChunk->MeshBuilt())
 	{
 		// Create 3x3 cross shape of chunks on player
@@ -114,7 +114,7 @@ void ChunkManager::UpdateChunks(glm::vec3 playerPos, float dt)
 	}
 
 	// Update all chunks
-	ChunkContainer::iterator it = chunks_.begin();
+	auto it = chunks_.begin();
 	while (it != chunks_.end())
 	{
 		// Update the height timer
@@ -142,10 +142,10 @@ void ChunkManager::UpdateChunks(glm::vec3 playerPos, float dt)
 		if (it->second->HeightTimerHitZero())
 		{
 			// Delete surrounding chunks unconnected otherwise
-			for (unsigned i = 0; i < std::size(Math::surrounding); i++)
+			for (auto i : Math::surrounding)
 			{
-				glm::ivec2 newCoord = it->first + Math::surrounding[i];
-				ChunkContainer::iterator chunk = chunks_.find(newCoord);
+				glm::ivec2 newCoord = it->first + i;
+				auto chunk = chunks_.find(newCoord);
 
 				if (chunk != chunks_.end() && !chunk->second->MeshBuilt() && BuiltNeighborCount(newCoord, it->first) == 0)
 				{
@@ -163,7 +163,7 @@ void ChunkManager::UpdateChunks(glm::vec3 playerPos, float dt)
 			else
 			{
 				delete it->second;
-				ChunkContainer::iterator prev = it;
+				const auto prev = it;
 				++it;
 				chunks_.erase(prev);
 			}
@@ -179,7 +179,7 @@ void ChunkManager::DrawChunksLit(const Camera &camera, const std::vector<Cascade
 	texture_.Activate(GL_TEXTURE0);
 
 	// Calculate camera frustum
-	glm::mat4 cameraMatrix = camera.GetMatrix();
+	const glm::mat4 cameraMatrix = camera.GetMatrix();
 
 	// Camera uniforms
 	shader_.SetVar("cameraPosition", camera.GetPosition());
@@ -197,15 +197,15 @@ void ChunkManager::DrawChunksLit(const Camera &camera, const std::vector<Cascade
 	DrawChunks(cameraMatrix, shader_);
 }
 
-void ChunkManager::DrawChunks(const glm::mat4 &cameraMatrix, const Shader &shader)
+void ChunkManager::DrawChunks(const glm::mat4 &cameraMatrix, const Shader &shader) const
 {
 	shader.SetVar("cameraMatrix", cameraMatrix);
 
-	Math::Frustum cameraFrustum = Math::CalculateFrustum(cameraMatrix);
+	Math::Frastum cameraFrastum = Math::CalculateFrustum(cameraMatrix);
 	for (const auto &c : chunks_)
 	{
 		// Frustum culling
-		if (c.second->IsVisible(cameraFrustum))
+		if (c.second->IsVisible(cameraFrastum))
 		{
 			// Set shader/texture
 			glm::mat4 model = glm::translate(glm::mat4(1.0f), c.second->GetRenderPos());
@@ -234,9 +234,9 @@ void ChunkManager::SetBlock(glm::ivec3 pos, const Block &block, bool network)
 		chunk->BuildMesh();
 
 	// Rebuild surrounding chunks if block was on edge
-	for (std::size_t i = 0; i < std::size(Math::surrounding); i++)
+	for (auto i : Math::surrounding)
 	{
-		Chunk *adjChunk = GetChunk(pos + glm::ivec3(Math::surrounding[i].x, 0.0f, Math::surrounding[i].y));
+		Chunk *adjChunk = GetChunk(pos + glm::ivec3(i.x, 0.0f, i.y));
 		if (adjChunk != nullptr && adjChunk != chunk && adjChunk->MeshBuilt())
 			adjChunk->BuildMesh();
 	}
@@ -244,7 +244,7 @@ void ChunkManager::SetBlock(glm::ivec3 pos, const Block &block, bool network)
 
 const Block &ChunkManager::GetBlock(glm::ivec3 pos)
 {
-	Chunk *chunk = GetChunk(pos);
+	const Chunk *chunk = GetChunk(pos);
 
 	if (chunk == nullptr)
 	{
@@ -260,25 +260,25 @@ std::vector<BlockInfo> ChunkManager::GetBlocksInVolume(glm::vec3 pos, glm::vec3 
 	std::vector<BlockInfo> result;
 
 	// AABB bounds
-	float xmin = pos.x - size.x / 2.f;
-	float xmax = pos.x + size.x / 2.f;
-	float ymin = pos.y - size.y / 2.f;
-	float ymax = pos.y + size.y / 2.f;
-	float zmin = pos.z - size.z / 2.f;
-	float zmax = pos.z + size.z / 2.f;
+	const float xmin = pos.x - size.x / 2.f;
+	const float xmax = pos.x + size.x / 2.f;
+	const float ymin = pos.y - size.y / 2.f;
+	const float ymax = pos.y + size.y / 2.f;
+	const float zmin = pos.z - size.z / 2.f;
+	const float zmax = pos.z + size.z / 2.f;
 
-	// AABB collision with blcok grid via indexing
-	for (int x = (int)glm::floor(xmin); x <= (int)glm::floor(xmax - (glm::fract(xmax) == 0.0f ? 1.0f : 0.0f)); x++)
+	// AABB collision with block grid via indexing
+	for (int x = static_cast<int>(glm::floor(xmin)); x <= static_cast<int>(glm::floor(xmax - (glm::fract(xmax) == 0.0f ? 1.0f : 0.0f))); x++)
 	{
-		for (int y = (int)glm::floor(ymin); y <= (int)glm::floor(ymax - (glm::fract(ymax) == 0.0f ? 1.0f : 0.0f)); y++)
+		for (int y = static_cast<int>(glm::floor(ymin)); y <= static_cast<int>(glm::floor(ymax - (glm::fract(ymax) == 0.0f ? 1.0f : 0.0f))); y++)
 		{
-			for (int z = (int)glm::floor(zmin); z <= (int)glm::floor(zmax - (glm::fract(zmax) == 0.0f ? 1.0f : 0.0f)); z++)
+			for (int z = static_cast<int>(glm::floor(zmin)); z <= static_cast<int>(glm::floor(zmax - (glm::fract(zmax) == 0.0f ? 1.0f : 0.0f))); z++)
 			{
 				glm::ivec3 coord = { x, y, z };
 				const Block &block = GetBlock(coord);
 				if (block.type != Block::BLOCK_AIR)
 				{
-					result.push_back(BlockInfo(coord, block));
+					result.emplace_back(coord, block);
 				}
 			}
 		}
@@ -289,7 +289,7 @@ std::vector<BlockInfo> ChunkManager::GetBlocksInVolume(glm::vec3 pos, glm::vec3 
 
 ChunkManager::RaycastResult ChunkManager::Raycast(glm::vec3 pos, glm::vec3 dir, float length)
 {
-	dir = glm::normalize(dir);
+	dir = normalize(dir);
 
 	// Check for starting inside block
 	{
@@ -316,7 +316,7 @@ ChunkManager::RaycastResult ChunkManager::Raycast(glm::vec3 pos, glm::vec3 dir, 
 
 		for (int i = 0; i < Math::AXIS_COUNT; i++)
 		{
-			dists[i] = Math::DistToBlock(pos, Math::Axis(i), dir);
+			dists[i] = DistToBlock(pos, static_cast<Math::Axis>(i), dir);
 			dists[i] *= glm::abs(1.f / dir[i]);
 			if (dists[i] < min)
 			{
@@ -340,7 +340,7 @@ ChunkManager::RaycastResult ChunkManager::Raycast(glm::vec3 pos, glm::vec3 dir, 
 
 		// Check for block at block boundary
 
-		glm::ivec3 blockCoord = glm::floor(pos);
+		glm::ivec3 blockCoord = floor(pos);
 
 		if (dir[axis] < 0.0f)
 			blockCoord[axis]--;
@@ -353,7 +353,7 @@ ChunkManager::RaycastResult ChunkManager::Raycast(glm::vec3 pos, glm::vec3 dir, 
 			result.hit = true;
 			result.block = BlockInfo(blockCoord, block);
 			result.pos = pos;
-			result.normal = Math::AxisToDir(Math::Axis(axis), !(dir[axis] < 0.0f));
+			result.normal = AxisToDir(static_cast<Math::Axis>(axis), dir[axis] >= 0.0f);
 			return result;
 		}
 	}
@@ -386,7 +386,7 @@ Chunk *ChunkManager::GetChunk(glm::ivec2 chunkCoord)
 
 const Chunk *ChunkManager::GetChunk(glm::ivec2 chunkCoord) const
 {
-	auto result = chunks_.find(chunkCoord);
+	const auto result = chunks_.find(chunkCoord);
 
 	if (result == chunks_.end())
 		return nullptr;
@@ -406,5 +406,5 @@ glm::ivec2 ChunkManager::ToChunkPosition(glm::ivec3 pos) const
 	if (pos.z < 0)
 		pos.z -= World::chunkSize - 1;
 
-	return glm::ivec2(pos.x / (int)World::chunkSize, pos.z / (int)World::chunkSize);
+	return {pos.x / static_cast<int>(World::chunkSize), pos.z / static_cast<int>(World::chunkSize)};
 }

@@ -1,8 +1,7 @@
 #include "NetworkManager.h"
-#include "ChunkManager.h"
+#include "../world/chunk/ChunkManager.h"
 
 #include <string>
-#include <iostream>
 
 NetworkManager::NetworkManager() : head_(Mesh::CreateCube(0.5f)), headTexture_("resources/player.png", false, true, GL_REPEAT, GL_NEAREST)
 {
@@ -15,13 +14,13 @@ NetworkManager::NetworkManager() : head_(Mesh::CreateCube(0.5f)), headTexture_("
 void NetworkManager::Start(const char *ip)
 {
 	std::string input = ip;
-	size_t colon = input.find(':');
+	const size_t colon = input.find(':');
 
 	// Connect
 	if (colon != std::string::npos)
 	{
-		std::string address = input.substr(0, colon);
-		std::string port = input.substr(colon + 1, input.size() - (colon + 1));
+		const std::string address = input.substr(0, colon);
+		const std::string port = input.substr(colon + 1, input.size() - (colon + 1));
 		players_ = std::make_unique<RemoteHost>(address.c_str(), std::stoi(port));
 	}
 	// Host
@@ -65,7 +64,7 @@ void NetworkManager::Update(const Player &player)
 	}
 }
 
-void NetworkManager::Render(Shader &shader)
+void NetworkManager::Render(const Shader &shader)
 {
 	if (players_ == nullptr)
 		return;
@@ -77,10 +76,7 @@ void NetworkManager::Render(Shader &shader)
 	for (const PlayerPacket &player : players_->GetPlayers())
 	{
 		// All other uniforms are already set when drawing chunks
-		glm::mat4 model =
-			glm::translate(glm::mat4(1.0f), player.position) *
-			glm::rotate(glm::mat4(1.0f), player.yaw, glm::vec3(0.0f, 1.0f, 0.0f)) *
-			glm::rotate(glm::mat4(1.0f), player.pitch, glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 model = translate(glm::mat4(1.0f), player.position) * rotate(glm::mat4(1.0f), player.yaw, glm::vec3(0.0f, 1.0f, 0.0f)) * rotate(glm::mat4(1.0f), player.pitch, glm::vec3(1.0f, 0.0f, 0.0f));
 		shader.SetVar("modelMatrix", model);
 		shader.SetVar("normalMatrix", glm::transpose(glm::inverse(glm::mat3(model))));
 

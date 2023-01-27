@@ -6,11 +6,11 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/hash.hpp>
 
-#include "Block.h"
-#include "Texture.h"
-#include "Math.h"
-#include "TerrainGenerator.h"
-#include "Shader.h"
+#include "../../block/Block.h"
+#include "../../graphics/utility/Texture.h"
+#include "../../utility/Math.h"
+#include "../TerrainGenerator.h"
+#include "../../graphics/utility/Shader.h"
 
 class Chunk;
 class Camera;
@@ -43,7 +43,7 @@ public:
 	void DrawChunksLit(const Camera &camera, const std::vector<CascadeShaderInfo> &cascadeInfo);
 
 	// Draw chunks with given shader and camera
-	void DrawChunks(const glm::mat4 &cameraMatrix, const Shader &shader);
+	void DrawChunks(const glm::mat4 &cameraMatrix, const Shader &shader) const;
 
 	// World block getters/setters
 	void SetBlock(glm::ivec3 pos, const Block &block, bool network = false);
@@ -67,15 +67,15 @@ private:
 	ChunkManager();
 	~ChunkManager();
 	Chunk *AddChunk(glm::ivec2 coord); // adds completed chunk to buffer, generates surrounding chunks
-	bool ChunkInRange(glm::vec3 playerPos, glm::vec3 chunkPos) const; // if chunk should stay loaded
-	int BuiltNeighborCount(glm::ivec2 coord) const; // how many surrounding chunks' meshes are built
-	int BuiltNeighborCount(glm::ivec2 coord, glm::ivec2 exclude) const;
+	[[nodiscard]] bool ChunkInRange(glm::vec3 playerPos, glm::vec3 chunkPos) const; // if chunk should stay loaded
+	[[nodiscard]] int BuiltNeighborCount(glm::ivec2 coord) const; // how many surrounding chunks' meshes are built
+	[[nodiscard]] int BuiltNeighborCount(glm::ivec2 coord, glm::ivec2 exclude) const;
 	Chunk *GetChunk(glm::ivec3 pos); // Chunk getters
-	const Chunk *GetChunk(glm::ivec3 pos) const;
+	[[nodiscard]] const Chunk *GetChunk(glm::ivec3 pos) const;
 	Chunk *GetChunk(glm::ivec2 chunkCoord);
-	const Chunk *GetChunk(glm::ivec2 chunkCoord) const;
-	glm::ivec2 ToRelativePosition(glm::ivec3 pos) const; // Convert block coord to local coord
-	glm::ivec2 ToChunkPosition(glm::ivec3 pos) const; // Convert world coord to chunk coord
+	[[nodiscard]] const Chunk *GetChunk(glm::ivec2 chunkCoord) const;
+	[[nodiscard]] glm::ivec2 ToRelativePosition(glm::ivec3 pos) const; // Convert block coord to local coord
+	[[nodiscard]] glm::ivec2 ToChunkPosition(glm::ivec3 pos) const; // Convert world coord to chunk coord
 
 public: // Remove functions for singleton
 	ChunkManager(ChunkManager const &) = delete;

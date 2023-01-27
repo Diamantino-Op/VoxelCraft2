@@ -27,7 +27,7 @@ public:
 	friend std::ostream &operator<<(std::ostream &output, const SocketAddress &addr);
 
 private:
-	sockaddr_in address_;
+	sockaddr_in address_{};
 
 };
 
@@ -57,7 +57,7 @@ public:
 	const SocketAddress &GetRemoteAddress() const;
 
 	// Send bytes on socket
-	void Send(const void *data, int size);
+	void Send(const void *data, int size) const;
 
 	template<typename T>
 	void Send(const std::vector<T> &buffer)
@@ -67,7 +67,7 @@ public:
 	}
 
 	// Recieve bytes on socket
-	int Receive(void *buffer, int size);
+	int Receive(void *buffer, int size) const;
 
 	~TCPSocket();
 
@@ -91,7 +91,7 @@ public:
 	UDPSocket &operator=(UDPSocket &&other) noexcept;
 
 	// Send bytes on socket to address
-	void Send(const SocketAddress &address, const void *data, int size);
+	void Send(const SocketAddress &address, const void *data, int size) const;
 
 	template<typename T>
 	void Send(const SocketAddress &address, const std::vector<T> &buffer)
@@ -101,7 +101,7 @@ public:
 
 	// Recieve bytes on socket
 	int Receive(void *buffer, int size);
-	int Receive(void *buffer, int size, SocketAddress &address);
+	int Receive(void *buffer, int size, SocketAddress &address) const;
 
 	~UDPSocket();
 

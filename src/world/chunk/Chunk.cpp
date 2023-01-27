@@ -9,7 +9,7 @@ Chunk::Chunk(glm::ivec2 pos) : position_(pos), mesh_(World::chunkArea * 8), heig
 
 void Chunk::Generate(TerrainGenerator &gen)
 {
-	glm::ivec3 chunk_pos = GetWorldPos();
+	const glm::ivec3 chunk_pos = GetWorldPos();
 
 	// Terrain
 
@@ -20,7 +20,7 @@ void Chunk::Generate(TerrainGenerator &gen)
 		{
 			// Get the height for this coord
 			glm::ivec2 pos = glm::ivec2(chunk_pos.x + x, chunk_pos.z + z);
-			int height = gen.GetHeight(pos);
+			const int height = gen.GetHeight(pos);
 
 			for (int y = 0; y < height; y++)
 			{
@@ -40,23 +40,22 @@ void Chunk::Generate(TerrainGenerator &gen)
 	}
 	
 	// Trees
-
-	glm::ivec3 treeSize = {
+	const glm::ivec3 treeSize = {
 		std::size(*TerrainGenerator::tree),
 		std::size(TerrainGenerator::tree),
 		std::size(**TerrainGenerator::tree)
 	};
-	glm::ivec2 treeRad = {
+	const glm::ivec2 treeRad = {
 		(treeSize.x - 1) / 2,
 		(treeSize.z - 1) / 2
 	};
-	glm::ivec2 chunkPos2d = {
+	const glm::ivec2 chunkPos2d = {
 		chunk_pos.x,
 		chunk_pos.z
 	};
 	
 	// Get all points of trees around this chunk
-	std::vector<glm::ivec2> treePoints = gen.GenerateTreePoints(
+	const std::vector<glm::ivec2> treePoints = gen.GenerateTreePoints(
 		chunkPos2d - treeRad,
 		chunkPos2d + glm::ivec2(World::chunkSize, World::chunkSize) + treeRad
 	);
@@ -71,11 +70,11 @@ void Chunk::Generate(TerrainGenerator &gen)
 				for (int z = -treeRad.y; z <= treeRad.y; z++)
 				{
 					// Get block from tree data
-					Block newBlock = { Block::BlockType(TerrainGenerator::tree[y][x + treeRad.x][z + treeRad.y]) };
+					Block newBlock = { static_cast<Block::BlockType>(TerrainGenerator::tree[y][x + treeRad.x][z + treeRad.y]) };
 
 					if (newBlock.type != Block::BLOCK_AIR)
 					{
-						glm::ivec3 blockPos = {
+						const glm::ivec3 blockPos = {
 							treePoints[i].x + x,
 							gen.GetHeight(treePoints[i]) + y,
 							treePoints[i].y + z
@@ -119,6 +118,7 @@ void Chunk::BuildMesh()
 					// If block in this direction
 					if (adjacent.y >= 0 && !CheckForBlock(adjacent))
 					{
+						//Pixels
 						const int tilesheetSize = 8;
 						unsigned index = 0;
 						
@@ -129,18 +129,20 @@ void Chunk::BuildMesh()
 						case Math::DIRECTION_BACKWARD:
 						case Math::DIRECTION_LEFT:
 						case Math::DIRECTION_RIGHT:
-							index = BlockData::sideIndicies[block.type].side;
+							index = BlockData::sideIndices[block.type].side;
 							break;
 						case Math::DIRECTION_UP:
-							index = BlockData::sideIndicies[block.type].top;
+							index = BlockData::sideIndices[block.type].top;
 							break;
 						case Math::DIRECTION_DOWN:
-							index = BlockData::sideIndicies[block.type].bottom;
+							index = BlockData::sideIndices[block.type].bottom;
+							break;
+						default:
 							break;
 						}
 
 						// Get texture coords
-						glm::vec2 offset = Math::GetUVFromSheet(tilesheetSize, tilesheetSize, index, Math::CORNER_TOP_LEFT);
+						glm::vec2 offset = GetUVFromSheet(tilesheetSize, tilesheetSize, index, Math::CORNER_TOP_LEFT);
 						offset.y = 1.0f - offset.y - (1.0f / tilesheetSize); // flip texture
 
 						unsigned char ambient[Math::CORNER_COUNT];
@@ -149,8 +151,8 @@ void Chunk::BuildMesh()
 						for (int i = 0; i < Math::CORNER_COUNT; i++)
 						{
 							// Get block touching this corner
-							glm::ivec3 dir = Math::CornerToVec(Math::Corner(i), Math::Direction(d));
-							glm::ivec3 corner = adjacent + dir;
+							glm::ivec3 dir = Math::CornerToVec(static_cast<Math::Corner>(i), static_cast<Math::Direction>(d));
+							const glm::ivec3 corner = adjacent + dir;
 							glm::ivec3 sides[2];
 
 							// Get adjacent blocks touching this block
@@ -166,18 +168,18 @@ void Chunk::BuildMesh()
 								sides[current] += adjacent;
 								current++;
 							}
-							bool cornerExists = CheckForBlock(corner);
-							bool side0Exists = CheckForBlock(sides[0]);
-							bool side1Exists = CheckForBlock(sides[1]);
+							const bool cornerExists = CheckForBlock(corner);
+							const bool side0Exists = CheckForBlock(sides[0]);
+							const bool side1Exists = CheckForBlock(sides[1]);
 
 							if (side0Exists && side1Exists)
 								ambient[i] = 0; // max darkness
 							else
-								ambient[i] = 3 - (int(side0Exists) + int(side1Exists) + int(cornerExists)); // darkness depends on which sides exist
+								ambient[i] = 3 - (static_cast<int>(side0Exists) + static_cast<int>(side1Exists) + static_cast<int>(cornerExists)); // darkness depends on which sides exist
 						}
 
 						mesh_.AddQuad(
-							Math::Direction(d),
+							static_cast<Math::Direction>(d),
 							glm::vec3(x + 0.5f, y + 0.5f, z + 0.5f) + normal * 0.5f, 1.0f / tilesheetSize, offset, ambient
 						);
 					}
@@ -201,7 +203,7 @@ bool Chunk::MeshBuilt() const
 
 void Chunk::SetBlock(glm::ivec3 pos, const Block &block)
 {
-	glm::ivec3 local = WorldToLocal(pos);
+	const glm::ivec3 local = WorldToLocal(pos);
 
 	if (!OutOfBounds(local))
 		SetBlockLocal(local, block);
@@ -209,7 +211,7 @@ void Chunk::SetBlock(glm::ivec3 pos, const Block &block)
 
 const Block &Chunk::GetBlock(glm::ivec3 pos) const
 {
-	glm::ivec3 local = WorldToLocal(pos);
+	const glm::ivec3 local = WorldToLocal(pos);
 
 	if (OutOfBounds(local))
 	{
@@ -226,7 +228,7 @@ glm::ivec2 Chunk::GetCoord() const
 
 glm::vec3 Chunk::GetWorldPos() const
 {
-	return glm::vec3(position_.x * (float)World::chunkSize, 0, position_.y * (float)World::chunkSize);
+	return {static_cast<float>(position_.x) * static_cast<float>(World::chunkSize), 0, static_cast<float>(position_.y) * static_cast<float>(World::chunkSize)};
 }
 
 glm::vec3 Chunk::GetRenderPos() const
@@ -260,9 +262,9 @@ bool Chunk::HeightTimerHitZero() const
 	return heightTimer_ == 0.0f && !heightTimerIncreasing_;
 }
 
-bool Chunk::IsVisible(const Math::Frustum &camera) const
+bool Chunk::IsVisible(const Math::Frastum &camera) const
 {
-	glm::vec3 position = GetRenderPos();
+	const glm::vec3 position = GetRenderPos();
 
 	for (unsigned i = 0; i < std::size(camera.planes); i++)
 	{
@@ -290,13 +292,13 @@ void Chunk::Draw()
 
 glm::ivec3 Chunk::WorldToLocal(glm::ivec3 pos) const
 {
-	glm::vec3 world = GetWorldPos();
+	const glm::vec3 world = GetWorldPos();
 	return glm::ivec3(pos.x - world.x, pos.y, pos.z - world.z);
 }
 
 glm::ivec3 Chunk::LocalToWorld(glm::ivec3 pos) const
 {
-	glm::vec3 world = GetWorldPos();
+	const glm::vec3 world = GetWorldPos();
 	return glm::ivec3(pos.x + world.x, pos.y, pos.z + world.z);
 }
 
@@ -330,8 +332,8 @@ bool Chunk::CheckForBlock(glm::ivec3 pos) const
 			return false;
 
 		// Block in another chunk
-		glm::ivec3 world = LocalToWorld(pos);
-		Block block = ChunkManager::Instance().GetBlock(world);
+		const glm::ivec3 world = LocalToWorld(pos);
+		const Block block = ChunkManager::Instance().GetBlock(world);
 
 		assert(block.type != Block::BLOCK_ERROR);
 

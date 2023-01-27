@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 
 #include "Socket.h"
-#include "Block.h"
+#include "../block/Block.h"
 
 // These are sent over the network
 #pragma pack(push, 1)
@@ -44,7 +44,7 @@ public:
     const std::vector<PlayerPacket> &GetPlayers();
     const std::vector<BlockUpdate> &GetBlockUpdates();
 
-    virtual ~RemotePlayers() {};
+    virtual ~RemotePlayers() = default;
 protected:
     void ClearBlockUpdates();
 

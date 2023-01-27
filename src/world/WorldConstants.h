@@ -4,53 +4,53 @@
 namespace World
 {
 #ifndef NDEBUG
-	const float renderDistance = 64.0f; // block render radius
-	const unsigned renderSpeed = 1; // chunks generated per frame
+	constexpr float renderDistance = 64.0f; // block render radius
+	constexpr unsigned renderSpeed = 1; // chunks generated per frame
 #else
 	const float renderDistance = 400.0f; // block render radius
 	const unsigned renderSpeed = 2; // chunks generated per frame
 #endif
 
 	// Entity gravity force
-	const float gravity = 20.0f;
+	constexpr float gravity = 20.0f;
 
 	// Chunk dimensions
-	const unsigned chunkHeight = 256;
-	const unsigned chunkSize = 16;
-	const unsigned chunkArea = chunkSize * chunkSize;
-	const unsigned chunkVolume = chunkArea * chunkHeight;
+	constexpr unsigned chunkHeight = 256;
+	constexpr unsigned chunkSize = 16;
+	constexpr unsigned chunkArea = chunkSize * chunkSize;
+	constexpr unsigned chunkVolume = chunkArea * chunkHeight;
 
 	// Chunk load in animation
-	const float chunkFloatDistance = chunkHeight / 2.f;
-	const float chunkFloatInSpeed = 1.0f;
-	const float chunkFloatOutSpeed = 0.25f;
+	constexpr float chunkFloatDistance = chunkHeight / 2.f;
+	constexpr float chunkFloatInSpeed = 1.0f;
+	constexpr float chunkFloatOutSpeed = 0.25f;
 
 	// Configurable world generation variables
 	namespace Generation
 	{
 		// Lowest block elevation possible
-		const unsigned minHeight = 1;
+		constexpr unsigned minHeight = 1;
 
 		// Biome noise
-		const float landScale = 2048.0f;
-		const float landMinMult = 0.1f;
-		const float landTransitionSharpness = 2.0f;
-		const float landMountainBias = 0.2f; // -1 (flat) to 1 (mountains)
+		constexpr float landScale = 2048.0f;
+		constexpr float landMinMult = 0.1f;
+		constexpr float landTransitionSharpness = 2.0f;
+		constexpr float landMountainBias = 0.2f; // -1 (flat) to 1 (mountains)
 
 		// Mountain noise
-		const float heightScale = 256.0f;
-		const float heightWeight = 0.8f;
-		const unsigned heightMaxHeight = 250;
+		constexpr float heightScale = 256.0f;
+		constexpr float heightWeight = 0.8f;
+		constexpr unsigned heightMaxHeight = 250;
 
 		// Hill noise
-		const float detailScale = 32.0f;
-		const float detailWeight = 1.0f - heightWeight;
-		const unsigned detailMaxHeight = 100;
+		constexpr float detailScale = 32.0f;
+		constexpr float detailWeight = 1.0f - heightWeight;
+		constexpr unsigned detailMaxHeight = 100;
 
 		// Trees
-		const float treeDensity = 0.03f;
+		constexpr float treeDensity = 0.03f;
 
 		// Interpolation grid size
-		const float terrainInterpGrid = 4.0f;
+		constexpr float terrainInterpGrid = 4.0f;
 	}
 }

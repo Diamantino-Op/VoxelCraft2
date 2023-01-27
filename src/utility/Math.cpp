@@ -1,9 +1,9 @@
 #include "Math.h"
-#include "Mesh.h"
+#include "../graphics/utility/Mesh.h"
 
 Math::Direction Math::AxisToDir(Axis axis, bool negative)
 {
-	return Math::Direction(axis * 2 + (negative ? 1 : 0));
+	return static_cast<Direction>(axis * 2 + (negative ? 1 : 0));
 }
 
 Math::Direction Math::VectorToDir(glm::vec3 vec)
@@ -21,7 +21,7 @@ Math::Direction Math::VectorToDir(glm::vec3 vec)
 			axis = i;
 		}
 	}
-	return AxisToDir(Axis(axis), vec[axis] < 0.0f);
+	return AxisToDir(static_cast<Axis>(axis), vec[axis] < 0.0f);
 }
 
 glm::vec3 Math::CornerToVec(Corner corner, Direction normal)
@@ -49,11 +49,10 @@ int Math::PositiveMod(int val, int mod)
 
 glm::vec2 Math::GetUVFromSheet(unsigned sizeX, unsigned sizeY, unsigned index, Corner corner)
 {
-	unsigned column = index % sizeX;
-	unsigned row = index / sizeY;
+	const unsigned column = index % sizeX;
+	const unsigned row = index / sizeY;
 
-	glm::vec2 topLeft = { column / (float)sizeX,
-						  row / (float)sizeY };
+	glm::vec2 topLeft = { static_cast<float>(column) / static_cast<float>(sizeX), static_cast<float>(row) / static_cast<float>(sizeY) };
 
 	switch (corner)
 	{
@@ -65,26 +64,28 @@ glm::vec2 Math::GetUVFromSheet(unsigned sizeX, unsigned sizeY, unsigned index, C
 		return { topLeft.x, topLeft.y + 1 };
 	case CORNER_BOTTOM_RIGHT:
 		return { topLeft.x + 1, topLeft.y + 1 };
-	default:
+	case CORNER_COUNT:
 		return { 0.0f, 0.0f };
 	}
+	
+	return { 0.0f, 0.0f };
 }
 
-Math::Frustum Math::CalculateFrustum(const glm::mat4 &camera)
+Math::Frastum Math::CalculateFrustum(const glm::mat4 &camera)
 {
-	Frustum result;
-	glm::vec4 base = { camera[0][3], camera[1][3], camera[2][3], camera[3][3] };
+	Frastum result;
+	const glm::vec4 base = { camera[0][3], camera[1][3], camera[2][3], camera[3][3] };
 
 	for (unsigned i = 0; i < DIRECTION_COUNT; i++)
 	{
-		glm::vec4 normal = { camera[0][i /2], camera[1][i /2], camera[2][i /2], camera[3][i /2] };
+		glm::vec4 normal = { camera[0][i / 2], camera[1][i / 2], camera[2][i / 2], camera[3][i / 2] };
 
 		if (i % 2 == 1)
 			normal = -1.0f * normal;
 
 		normal += base;
 		glm::vec3 eq = normal;
-		float len = glm::length(eq);
+		const float len = length(eq);
 		eq /= len;
 		result.planes[i] = { eq.x, eq.y, eq.z, normal.w / len };
 	}
@@ -103,8 +104,8 @@ float Math::DistToBlock(glm::vec3 pos, Axis axis, glm::vec3 dir)
 {
 	if (dir[axis] == 0.0f)
 		return INFINITY;
-	else
-		return DistToBlock(pos, axis, dir[axis] < 0.0f);
+	
+	return DistToBlock(pos, axis, dir[axis] < 0.0f);
 }
 
 float Math::DistToBlock(glm::vec3 pos, Axis axis, bool negative)

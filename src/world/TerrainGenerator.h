@@ -26,7 +26,7 @@ public:
 	static const int tree[10][7][7];
 
 private:
-	static const unsigned cacheCapacity = 128;
+	static constexpr unsigned cacheCapacity = 128;
 
 	// Cache for height data
 	std::array<HeightCache, cacheCapacity> cache_;
@@ -34,5 +34,5 @@ private:
 
 	float GetNoiseHeight(glm::vec2 pos); // Get height of raw noise
 	void AddToCache(glm::vec2 pos, float height); // Add height value to cache
-	float GetFromCache(glm::vec2 pos); // Retrieve height value from cache
+	float GetFromCache(glm::vec2 pos) const; // Retrieve height value from cache
 };

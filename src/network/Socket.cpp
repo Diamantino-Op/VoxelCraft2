@@ -99,7 +99,7 @@ const SocketAddress &TCPSocket::GetRemoteAddress() const
 	return remoteAddress_;
 }
 
-void TCPSocket::Send(const void *data, int size)
+void TCPSocket::Send(const void *data, int size) const
 {
 	int result = send(sock_, reinterpret_cast<const char *>(data), size, 0);
 
@@ -107,7 +107,7 @@ void TCPSocket::Send(const void *data, int size)
 		assert(!"Error sending data.");
 }
 
-int TCPSocket::Receive(void *buffer, int size)
+int TCPSocket::Receive(void *buffer, int size) const
 {
 	// Get data from sockets
 	int result = recv(sock_, reinterpret_cast<char *>(buffer), size, 0);
@@ -191,7 +191,7 @@ UDPSocket &UDPSocket::operator=(UDPSocket &&other) noexcept
 	return *this;
 }
 
-void UDPSocket::Send(const SocketAddress &address, const void *data, int size)
+void UDPSocket::Send(const SocketAddress &address, const void *data, int size) const
 {
 	int result = sendto(sock_, reinterpret_cast<const char *>(data), size, 0, reinterpret_cast<const sockaddr *>(&address), sizeof(address));
 
@@ -205,11 +205,11 @@ int UDPSocket::Receive(void *buffer, int size)
 	return Receive(buffer, size, s);
 }
 
-int UDPSocket::Receive(void *buffer, int size, SocketAddress &address)
+int UDPSocket::Receive(void *buffer, int size, SocketAddress &address) const
 {
 	// Get data from sockets
 	int addressSize = sizeof(address);
-	int result = recvfrom(sock_, reinterpret_cast<char *>(buffer), size, 0, reinterpret_cast<sockaddr *>(&address), &addressSize);
+	const int result = recvfrom(sock_, static_cast<char *>(buffer), size, 0, reinterpret_cast<sockaddr *>(&address), &addressSize);
 
 	// Error
 	if (result == -1)
@@ -276,7 +276,7 @@ std::optional<TCPSocket> ListenSocket::AcceptConnection()
 {
 	// Connect to client
 	int addrSize = sizeof(localAddress_);
-	SOCKET connectionSocket = accept(sock_, reinterpret_cast<sockaddr *>(&localAddress_), &addrSize);
+	const SOCKET connectionSocket = accept(sock_, reinterpret_cast<sockaddr *>(&localAddress_), &addrSize);
 
 	if (connectionSocket == INVALID_SOCKET)
 	{
@@ -300,6 +300,6 @@ ListenSocket::~ListenSocket()
 std::ostream &operator<<(std::ostream &output, const SocketAddress &addr)
 {
 	const auto &ip = addr.address_.sin_addr.S_un.S_un_b;
-	std::cout << int(ip.s_b1) << "." << int(ip.s_b2) << "." << int(ip.s_b3) << "." << int(ip.s_b4) << ":" << ntohs(addr.address_.sin_port);
+	std::cout << static_cast<int>(ip.s_b1) << "." << static_cast<int>(ip.s_b2) << "." << static_cast<int>(ip.s_b3) << "." << static_cast<int>(ip.s_b4) << ":" << ntohs(addr.address_.sin_port);
 	return output;
 }
