@@ -1,0 +1,28 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Voxel - Release" type="CppProject" factoryName="C++ Project" singleton="false">
+    <configuration_1>
+      <option name="CONFIGURATION" value="Debug" />
+      <option name="PLATFORM" value="x64" />
+      <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Voxel.vcxproj" />
+      <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
+      <option name="PROGRAM_PARAMETERS" value="$(LocalDebuggerCommandArguments)" />
+      <option name="WORKING_DIRECTORY" value="$(LocalDebuggerWorkingDirectory)" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+    </configuration_1>
+    <configuration_2>
+      <option name="CONFIGURATION" value="Release" />
+      <option name="PLATFORM" value="x64" />
+      <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Voxel.vcxproj" />
+      <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
+      <option name="PROGRAM_PARAMETERS" value="$(LocalDebuggerCommandArguments)" />
+      <option name="WORKING_DIRECTORY" value="$(LocalDebuggerWorkingDirectory)" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+    </configuration_2>
+    <option name="DEFAULT_PROJECT_PATH" value="$PROJECT_DIR$/Voxel.vcxproj" />
+    <method v="2">
+      <option name="Build" />
+    </method>
+  </configuration>
+</component>
