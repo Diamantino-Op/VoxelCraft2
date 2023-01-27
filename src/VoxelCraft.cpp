@@ -31,7 +31,7 @@ int main(void) {
     World* currentWorld = nullptr;
 
     // Create the window
-    Window w("VoxelCraft[Vulkan]", 1920, 1080);
+    Window w("VoxelCraft [Vulkan]", 1920, 1080);
 
     // Initialise window and renderer resources
     if (!w.init()) {
