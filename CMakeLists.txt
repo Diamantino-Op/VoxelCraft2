@@ -2,7 +2,7 @@
 # and include sub-projects here.
 #
 cmake_minimum_required (VERSION 3.8)
-project (ProjectTitan)
+project (VoxelCraft)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -27,7 +27,7 @@ file(GLOB_RECURSE DEP_SHADER_FILES
 		${CMAKE_SOURCE_DIR}/res/shaders/*.*)
 
 # Need Vulkan
-find_package(Vulkan REQUIRED FATAL_ERROR)
+find_package(Vulkan REQUIRED)
 
 # Need external libraries
 add_subdirectory(extern/glfw)
