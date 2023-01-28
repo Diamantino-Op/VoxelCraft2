@@ -4,24 +4,7 @@
     <projectFile>Voxel.vcxproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="s">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Voxel/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Voxel/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Voxel.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Voxel.vcxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network/NetworkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/NetworkManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network/NetworkManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/NetworkManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network/RemotePlayers.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/RemotePlayers.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network/Socket.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/Socket.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network/Socket.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/Socket.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/Math.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/Math.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/Math.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/Math.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/TerrainGenerator.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/TerrainGenerator.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/TerrainGenerator.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/TerrainGenerator.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/WorldConstants.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/WorldConstants.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/chunk/Chunk.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/Chunk.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.h" afterDir="false" />
-    </list>
+    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,6 +28,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/include/cmath" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/VoxelCraft2/src/world/chunk/Chunk.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -89,7 +73,7 @@
       <option name="presentableId" value="Default" />
       <updated>1674840885414</updated>
       <workItem from="1674840890067" duration="992000" />
-      <workItem from="1674841941398" duration="6708000" />
+      <workItem from="1674841941398" duration="7003000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1674841034520</created>
@@ -112,7 +96,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674849622748</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="s">
+      <created>1674854247986</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1674854247986</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
