@@ -28,11 +28,11 @@ void Chunk::Generate(TerrainGenerator &gen)
 
 				// Hardcoded type based on elevation
 				if (y < height - 8)
-					block = { Block::BLOCK_STONE };
+					block = { Block::BLOCK_STONE, "stone" };
 				else if (y < height - 1)
-					block = { Block::BLOCK_DIRT };
+					block = { Block::BLOCK_DIRT, "dirt" };
 				else
-					block = { Block::BLOCK_GRASS };
+					block = { Block::BLOCK_GRASS, "grass" };
 
 				SetBlockLocal({ x, y, z }, block);
 			}
@@ -74,6 +74,12 @@ void Chunk::Generate(TerrainGenerator &gen)
 
 					if (newBlock.type != Block::BLOCK_AIR)
 					{
+						if (newBlock.type == Block::BLOCK_LOG)
+							newBlock.name = "log";
+
+						if (newBlock.type == Block::BLOCK_LEAVES)
+							newBlock.name = "leaves";
+						
 						const glm::ivec3 blockPos = {
 							treePoints[i].x + x,
 							gen.GetHeight(treePoints[i]) + y,
@@ -126,10 +132,16 @@ void Chunk::BuildMesh()
 						switch (d)
 						{
 						case Math::DIRECTION_FORWARD:
+							index = BlockData::sideIndices[block.type].front;
+							break;
 						case Math::DIRECTION_BACKWARD:
+							index = BlockData::sideIndices[block.type].back;
+							break;
 						case Math::DIRECTION_LEFT:
+							index = BlockData::sideIndices[block.type].left;
+							break;
 						case Math::DIRECTION_RIGHT:
-							index = BlockData::sideIndices[block.type].side;
+							index = BlockData::sideIndices[block.type].right;
 							break;
 						case Math::DIRECTION_UP:
 							index = BlockData::sideIndices[block.type].top;

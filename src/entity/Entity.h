@@ -14,9 +14,9 @@ public:
 	virtual void Update(float dt);
 
 	// Getters
-	[[nodiscard]] glm::vec3 GetPosition() const;
-	[[nodiscard]] glm::vec3 GetVelocity() const;
-	[[nodiscard]] glm::vec3 GetSize() const;
+	glm::vec3 GetPosition() const;
+	glm::vec3 GetVelocity() const;
+	glm::vec3 GetSize() const;
 
 	// Movement
 	void Move(glm::vec3 delta);

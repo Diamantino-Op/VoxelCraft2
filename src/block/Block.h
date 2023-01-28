@@ -1,16 +1,23 @@
 #pragma once
 
 #include <utility>
+#include <string>
 #include <glm/vec3.hpp>
+
+#include "../graphics/utility/CascadedShadowMap.h"
 
 // Textures for each side of a block
 struct SideTextureIndices
 {
-	SideTextureIndices(int i) : top(i), side(i), bottom(i) {}
-	SideTextureIndices(int top, int side, int bottom) : top(top), side(side), bottom(bottom) {}
+	SideTextureIndices(int i) : top(i), front(i), right(i), left(i), back(i), bottom(i) {}
+	SideTextureIndices(int top, int side, int bottom) : top(top), front(side), right(side), left(side), back(side), bottom(bottom) {}
+	SideTextureIndices(int top, int front, int right, int left, int back, int bottom) : top(top), front(front), right(right), left(left), back(back), bottom(bottom) {}
 
 	unsigned top;
-	unsigned side;
+	unsigned front;
+	unsigned right;
+	unsigned left;
+	unsigned back;
 	unsigned bottom;
 };
 
@@ -18,9 +25,9 @@ struct SideTextureIndices
 struct Block
 {
 	// This matches order in sprite sheet
-	enum BlockType : unsigned char
+	enum BlockType : unsigned int
 	{
-		BLOCK_ERROR = 255,
+		BLOCK_ERROR = MAXUINT,
 
 		BLOCK_AIR = 0,
 		BLOCK_GRASS,
@@ -33,10 +40,11 @@ struct Block
 	};
 
 	BlockType type;
+	std::string name;
 
 	bool operator==(const Block &rhs) const
 	{
-		return type == rhs.type;
+		return type == rhs.type || name == rhs.name;
 	}
 };
 

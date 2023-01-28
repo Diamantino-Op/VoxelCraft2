@@ -67,13 +67,13 @@ void Player::Update(float dt)
 			glm::ivec3 pos = raycast.block.first;
 
 			if (destroying)
-				chunk.SetBlock(pos, { Block::BLOCK_AIR }, true); // Set to air if destroying
+				chunk.SetBlock(pos, { Block::BLOCK_AIR, "air" }, true); // Set to air if destroying
 			if (placing)
 			{
 				pos += glm::ivec3(Math::directionVectors[raycast.normal]);
 
 				if (!Math::AABBCollision(GetPosition(), GetSize(), glm::vec3(pos) + glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)))
-					chunk.SetBlock(pos, { Block::BLOCK_DIRT }, true); // Set to dirt if placing and not overlapping player
+					chunk.SetBlock(pos, { Block::BLOCK_DIRT, "dirt" }, true); // Set to dirt if placing and not overlapping player
 			}
 		}
 	}

@@ -37,8 +37,7 @@ Texture::Texture(const std::string path, bool alphaChannel, bool mipmap, GLenum 
 	stbi_image_free(data);
 }
 
-Texture::Texture(int width, int height, int arraySize, GLenum format, GLenum wrapMode, GLenum filtering)
-	: width_(width), height_(height)
+Texture::Texture(int width, int height, int arraySize, GLenum format, GLenum wrapMode, GLenum filtering) : width_(width), height_(height)
 {
 	GLenum type = arraySize > 1 ? GL_TEXTURE_2D_ARRAY : GL_TEXTURE_2D;
 

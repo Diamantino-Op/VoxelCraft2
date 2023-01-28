@@ -1,9 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.32112.339
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoxelCraft", "VoxelCraft.vcxproj", "{DBE355C5-3662-4383-B2C8-EFACBD396480}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoxelCraft", "VoxelCraft.vcxproj", "{D2CA2D40-14AE-3EB3-BA88-BE9E88AC6214}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B21F38C2-9F56-3B13-B576-488AB89BAC1E} = {B21F38C2-9F56-3B13-B576-488AB89BAC1E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +12,16 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DBE355C5-3662-4383-B2C8-EFACBD396480}.Debug|x64.ActiveCfg = Debug|x64
-		{DBE355C5-3662-4383-B2C8-EFACBD396480}.Debug|x64.Build.0 = Debug|x64
-		{DBE355C5-3662-4383-B2C8-EFACBD396480}.Release|x64.ActiveCfg = Release|x64
-		{DBE355C5-3662-4383-B2C8-EFACBD396480}.Release|x64.Build.0 = Release|x64
+		{D2CA2D40-14AE-3EB3-BA88-BE9E88AC6214}.Debug|x64.ActiveCfg = Debug|x64
+		{D2CA2D40-14AE-3EB3-BA88-BE9E88AC6214}.Debug|x64.Build.0 = Debug|x64
+		{D2CA2D40-14AE-3EB3-BA88-BE9E88AC6214}.Release|x64.ActiveCfg = Release|x64
+		{D2CA2D40-14AE-3EB3-BA88-BE9E88AC6214}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {4B35FFC8-48B9-49D0-A246-F339C6521921}
+		SolutionGuid = {2ECDF2A3-1C44-3888-BC75-68B51B36E42F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
 	EndGlobalSection
 EndGlobal

@@ -44,7 +44,7 @@ float Camera::GetAspect() const
 
 glm::mat4 Camera::GetViewMatrix() const
 {
-	return glm::lookAt(pos_, pos_ + GetForward(), GetUp());
+	return lookAt(pos_, pos_ + GetForward(), GetUp());
 }
 
 glm::mat4 Camera::GetProjectionMatrix() const
@@ -60,7 +60,7 @@ glm::mat4 Camera::GetMatrix() const
 glm::vec3 Camera::GetForward() const
 {
 	// Spherical coordinates
-	return glm::normalize(glm::vec3(
+	return normalize(glm::vec3(
 		-cos(pitch_) * sin(yaw_),
 		sin(pitch_),
 		-cos(pitch_) * cos(yaw_)
@@ -69,27 +69,27 @@ glm::vec3 Camera::GetForward() const
 
 glm::vec3 Camera::GetRight() const
 {
-	float angle = yaw_ - glm::half_pi<float>();
+	const float angle = yaw_ - glm::half_pi<float>();
 
-	return glm::vec3(
+	return {
 		-sin(angle),
 		0,
 		-cos(angle)
-	);
+	};
 }
 
 glm::vec3 Camera::GetUp() const
 {
-	return glm::cross(GetRight(), GetForward());
+	return cross(GetRight(), GetForward());
 }
 
 glm::vec3 Camera::GetForwardAligned() const
 {
-	return glm::vec3(
+	return {
 		-sin(yaw_),
 		0,
 		-cos(yaw_)
-	);
+	};
 }
 
 glm::vec3 Camera::GetUpAligned()
