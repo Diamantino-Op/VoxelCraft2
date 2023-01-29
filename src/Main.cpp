@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
 			if (argv[i] == "-server")
 				networkManager.Start(argv[i + 1]);
 
-			/*if (argv[i] == "-assetsPath")
-				assetManager*/
+			if (argv[i] == "-assetsPath")
+				assetManager.SetPath(argv[i + 1]);
 		}
 	}
 	

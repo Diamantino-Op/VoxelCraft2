@@ -6,22 +6,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/VoxelCraft.aps" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/Resource.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/VoxelCraft.rc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/icon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utility/AssetManager.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utility/AssetManager.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.run/VoxelCraft - Debug.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.run/VoxelCraft - Debug.run.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VoxelCraft.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/VoxelCraft.vcxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VoxelCraft.vcxproj.filters" beforeDir="false" afterPath="$PROJECT_DIR$/VoxelCraft.vcxproj.filters" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphics/utility/CascadedShadowMap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/utility/CascadedShadowMap.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphics/utility/Texture.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/utility/Texture.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network/NetworkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/NetworkManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +73,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="C++ Project.VoxelCraft - Debug">
+  <component name="RunManager">
     <list>
       <item itemvalue="C++ Project.VoxelCraft - Debug" />
       <item itemvalue="C++ Project.VoxelCraft - Release" />
@@ -108,7 +95,8 @@
       <workItem from="1674984766274" duration="5930000" />
       <workItem from="1674992943639" duration="2016000" />
       <workItem from="1675000435130" duration="1822000" />
-      <workItem from="1675007249160" duration="2853000" />
+      <workItem from="1675007249160" duration="3203000" />
+      <workItem from="1675010986708" duration="2141000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1674841034520</created>
@@ -145,7 +133,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674991123338</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="s">
+      <created>1675010880861</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1675010880861</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
