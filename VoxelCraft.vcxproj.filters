@@ -10,165 +10,167 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
+    <ClCompile Include="src\graphics\utility\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
+    <ClCompile Include="src\graphics\utility\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Camera.cpp">
+    <ClCompile Include="src\input\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lib\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Mesh.cpp">
+    <ClCompile Include="src\graphics\utility\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Chunk.cpp">
+    <ClCompile Include="src\world\chunk\Chunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Math.cpp">
+    <ClCompile Include="src\utility\Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ChunkManager.cpp">
+    <ClCompile Include="src\world\chunk\ChunkManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TerrainGenerator.cpp">
+    <ClCompile Include="src\world\TerrainGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Player.cpp">
+    <ClCompile Include="src\entity\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\InputManager.cpp">
+    <ClCompile Include="src\input\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\WindowManager.cpp">
+    <ClCompile Include="src\graphics\WindowManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entity.cpp">
+    <ClCompile Include="src\entity\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Framebuffer.cpp">
+    <ClCompile Include="src\graphics\utility\Framebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CascadedShadowMap.cpp">
+    <ClCompile Include="src\graphics\utility\CascadedShadowMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Skybox.cpp">
+    <ClCompile Include="src\graphics\Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Crosshair.cpp">
+    <ClCompile Include="src\graphics\gui\Crosshair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\NetworkManager.cpp">
+    <ClCompile Include="src\network\NetworkManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\RemotePlayers.cpp">
+    <ClCompile Include="src\network\RemotePlayers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Socket.cpp">
+    <ClCompile Include="src\network\Socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="shaders\shader.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="shaders\shader.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="shaders\version.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="shaders\shadow.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="shaders\shadow.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="shaders\skybox.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="shaders\skybox.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="shaders\crosshair.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="shaders\crosshair.vert">
-      <Filter>Shaders</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Shader.h">
+    <ClInclude Include="src\graphics\utility\Shader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Texture.h">
+    <ClInclude Include="src\graphics\utility\Texture.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Camera.h">
+    <ClInclude Include="src\input\Camera.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Math.h">
+    <ClInclude Include="src\utility\Math.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mesh.h">
+    <ClInclude Include="src\graphics\utility\Mesh.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Chunk.h">
+    <ClInclude Include="src\world\chunk\Chunk.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Block.h">
+    <ClInclude Include="src\block\Block.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ChunkManager.h">
+    <ClInclude Include="src\world\chunk\ChunkManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TerrainGenerator.h">
+    <ClInclude Include="src\world\TerrainGenerator.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\WorldConstants.h">
+    <ClInclude Include="src\world\WorldConstants.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Player.h">
+    <ClInclude Include="src\entity\Player.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\InputManager.h">
+    <ClInclude Include="src\input\InputManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\WindowManager.h">
+    <ClInclude Include="src\graphics\WindowManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entity.h">
+    <ClInclude Include="src\entity\Entity.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Framebuffer.h">
+    <ClInclude Include="src\graphics\utility\Framebuffer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CascadedShadowMap.h">
+    <ClInclude Include="src\graphics\utility\CascadedShadowMap.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Skybox.h">
+    <ClInclude Include="src\graphics\Skybox.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="shaders\Shared.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Crosshair.h">
+    <ClInclude Include="src\graphics\gui\Crosshair.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\NetworkManager.h">
+    <ClInclude Include="src\network\NetworkManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\RemotePlayers.h">
+    <ClInclude Include="src\network\RemotePlayers.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Socket.h">
+    <ClInclude Include="src\network\Socket.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
+  
+  <ItemGroup>
+      <None Include="shaders\shader.vert">
+        <Filter>Shaders</Filter>
+      </None>
+      <None Include="shaders\shader.frag">
+        <Filter>Shaders</Filter>
+      </None>
+      <None Include="shaders\version.glsl">
+        <Filter>Shaders</Filter>
+      </None>
+      <None Include="shaders\shadow.frag">
+        <Filter>Shaders</Filter>
+      </None>
+      <None Include="shaders\shadow.vert">
+        <Filter>Shaders</Filter>
+      </None>
+      <None Include="shaders\skybox.vert">
+        <Filter>Shaders</Filter>
+      </None>
+      <None Include="shaders\skybox.frag">
+        <Filter>Shaders</Filter>
+      </None>
+      <None Include="shaders\crosshair.frag">
+        <Filter>Shaders</Filter>
+      </None>
+      <None Include="shaders\crosshair.vert">
+        <Filter>Shaders</Filter>
+      </None>
+    </ItemGroup>
 </Project>

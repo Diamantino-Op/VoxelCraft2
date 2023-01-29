@@ -29,9 +29,9 @@ void Player::Update(float dt)
 		noclip_ = !noclip_;
 
 	// Wireframe
-	static bool wireframe = false;
 	if (input.GetKeyPressed(GLFW_KEY_F2))
 	{
+		static bool wireframe = false;
 		wireframe = !wireframe;
 
 		if (wireframe)
@@ -44,7 +44,7 @@ void Player::Update(float dt)
 	if (input.GetKeyPressed(GLFW_KEY_F3))
 	{
 		static std::default_random_engine rng(static_cast<unsigned>(glfwGetTime()));
-		static std::uniform_real_distribution<float> dist(-10000.0f, 10000.0f);
+		static std::uniform_real_distribution dist(-10000.0f, 10000.0f);
 
 		Teleport(glm::vec3(dist(rng), 200, dist(rng)));
 	}
@@ -99,7 +99,7 @@ void Player::Update(float dt)
 
 		// Move
 		if (dir != glm::vec3(0.0f))
-			Move(glm::normalize(dir) * (input.GetKey(GLFW_KEY_LEFT_SHIFT) ? 10.f : 5.f) * dt);
+			Move(normalize(dir) * (input.GetKey(GLFW_KEY_LEFT_SHIFT) ? 10.f : 5.f) * dt);
 
 		// Jump
 		if (canJump_ && input.GetKey(GLFW_KEY_SPACE))
