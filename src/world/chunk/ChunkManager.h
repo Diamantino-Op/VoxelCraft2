@@ -30,9 +30,9 @@ public:
 	// Raycast data
 	struct RaycastResult
 	{
-		bool hit;
+		bool hit{};
 		BlockInfo block;
-		glm::vec3 pos;
+		glm::vec3 pos{};
 		Math::Direction normal;
 	};
 
@@ -40,7 +40,7 @@ public:
 	void UpdateChunks(glm::vec3 playerPos, float dt);
 
 	// Draw all chunks with lighting calculations
-	void DrawChunksLit(const Camera &camera, const std::vector<CascadeShaderInfo> &cascadeInfo);
+	void DrawChunksLit(const Camera &camera, const std::vector<CascadeShaderInfo> &cascadeInfo) const;
 
 	// Draw chunks with given shader and camera
 	void DrawChunks(const glm::mat4 &cameraMatrix, const Shader &shader) const;

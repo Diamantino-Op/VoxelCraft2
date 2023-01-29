@@ -1,9 +1,10 @@
 #include "NetworkManager.h"
 #include "../world/chunk/ChunkManager.h"
+#include "../utility/AssetManager.h"
 
 #include <string>
 
-NetworkManager::NetworkManager() : head_(Mesh::CreateCube(0.5f)), headTexture_("resources/player.png", false, true, GL_REPEAT, GL_NEAREST)
+NetworkManager::NetworkManager() : head_(Mesh::CreateCube(0.5f)), headTexture_(AssetManager::Instance().GetPath() + "resources/player.png", false, true, GL_REPEAT, GL_NEAREST)
 {
 	// Initialize WinSock
 	WSAData wsa{};

@@ -11,8 +11,11 @@
 #include <glm/gtx/norm.hpp>
 
 #include <iostream>
+#include <ranges>
 
-ChunkManager::ChunkManager() : shader_("shaders/shader.vert", "shaders/shader.frag"), texture_("resources/tileset.png", true, true, GL_REPEAT, GL_NEAREST)
+#include "../../utility/AssetManager.h"
+
+ChunkManager::ChunkManager() : shader_((AssetManager::Instance().GetPath() + "shaders/shader.vert").data(), (AssetManager::Instance().GetPath() + "shaders/shader.frag").data()), texture_(AssetManager::Instance().GetPath() + "resources/tileset.png", true, true, GL_REPEAT, GL_NEAREST)
 {
 	// Default uniform variables
 	shader_.SetVar("tex", 0);
@@ -173,7 +176,7 @@ void ChunkManager::UpdateChunks(glm::vec3 playerPos, float dt)
 	}
 }
 
-void ChunkManager::DrawChunksLit(const Camera &camera, const std::vector<CascadeShaderInfo> &cascadeInfo)
+void ChunkManager::DrawChunksLit(const Camera &camera, const std::vector<CascadeShaderInfo> &cascadeInfo) const
 {
 	shader_.Use();
 	texture_.Activate(GL_TEXTURE0);
@@ -191,8 +194,8 @@ void ChunkManager::DrawChunksLit(const Camera &camera, const std::vector<Cascade
 	{
 		shader_.SetVar(("cascadeTransforms[" + std::to_string(i) + "]").c_str(), cascadeInfo[i].transform);
 		shader_.SetVar(("cascadeDepths[" + std::to_string(i) + "]").c_str(), cascadeInfo[i].depth);
-		shader_.SetVar(("cascades[" + std::to_string(i) + "]").c_str(), int(i + 1));
-		cascadeInfo[i].tex->Activate(GLenum(GL_TEXTURE0 + i + 1));
+		shader_.SetVar(("cascades[" + std::to_string(i) + "]").c_str(), static_cast<int>(i + 1));
+		cascadeInfo[i].tex->Activate(static_cast<GLenum>(GL_TEXTURE0 + i + 1));
 	}
 	DrawChunks(cameraMatrix, shader_);
 }
@@ -202,17 +205,17 @@ void ChunkManager::DrawChunks(const glm::mat4 &cameraMatrix, const Shader &shade
 	shader.SetVar("cameraMatrix", cameraMatrix);
 
 	Math::Frastum cameraFrastum = Math::CalculateFrustum(cameraMatrix);
-	for (const auto &c : chunks_)
+	for (const auto& val : chunks_ | std::views::values)
 	{
 		// Frustum culling
-		if (c.second->IsVisible(cameraFrastum))
+		if (val->IsVisible(cameraFrastum))
 		{
 			// Set shader/texture
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), c.second->GetRenderPos());
+			glm::mat4 model = glm::translate(glm::mat4(1.0f), val->GetRenderPos());
 			shader.SetVar("modelMatrix", model);
 			shader.SetVar("normalMatrix", glm::transpose(glm::inverse(glm::mat3(model))));
 
-			c.second->Draw();
+			val->Draw();
 		}
 	}
 }

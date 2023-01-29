@@ -1,6 +1,7 @@
 #include "Crosshair.h"
+#include "../../utility/AssetManager.h"
 
-Crosshair::Crosshair() : shader_("shaders/Crosshair.vert", "shaders/Crosshair.frag")
+Crosshair::Crosshair() : shader_((AssetManager::Instance().GetPath() + "shaders/Crosshair.vert").data(), (AssetManager::Instance().GetPath() + "shaders/Crosshair.frag").data())
 {
     // Rotated quad mesh
     cross_.SetVertices(

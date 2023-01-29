@@ -13,6 +13,7 @@
 #include "graphics/WindowManager.h"
 #include "graphics/utility/CascadedShadowMap.h"
 #include "network/NetworkManager.h"
+#include "utility/AssetManager.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,8 +23,20 @@ int main(int argc, char *argv[])
 	ChunkManager &chunkManager = ChunkManager::Instance();
 	InputManager &inputManager = InputManager::Instance();
 	NetworkManager &networkManager = NetworkManager::Instance();
+	AssetManager &assetManager = AssetManager::Instance();
+	
 	if (argc > 1)
-		networkManager.Start(argv[1]);
+	{
+		for (int i = 0; i < argc; ++i)
+		{
+			if (argv[i] == "-server")
+				networkManager.Start(argv[i + 1]);
+
+			/*if (argv[i] == "-assetsPath")
+				assetManager*/
+		}
+	}
+	
 	Player player;
 	CascadedShadowMap shadows({ { 2048, 0.025f }, { 2048, 0.125f }, { 2048, 1.0f } }); // Cascade resolution, z-depths
 	Skybox skybox;

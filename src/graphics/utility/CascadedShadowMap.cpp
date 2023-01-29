@@ -2,13 +2,14 @@
 #include "../../world/chunk/ChunkManager.h"
 #include "../WindowManager.h"
 #include "../shaders/Shared.h"
+#include "../../utility/AssetManager.h"
 
 #include <queue>
 #include <array>
 
 CascadedShadowMap::CascadedShadowMap(const std::vector<Cascade> &cascades) :
     cascades_(cascades),
-    shader_("shaders/shadow.vert", "shaders/shadow.frag")
+    shader_((AssetManager::Instance().GetPath() + "shaders/shadow.vert").data(), (AssetManager::Instance().GetPath() + "shaders/shadow.frag").data())
 {
     assert(cascades.size() <= MAX_CASCADES);
 
@@ -21,10 +22,10 @@ void CascadedShadowMap::Render(const glm::mat4 &cameraMatrix)
     shaderInfo_.clear();
 
     // Transforms from NDC space to world space
-    const glm::mat4 inverseCameraMatrix = glm::inverse(cameraMatrix);
+    const glm::mat4 inverseCameraMatrix = inverse(cameraMatrix);
 
     // Transforms from world space to light view space
-    const glm::mat4 lightTransform = glm::lookAt(glm::vec3(0.0f), -glm::vec3(LIGHT_DIR), glm::vec3(0.0f, 1.0f, 0.0f));
+    const glm::mat4 lightTransform = lookAt(glm::vec3(0.0f), -glm::vec3(LIGHT_DIR), glm::vec3(0.0f, 1.0f, 0.0f));
 
     constexpr std::array<glm::vec2, 4> corners = {
         glm::vec2(-1.0f, -1.0f),
@@ -34,8 +35,8 @@ void CascadedShadowMap::Render(const glm::mat4 &cameraMatrix)
     };
 
     // Corners of camera frustum in light space
-    std::array<glm::vec3, 4> nearCorners;
-    std::array<glm::vec3, 4> farCorners;
+    std::array<glm::vec3, 4> nearCorners{};
+    std::array<glm::vec3, 4> farCorners{};
     for (size_t i = 0; i < corners.size(); i++)
     {
         glm::vec4 world = inverseCameraMatrix * glm::vec4(corners[i], -1.0f, 1.0f);
@@ -45,8 +46,8 @@ void CascadedShadowMap::Render(const glm::mat4 &cameraMatrix)
     }
 
     // Circular buffer that stores all for current subFrastum
-    std::array<glm::vec3, 8> subFrastumCorners;
-    std::copy(nearCorners.begin(), nearCorners.end(), subFrastumCorners.begin());
+    std::array<glm::vec3, 8> subFrastumCorners{};
+    std::ranges::copy(nearCorners, subFrastumCorners.begin());
     size_t index = nearCorners.size();
 
     // Calculate the transformations for each cascade and render
@@ -60,8 +61,8 @@ void CascadedShadowMap::Render(const glm::mat4 &cameraMatrix)
         index %= subFrastumCorners.size(); // Circular buffer
 
         // Calculate min and max of all 8 subFrastum points
-        glm::vec3 min = glm::vec3(std::numeric_limits<float>::infinity());
-        glm::vec3 max = glm::vec3(-std::numeric_limits<float>::infinity());
+        auto min = glm::vec3(std::numeric_limits<float>::infinity());
+        auto max = glm::vec3(-std::numeric_limits<float>::infinity());
         for (const glm::vec3 &v : subFrastumCorners)
         {
             min = glm::min(min, v);

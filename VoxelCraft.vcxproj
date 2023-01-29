@@ -232,12 +232,14 @@
     <ClCompile Include="src\network\NetworkManager.cpp" />
     <ClCompile Include="src\network\RemotePlayers.cpp" />
     <ClCompile Include="src\network\Socket.cpp" />
+    <ClCompile Include="src\utility\AssetManager.cpp" />
     <ClCompile Include="src\utility\Math.cpp" />
     <ClCompile Include="src\world\chunk\Chunk.cpp" />
     <ClCompile Include="src\world\chunk\ChunkManager.cpp" />
     <ClCompile Include="src\world\TerrainGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resources\Resource.h" />
     <ClInclude Include="shaders\Shared.h" />
     <ClInclude Include="src\block\Block.h" />
     <ClInclude Include="src\entity\Entity.h" />
@@ -255,6 +257,7 @@
     <ClInclude Include="src\network\NetworkManager.h" />
     <ClInclude Include="src\network\RemotePlayers.h" />
     <ClInclude Include="src\network\Socket.h" />
+    <ClInclude Include="src\utility\AssetManager.h" />
     <ClInclude Include="src\utility\Math.h" />
     <ClInclude Include="src\world\chunk\Chunk.h" />
     <ClInclude Include="src\world\chunk\ChunkManager.h" />
@@ -273,12 +276,24 @@
     <None Include="shaders\version.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resources\icon.ico" />
     <Content Include="resources\player.png" />
     <Content Include="resources\test.png" />
     <Content Include="resources\tileset.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\item" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources\VoxelCraft.rc">
+      <ResourceOutputFileName>D:\VoxelCraft2\\Intermediate\x64\Debug\%(Filename).res</ResourceOutputFileName>
+      <Culture>0x0409</Culture>
+      <TrackerLogDirectory>D:\VoxelCraft2\\Intermediate\x64\Debug\VoxelCraft.tlog\</TrackerLogDirectory>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <UseResponseFile>false</UseResponseFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <LinkCompiled>true</LinkCompiled>
+    </ResourceCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

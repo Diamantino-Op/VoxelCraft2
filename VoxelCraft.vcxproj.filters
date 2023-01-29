@@ -74,7 +74,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-
   <ItemGroup>
     <ClInclude Include="src\graphics\utility\Shader.h">
       <Filter>Source Files</Filter>
@@ -142,35 +141,44 @@
     <ClInclude Include="src\network\Socket.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
-  
   <ItemGroup>
-      <None Include="shaders\shader.vert">
-        <Filter>Shaders</Filter>
-      </None>
-      <None Include="shaders\shader.frag">
-        <Filter>Shaders</Filter>
-      </None>
-      <None Include="shaders\version.glsl">
-        <Filter>Shaders</Filter>
-      </None>
-      <None Include="shaders\shadow.frag">
-        <Filter>Shaders</Filter>
-      </None>
-      <None Include="shaders\shadow.vert">
-        <Filter>Shaders</Filter>
-      </None>
-      <None Include="shaders\skybox.vert">
-        <Filter>Shaders</Filter>
-      </None>
-      <None Include="shaders\skybox.frag">
-        <Filter>Shaders</Filter>
-      </None>
-      <None Include="shaders\crosshair.frag">
-        <Filter>Shaders</Filter>
-      </None>
-      <None Include="shaders\crosshair.vert">
-        <Filter>Shaders</Filter>
-      </None>
-    </ItemGroup>
+    <None Include="shaders\shader.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\shader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\version.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\shadow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\shadow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\skybox.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\skybox.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\crosshair.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\crosshair.vert">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VoxelCraft.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+  </ItemGroup>
 </Project>

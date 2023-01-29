@@ -17,9 +17,9 @@ public:
 	Texture(Texture &&other);
 
 	// Getters
-	int GetWidth() const;
-	int GetHeight() const;
-	unsigned GetID() const;
+	[[nodiscard]] int GetWidth() const;
+	[[nodiscard]] int GetHeight() const;
+	[[nodiscard]] unsigned GetID() const;
 
 	// Use this texture to draw
 	void Activate(GLenum texture = 0) const;

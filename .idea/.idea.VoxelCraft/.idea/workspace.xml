@@ -6,15 +6,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VoxelCraft.aps" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/Resource.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/VoxelCraft.rc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/icon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utility/AssetManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utility/AssetManager.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.run/VoxelCraft - Debug.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.run/VoxelCraft - Debug.run.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VoxelCraft.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/VoxelCraft.vcxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VoxelCraft.vcxproj.filters" beforeDir="false" afterPath="$PROJECT_DIR$/VoxelCraft.vcxproj.filters" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Player.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Player.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphics/WindowManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/WindowManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphics/utility/CascadedShadowMap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/utility/CascadedShadowMap.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphics/utility/Texture.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/utility/Texture.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/NetworkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/NetworkManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +46,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/include/cmath" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/include/xstring" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/include/glad/glad.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Main.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/block/Block.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Entity.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -96,7 +105,10 @@
       <workItem from="1674907518138" duration="8628000" />
       <workItem from="1674922706922" duration="3424000" />
       <workItem from="1674933756325" duration="4653000" />
-      <workItem from="1674984766274" duration="4629000" />
+      <workItem from="1674984766274" duration="5930000" />
+      <workItem from="1674992943639" duration="2016000" />
+      <workItem from="1675000435130" duration="1822000" />
+      <workItem from="1675007249160" duration="2853000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1674841034520</created>
@@ -126,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674926115920</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="s">
+      <created>1674991123338</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1674991123338</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

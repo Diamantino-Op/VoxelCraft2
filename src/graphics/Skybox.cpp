@@ -1,6 +1,7 @@
 #include "Skybox.h"
+#include "../utility/AssetManager.h"
 
-Skybox::Skybox() : shader_("shaders/skybox.vert", "shaders/skybox.frag"), box_(Mesh::CreateQuad(2.0f))
+Skybox::Skybox() : shader_((AssetManager::Instance().GetPath() + "shaders/skybox.vert").data(), (AssetManager::Instance().GetPath() + "shaders/skybox.frag").data()), box_(Mesh::CreateQuad(2.0f))
 {
 }
 
