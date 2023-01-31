@@ -98,3 +98,18 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
 		mappingFile << name << ":" << filename << std::endl;
 	}
 }
+
+/*
+    // Get all .png files in a folder
+    std::map<std::string, std::string> textures;
+    std::filesystem::path folder("C:/images");
+    for (const auto &entry : std::filesystem::directory_iterator(folder)) {
+        if (entry.path().extension() == ".png") {
+            auto name = entry.path().stem().string();
+            auto filename = entry.path().string();
+            textures[name] = filename;
+        }
+    }
+    
+    packTextures(textures, "atlas.png", "mapping.txt");
+*/
