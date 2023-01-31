@@ -71,7 +71,8 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
 
     // Copy the textures into the atlas
     int y = 0;
-    for (const auto& filename : textures | std::views::values) {
+    int i = 0;
+    for (const auto &[name, filename] : textures) {
         int width, height, channels;
         auto data = LoadTexture(filename, width, height, channels);
         if (data.empty()) {
@@ -88,16 +89,15 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
             }
         }
 
+        mappingFile << name << ":" << i << std::endl;
+
+        i++;
         y += height;
     }
 
     // Save the atlas image to a file using stb_image_write
 	if (!stbi_write_png(atlasFilename.c_str(), atlasWidth, atlasHeight, 4, atlasImage.data(), 0)) {
 		std::cout << "Failed to write atlas image to " << atlasFilename << ": " << stbi_failure_reason() << std::endl;
-	}
-
-	for (const auto &[name, filename] : textures) {
-		mappingFile << name << ":" << filename << std::endl;
 	}
 }
 
