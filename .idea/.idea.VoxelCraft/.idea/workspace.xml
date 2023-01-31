@@ -5,82 +5,10 @@
     <projectFile>VoxelCraft.vcxproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Unprocessed/ProcessBlocks.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/ProcessEntities.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/ProcessItems.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/acacia_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/acacia_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/acacia_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/birch_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/birch_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/birch_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/coal_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/copper_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/dark_oak_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/dark_oak_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/dark_oak_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/diamond_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/dirt.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/emerald_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/grass_block_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/grass_block_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/iron_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/jungle_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/jungle_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/jungle_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/lapis_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/oak_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/oak_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/oak_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/spruce_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/spruce_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/spruce_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/blocks/stone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Unprocessed/entities/player.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/acacia_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/acacia_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/acacia_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/birch_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/birch_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/birch_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/coal_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/copper_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/dark_oak_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/dark_oak_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/dark_oak_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/diamond_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/dirt.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/emerald_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/grass_block_side.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/grass_block_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/iron_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/jungle_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/jungle_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/jungle_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/lapis_ore.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/oak_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/oak_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/oak_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/spruce_leaves.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/spruce_log.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/spruce_log_top.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/stone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/entities/player.png" afterDir="false" />
+    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="j">
+      <change afterPath="$PROJECT_DIR$/include/stb_image_write.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VoxelCraft.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/VoxelCraft.vcxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/player.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/test.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/tileset.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Player.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Player.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphics/WindowManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/WindowManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphics/WindowManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/WindowManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/network/NetworkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/NetworkManager.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,6 +40,7 @@
     <setting file="file://$PROJECT_DIR$/src/entity/Entity.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/VoxelCraft2/src/utility/AssetManager.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/world/chunk/Chunk.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -169,7 +98,7 @@
       <workItem from="1675000435130" duration="1822000" />
       <workItem from="1675007249160" duration="3203000" />
       <workItem from="1675010986708" duration="2150000" />
-      <workItem from="1675183101853" duration="4594000" />
+      <workItem from="1675183101853" duration="6291000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1674841034520</created>
@@ -220,7 +149,21 @@
       <option name="project" value="LOCAL" />
       <updated>1675021722634</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="s">
+      <created>1675196436068</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1675196436068</updated>
+    </task>
+    <task id="LOCAL-00009" summary="j">
+      <created>1675196730247</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1675196730247</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -232,7 +175,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="s" />
-    <option name="LAST_COMMIT_MESSAGE" value="s" />
+    <MESSAGE value="j" />
+    <option name="LAST_COMMIT_MESSAGE" value="j" />
   </component>
   <component name="p4-ProjectCache">
     <option name="serverState">

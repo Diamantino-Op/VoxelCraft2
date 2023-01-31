@@ -2,7 +2,9 @@
 
 #include <fstream>
 #include <iostream>
+#include <ranges>
 #include <stb_image.h>
+#include <stb_image_write.h>
 #include <utility>
 
 AssetManager::AssetManager()
@@ -32,7 +34,7 @@ std::vector<unsigned char> AssetManager::LoadTexture(const std::string& filename
     }
 
     // Convert the loaded image to a vector
-    std::vector<unsigned char> imageData(data, data + width * height * channels);
+    std::vector imageData(data, data + width * height * channels);
 
     // Free the loaded image
     stbi_image_free(data);
@@ -46,7 +48,7 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
     // Determine the size of the atlas
     int atlasWidth = 0;
     int atlasHeight = 0;
-    for (const auto &[name, filename] : textures) {
+    for (const auto& filename : textures | std::views::values) {
         int width, height, channels;
         auto data = LoadTexture(filename, width, height, channels);
         if (data.empty()) {
@@ -60,9 +62,16 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
     // Allocate memory for the atlas image
     std::vector<unsigned char> atlasImage(atlasWidth * atlasHeight * 4);
 
+    // Write the mapping from texture names to filenames to a text file
+    std::ofstream mappingFile(mappingFilename);
+    if (!mappingFile) {
+        std::cerr << "Failed to open mapping file " << mappingFilename << " for writing" << std::endl;
+        return;
+    }
+
     // Copy the textures into the atlas
     int y = 0;
-    for (const auto &[name, filename] : textures) {
+    for (const auto& filename : textures | std::views::values) {
         int width, height, channels;
         auto data = LoadTexture(filename, width, height, channels);
         if (data.empty()) {
@@ -85,13 +94,6 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
     // Save the atlas image to a file using stb_image_write
 	if (!stbi_write_png(atlasFilename.c_str(), atlasWidth, atlasHeight, 4, atlasImage.data(), 0)) {
 		std::cout << "Failed to write atlas image to " << atlasFilename << ": " << stbi_failure_reason() << std::endl;
-	}
-	
-	// Write the mapping from texture names to filenames to a text file
-	std::ofstream mappingFile(mappingFilename);
-	if (!mappingFile) {
-		std::cerr << "Failed to open mapping file " << mappingFilename << " for writing" << std::endl;
-		return;
 	}
 
 	for (const auto &[name, filename] : textures) {
