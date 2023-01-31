@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <string>
 
-WindowManager::WindowManager() : window_(nullptr), resolution_(glm::ivec2(1920, 1080))
+WindowManager::WindowManager() : window_(nullptr), resolution_(glm::ivec2(windowWidth, windowHeight))
 {
 	// Initialize GLFW
 	glfwInit();

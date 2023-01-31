@@ -17,25 +17,39 @@
 
 int main(int argc, char *argv[])
 {
-	// Create game systems
-	WindowManager &windowManager = WindowManager::Instance();
-	windowManager.Maximize();
-	ChunkManager &chunkManager = ChunkManager::Instance();
-	InputManager &inputManager = InputManager::Instance();
-	NetworkManager &networkManager = NetworkManager::Instance();
-	AssetManager &assetManager = AssetManager::Instance();
+	char* serverIp;
+	int screenX = 1920;
+	int screenY = 1080;
+	std::string assetPath;
 	
 	if (argc > 1)
 	{
 		for (int i = 0; i < argc; ++i)
 		{
 			if (argv[i] == "-server")
-				networkManager.Start(argv[i + 1]);
+				serverIp = argv[i + 1];
+
+			if (argv[i] == "-screenX")
+				screenX = std::stoi(argv[i + 1]);
+
+			if (argv[i] == "-screenY")
+				screenY = std::stoi(argv[i + 1]);
 
 			if (argv[i] == "-assetsPath")
-				assetManager.SetPath(argv[i + 1]);
+				assetPath = argv[i + 1];
 		}
 	}
+
+	// Create game systems
+	WindowManager &windowManager = WindowManager::Instance(screenX, screenY);
+	windowManager.Maximize();
+	ChunkManager &chunkManager = ChunkManager::Instance();
+	InputManager &inputManager = InputManager::Instance();
+	NetworkManager &networkManager = NetworkManager::Instance();
+	AssetManager &assetManager = AssetManager::Instance();
+
+	networkManager.Start(serverIp);
+	assetManager.SetPath(assetPath);
 	
 	Player player;
 	CascadedShadowMap shadows({ { 2048, 0.025f }, { 2048, 0.125f }, { 2048, 1.0f } }); // Cascade resolution, z-depths

@@ -125,7 +125,7 @@ void Chunk::BuildMesh()
 					if (adjacent.y >= 0 && !CheckForBlock(adjacent))
 					{
 						//Pixels
-						const int tilesheetSize = 8;
+						const int tilesheetSize = 16;
 						unsigned index = 0;
 						
 						// Get texture index
@@ -163,7 +163,7 @@ void Chunk::BuildMesh()
 						for (int i = 0; i < Math::CORNER_COUNT; i++)
 						{
 							// Get block touching this corner
-							glm::ivec3 dir = Math::CornerToVec(static_cast<Math::Corner>(i), static_cast<Math::Direction>(d));
+							glm::ivec3 dir = CornerToVec(static_cast<Math::Corner>(i), static_cast<Math::Direction>(d));
 							const glm::ivec3 corner = adjacent + dir;
 							glm::ivec3 sides[2];
 

@@ -15,7 +15,7 @@
 
 #include "../../utility/AssetManager.h"
 
-ChunkManager::ChunkManager() : shader_((AssetManager::Instance().GetPath() + "shaders/shader.vert").data(), (AssetManager::Instance().GetPath() + "shaders/shader.frag").data()), texture_(AssetManager::Instance().GetPath() + "resources/tileset.png", true, true, GL_REPEAT, GL_NEAREST)
+ChunkManager::ChunkManager() : shader_((AssetManager::Instance().GetPath() + "shaders/shader.vert").data(), (AssetManager::Instance().GetPath() + "shaders/shader.frag").data()), texture_(AssetManager::Instance().GetPath() + "textures/blocks/tileset.png", true, true, GL_REPEAT, GL_NEAREST)
 {
 	// Default uniform variables
 	shader_.SetVar("tex", 0);

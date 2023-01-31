@@ -132,7 +132,7 @@ void Player::Update(float dt)
 			dir -= camera_.GetUp();
 
 		if (dir != glm::vec3(0.0f))
-			Teleport(GetPosition() + glm::normalize(dir) * (input.GetKey(GLFW_KEY_LEFT_SHIFT) ? 100.f : 10.f) * dt);
+			Teleport(GetPosition() + normalize(dir) * (input.GetKey(GLFW_KEY_LEFT_SHIFT) ? 100.f : 10.f) * dt);
 	}
 
 	// Update camera

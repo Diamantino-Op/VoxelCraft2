@@ -277,11 +277,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\icon.ico" />
-    <Content Include="resources\player.png" />
-    <Content Include="resources\test.png" />
-    <Content Include="resources\tileset.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="resources\blockstates" />
+    <Folder Include="resources\lang" />
+    <Folder Include="resources\models" />
+    <Folder Include="resources\textures\blocks" />
+    <Folder Include="resources\textures\items" />
     <Folder Include="src\item" />
   </ItemGroup>
   <ItemGroup>
@@ -294,6 +296,9 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <LinkCompiled>true</LinkCompiled>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\textures\entities\player.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

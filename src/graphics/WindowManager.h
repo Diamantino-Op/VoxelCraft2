@@ -9,6 +9,15 @@ class WindowManager
 {
 public:
 	// Singleton pattern
+	static WindowManager &Instance(int width, int height)
+	{
+		windowWidth = width;
+		windowHeight = height;
+		
+		static WindowManager instance;
+		return instance;
+	}
+
 	static WindowManager &Instance()
 	{
 		static WindowManager instance;
@@ -38,6 +47,9 @@ private:
 	GLFWwindow *window_;
 	glm::ivec2 resolution_;
 	glm::vec3 clearColor_{};
+
+	static int windowWidth;
+	static int windowHeight;
 
 	static void ResizeCallback(GLFWwindow *window, int width, int height); // window resize callback
 
