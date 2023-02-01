@@ -9,7 +9,7 @@
 
 AssetManager::AssetManager()
 {
-    assetPath = "";
+    assetPath = "resources/";
 }
 
 void AssetManager::SetPath(std::string path)

@@ -5,9 +5,61 @@
     <projectFile>VoxelCraft.vcxproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="j">
-      <change afterPath="$PROJECT_DIR$/include/stb_image_write.h" afterDir="false" />
+    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/shaders/Shared.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/shaders/crosshair.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/shaders/crosshair.vert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/shaders/shader.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/shaders/shader.vert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/shaders/shadow.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/shaders/shadow.vert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/shaders/skybox.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/shaders/skybox.vert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/shaders/version.glsl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/ProcessBlocks.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/ProcessEntities.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/ProcessItems.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/acacia_leaves.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/acacia_log.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/acacia_log_top.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/birch_leaves.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/birch_log.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/birch_log_top.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/coal_ore.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/copper_ore.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/dark_oak_leaves.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/dark_oak_log.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/dark_oak_log_top.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/diamond_ore.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/dirt.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/emerald_ore.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/grass_block_side.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/grass_block_top.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/iron_ore.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/jungle_leaves.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/jungle_log.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/jungle_log_top.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/lapis_ore.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/oak_leaves.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/oak_log.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/oak_log_top.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/spruce_leaves.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/spruce_log.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/spruce_log_top.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/stone.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Unprocessed/entities/player.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/VoxelCraft.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/VoxelCraft.vcxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shaders/Shared.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shaders/crosshair.frag" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shaders/crosshair.vert" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shaders/shader.frag" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shaders/shader.vert" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shaders/shadow.frag" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shaders/shadow.vert" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shaders/skybox.frag" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shaders/skybox.vert" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shaders/version.glsl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +92,6 @@
     <setting file="file://$PROJECT_DIR$/src/entity/Entity.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://D:/VoxelCraft2/src/utility/AssetManager.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/world/chunk/Chunk.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -55,26 +106,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "settings.editor.selected.configurable": "editor.preferences.tabs",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\diama\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\diama\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\diama\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\diama\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\diama\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\diama\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RunManager" selected="C++ Project.VoxelCraft - Debug">
     <list>
       <item itemvalue="C++ Project.VoxelCraft - Debug" />
       <item itemvalue="C++ Project.VoxelCraft - Release" />
@@ -98,7 +149,9 @@
       <workItem from="1675000435130" duration="1822000" />
       <workItem from="1675007249160" duration="3203000" />
       <workItem from="1675010986708" duration="2150000" />
-      <workItem from="1675183101853" duration="6291000" />
+      <workItem from="1675183101853" duration="6618000" />
+      <workItem from="1675260976500" duration="2143000" />
+      <workItem from="1675274718653" duration="1500000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1674841034520</created>
@@ -163,7 +216,21 @@
       <option name="project" value="LOCAL" />
       <updated>1675196730247</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="s">
+      <created>1675198165916</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1675198165916</updated>
+    </task>
+    <task id="LOCAL-00011" summary="s">
+      <created>1675198394890</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1675198394890</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,9 +241,9 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="s" />
     <MESSAGE value="j" />
-    <option name="LAST_COMMIT_MESSAGE" value="j" />
+    <MESSAGE value="s" />
+    <option name="LAST_COMMIT_MESSAGE" value="s" />
   </component>
   <component name="p4-ProjectCache">
     <option name="serverState">

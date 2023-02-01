@@ -240,7 +240,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resources\Resource.h" />
-    <ClInclude Include="shaders\Shared.h" />
+    <ClInclude Include="resources\shaders\Shared.h" />
     <ClInclude Include="src\block\Block.h" />
     <ClInclude Include="src\entity\Entity.h" />
     <ClInclude Include="src\entity\Player.h" />
@@ -265,17 +265,6 @@
     <ClInclude Include="src\world\WorldConstants.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\crosshair.frag" />
-    <None Include="shaders\crosshair.vert" />
-    <None Include="shaders\shader.frag" />
-    <None Include="shaders\shader.vert" />
-    <None Include="shaders\shadow.frag" />
-    <None Include="shaders\shadow.vert" />
-    <None Include="shaders\skybox.frag" />
-    <None Include="shaders\skybox.vert" />
-    <None Include="shaders\version.glsl" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="resources\icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +287,15 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="resources\shaders\crosshair.frag" />
+    <Content Include="resources\shaders\crosshair.vert" />
+    <Content Include="resources\shaders\shader.frag" />
+    <Content Include="resources\shaders\shader.vert" />
+    <Content Include="resources\shaders\shadow.frag" />
+    <Content Include="resources\shaders\shadow.vert" />
+    <Content Include="resources\shaders\skybox.frag" />
+    <Content Include="resources\shaders\skybox.vert" />
+    <Content Include="resources\shaders\version.glsl" />
     <Content Include="resources\textures\entities\player.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
