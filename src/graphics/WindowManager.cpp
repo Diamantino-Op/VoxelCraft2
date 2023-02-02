@@ -1,12 +1,40 @@
 #include "WindowManager.h"
 #include "../input/InputManager.h"
-#include "../shaders/Shared.h"
+#include "../resources/shaders/Shared.h"
 
 #include <glad/glad.h>
 #include <string>
 
-WindowManager::WindowManager() : window_(nullptr), resolution_(glm::ivec2(windowWidth, windowHeight))
+WindowManager::WindowManager() : window_(nullptr), resolution_(glm::ivec2(1920, 1080))
 {
+	
+}
+
+void WindowManager::Update(float dt) const
+{
+	// Escape to exit
+	if (glfwGetKey(window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window_, true);
+
+	// Framerate display
+	static unsigned frameCount = 0;
+	static float frameTimer = 0.0f;
+	frameCount++;
+	frameTimer += dt;
+	if (frameTimer >= 1.0f)
+	{
+		//TODO: Fps
+		//glfwSetWindowTitle(window_, ("Voxel - " + std::to_string(frameCount) + " FPS").c_str());
+		frameCount = 0;
+		frameTimer = 0.0f;
+	}
+}
+
+void WindowManager::Init(int width, int height)
+{
+	if (width != 0 && height != 0)
+		resolution_ = glm::ivec2(width, height);
+	
 	// Initialize GLFW
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -48,26 +76,6 @@ WindowManager::WindowManager() : window_(nullptr), resolution_(glm::ivec2(window
 
 	// Hide and capture cursor
 	glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-}
-
-void WindowManager::Update(float dt) const
-{
-	// Escape to exit
-	if (glfwGetKey(window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window_, true);
-
-	// Framerate display
-	static unsigned frameCount = 0;
-	static float frameTimer = 0.0f;
-	frameCount++;
-	frameTimer += dt;
-	if (frameTimer >= 1.0f)
-	{
-		//TODO: Fps
-		//glfwSetWindowTitle(window_, ("Voxel - " + std::to_string(frameCount) + " FPS").c_str());
-		frameCount = 0;
-		frameTimer = 0.0f;
-	}
 }
 
 GLFWwindow *WindowManager::GetWindow() const

@@ -6,61 +6,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/shaders/Shared.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/shaders/crosshair.frag" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/shaders/crosshair.vert" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/shaders/shader.frag" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/shaders/shader.vert" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/shaders/shadow.frag" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/shaders/shadow.vert" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/shaders/skybox.frag" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/shaders/skybox.vert" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/shaders/version.glsl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/atlas.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mapping.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/tileset.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/block/Blocks.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/block/Blocks.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/ProcessBlocks.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/ProcessEntities.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/ProcessItems.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/acacia_leaves.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/acacia_log.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/acacia_log_top.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/birch_leaves.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/birch_log.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/birch_log_top.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/coal_ore.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/copper_ore.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/dark_oak_leaves.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/dark_oak_log.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/dark_oak_log_top.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/diamond_ore.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/dirt.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/emerald_ore.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/grass_block_side.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/grass_block_top.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/iron_ore.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/jungle_leaves.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/jungle_log.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/jungle_log_top.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/lapis_ore.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/oak_leaves.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/oak_log.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/oak_log_top.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/spruce_leaves.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/spruce_log.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/spruce_log_top.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/blocks/stone.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unprocessed/entities/player.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.run/VoxelCraft - Debug.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.run/VoxelCraft - Debug.run.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VoxelCraft.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/VoxelCraft.vcxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/Shared.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/crosshair.frag" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/crosshair.vert" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/shader.frag" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/shader.vert" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/shadow.frag" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/shadow.vert" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/skybox.frag" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/skybox.vert" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/version.glsl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/stb_image_write.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/stb_image_write.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphics/WindowManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/WindowManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphics/WindowManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/WindowManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphics/utility/CascadedShadowMap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/utility/CascadedShadowMap.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphics/utility/Shader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/utility/Shader.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,9 +46,19 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/ucrt/corecrt_stdio_config.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/ucrt/stdio.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/include/cmath" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/include/filesystem" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/include/string" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/include/utility" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/include/vector" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/include/xstddef" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/include/xstring" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.33.31629/include/xtree" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/include/glad/glad.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/include/stb_image.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/include/stb_image_write.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Main.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/block/Block.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Entity.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -151,7 +123,9 @@
       <workItem from="1675010986708" duration="2150000" />
       <workItem from="1675183101853" duration="6618000" />
       <workItem from="1675260976500" duration="2143000" />
-      <workItem from="1675274718653" duration="1500000" />
+      <workItem from="1675274718653" duration="2042000" />
+      <workItem from="1675282781126" duration="242000" />
+      <workItem from="1675346334486" duration="13361000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1674841034520</created>
@@ -230,7 +204,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675198394890</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="s">
+      <created>1675281902549</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1675281902549</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

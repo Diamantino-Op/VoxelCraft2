@@ -17,39 +17,45 @@
 
 int main(int argc, char *argv[])
 {
-	char* serverIp;
+	char* serverIp = nullptr;
 	int screenX = 1920;
 	int screenY = 1080;
-	std::string assetPath;
+	char* assetPath = nullptr;
 	
 	if (argc > 1)
 	{
 		for (int i = 0; i < argc; ++i)
 		{
-			if (argv[i] == "-server")
+			if (strcmp(argv[i], "-server") == 0)
 				serverIp = argv[i + 1];
 
-			if (argv[i] == "-screenX")
+			if (strcmp(argv[i], "-screenX") == 0)
 				screenX = std::stoi(argv[i + 1]);
 
-			if (argv[i] == "-screenY")
+			if (strcmp(argv[i], "-screenY") == 0)
 				screenY = std::stoi(argv[i + 1]);
 
-			if (argv[i] == "-assetsPath")
+			if (strcmp(argv[i], "-assetsPath") == 0)
 				assetPath = argv[i + 1];
 		}
 	}
 
 	// Create game systems
-	WindowManager &windowManager = WindowManager::Instance(screenX, screenY);
+	WindowManager &windowManager = WindowManager::Instance();
+	windowManager.Init(screenX, screenY);
 	windowManager.Maximize();
 	ChunkManager &chunkManager = ChunkManager::Instance();
 	InputManager &inputManager = InputManager::Instance();
 	NetworkManager &networkManager = NetworkManager::Instance();
 	AssetManager &assetManager = AssetManager::Instance();
 
-	networkManager.Start(serverIp);
-	assetManager.SetPath(assetPath);
+	if (!(serverIp == nullptr || serverIp[0] == '\0'))
+		networkManager.Start(serverIp);
+
+	if (!(assetPath == nullptr || assetPath[0] == '\0'))
+		assetManager.SetPath(assetPath);
+
+	assetManager.ProcessTextures();
 	
 	Player player;
 	CascadedShadowMap shadows({ { 2048, 0.025f }, { 2048, 0.125f }, { 2048, 1.0f } }); // Cascade resolution, z-depths

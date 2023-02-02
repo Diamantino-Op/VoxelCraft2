@@ -21,6 +21,7 @@ public:
 
     std::vector<unsigned char> LoadTexture(const std::string &filename, int &width, int &height, int &channels);
     void PackTextures(const std::map<std::string, std::string> &textures, const std::string &atlasFilename, const std::string &mappingFilename);
+    void ProcessTextures();
 private:
     std::string assetPath;
 };

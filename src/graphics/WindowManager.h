@@ -9,15 +9,6 @@ class WindowManager
 {
 public:
 	// Singleton pattern
-	static WindowManager &Instance(int width, int height)
-	{
-		windowWidth = width;
-		windowHeight = height;
-		
-		static WindowManager instance;
-		return instance;
-	}
-
 	static WindowManager &Instance()
 	{
 		static WindowManager instance;
@@ -26,6 +17,8 @@ public:
 
 	WindowManager();
 	void Update(float dt) const;
+
+	void Init(int width, int height);
 
 	// Getters
 	[[nodiscard]] GLFWwindow *GetWindow() const;

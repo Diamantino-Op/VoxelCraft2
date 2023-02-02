@@ -1,5 +1,8 @@
 #include "AssetManager.h"
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <ranges>
@@ -34,7 +37,20 @@ std::vector<unsigned char> AssetManager::LoadTexture(const std::string& filename
     }
 
     // Convert the loaded image to a vector
-    std::vector imageData(data, data + width * height * channels);
+    std::vector<unsigned char> imageData;
+
+    if (channels == 3) {
+        imageData.resize(width * height * 4);
+        for (int i = 0; i < width * height; i++) {
+            imageData[i * 4 + 0] = data[i * 3 + 0];
+            imageData[i * 4 + 1] = data[i * 3 + 1];
+            imageData[i * 4 + 2] = data[i * 3 + 2];
+            imageData[i * 4 + 3] = 255;
+        }
+    }
+    else {
+        imageData = std::vector(data, data + width * height * channels);
+    }
 
     // Free the loaded image
     stbi_image_free(data);
@@ -45,20 +61,20 @@ std::vector<unsigned char> AssetManager::LoadTexture(const std::string& filename
 // Save an atlas image and a text file with the mapping from texture names to filenames
 void AssetManager::PackTextures(const std::map<std::string, std::string>& textures, const std::string& atlasFilename, const std::string& mappingFilename)
 {
-    // Determine the size of the atlas
-    int atlasWidth = 0;
-    int atlasHeight = 0;
-    for (const auto& filename : textures | std::views::values) {
+    // Load all the textures into memory
+    std::map<std::string, std::vector<unsigned char>> loadedTextures;
+    for (const auto &[name, filename] : textures) {
         int width, height, channels;
-        auto data = LoadTexture(filename, width, height, channels);
-        if (data.empty()) {
-            return;
-        }
 
-        atlasWidth = std::max(atlasWidth, width);
-        atlasHeight += height;
+        loadedTextures[name] = LoadTexture(filename, width, height, channels);
     }
 
+    const int textureSize = 16;
+    
+    // Find the size of the square atlas needed to fit all the textures
+    const int atlasSize = static_cast<int>(std::ceil(std::sqrt(loadedTextures.size())));
+    const int atlasWidth = atlasSize * textureSize;
+    const int atlasHeight = atlasSize * textureSize;
     // Allocate memory for the atlas image
     std::vector<unsigned char> atlasImage(atlasWidth * atlasHeight * 4);
 
@@ -70,41 +86,45 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
     }
 
     // Copy the textures into the atlas
-    int y = 0;
-    int i = 0;
-    for (const auto &[name, filename] : textures) {
-        int width, height, channels;
-        auto data = LoadTexture(filename, width, height, channels);
-        if (data.empty()) {
-            return;
-        }
-
-        // Copy the texture data into the atlas image
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                atlasImage[((y + i) * atlasWidth + j) * 4 + 0] = data[(i * width + j) * channels + 0];
-                atlasImage[((y + i) * atlasWidth + j) * 4 + 1] = data[(i * width + j) * channels + 1];
-                atlasImage[((y + i) * atlasWidth + j) * 4 + 2] = data[(i * width + j) * channels + 2];
-                atlasImage[((y + i) * atlasWidth + j) * 4 + 3] = channels == 3 ? 255 : data[(i * width + j) * channels + 3];
+    int x = 0, y = 0, i = 0;
+    for (const auto &[name, image] : loadedTextures) {
+        for (int row = 0; row < textureSize; ++row) {
+            for (int col = 0; col < textureSize; ++col) {
+                const int atlasPos = (y + row) * atlasWidth * 4 + (x + col) * 4;
+                const int imagePos = row * textureSize * 4 + col * 4;
+                
+                atlasImage[atlasPos + 0] = image[imagePos + 0];
+                atlasImage[atlasPos + 1] = image[imagePos + 1];
+                atlasImage[atlasPos + 2] = image[imagePos + 2];
+                atlasImage[atlasPos + 3] = image[imagePos + 3];
             }
         }
 
         mappingFile << name << ":" << i << std::endl;
 
         i++;
-        y += height;
+        x += textureSize;
+        if (x >= atlasWidth) {
+            x = 0;
+            y += textureSize;
+        }
     }
 
     // Save the atlas image to a file using stb_image_write
-	if (!stbi_write_png(atlasFilename.c_str(), atlasWidth, atlasHeight, 4, atlasImage.data(), 0)) {
+	if (!stbi_write_png(atlasFilename.data(), atlasWidth, atlasHeight, 4, atlasImage.data(), 0)) {
 		std::cout << "Failed to write atlas image to " << atlasFilename << ": " << stbi_failure_reason() << std::endl;
 	}
+    else
+    {
+        std::cout << "Atlas created at: " << atlasFilename << std::endl;
+    }
 }
 
-/*
+void AssetManager::ProcessTextures()
+{
     // Get all .png files in a folder
     std::map<std::string, std::string> textures;
-    std::filesystem::path folder("C:/images");
+    std::filesystem::path folder((GetPath() + "textures/blocks"));
     for (const auto &entry : std::filesystem::directory_iterator(folder)) {
         if (entry.path().extension() == ".png") {
             auto name = entry.path().stem().string();
@@ -113,5 +133,5 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
         }
     }
     
-    packTextures(textures, "atlas.png", "mapping.txt");
-*/
+    PackTextures(textures, GetPath() + "Atlas.png", GetPath() + "Mappings.txt");
+}

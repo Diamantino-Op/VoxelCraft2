@@ -1,7 +1,7 @@
 #include "CascadedShadowMap.h"
 #include "../../world/chunk/ChunkManager.h"
 #include "../WindowManager.h"
-#include "../shaders/Shared.h"
+#include "../resources/shaders/Shared.h"
 #include "../../utility/AssetManager.h"
 
 #include <queue>
@@ -27,7 +27,7 @@ void CascadedShadowMap::Render(const glm::mat4 &cameraMatrix)
     // Transforms from world space to light view space
     const glm::mat4 lightTransform = lookAt(glm::vec3(0.0f), -glm::vec3(LIGHT_DIR), glm::vec3(0.0f, 1.0f, 0.0f));
 
-    constexpr std::array<glm::vec2, 4> corners = {
+    constexpr std::array corners = {
         glm::vec2(-1.0f, -1.0f),
         glm::vec2(-1.0f,  1.0f),
         glm::vec2( 1.0f, -1.0f),
