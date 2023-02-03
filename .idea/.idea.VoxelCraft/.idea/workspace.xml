@@ -6,23 +6,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/atlas.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mapping.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/tileset.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/block/Blocks.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/block/Blocks.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/default.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/block/Block.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.run/VoxelCraft - Debug.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.run/VoxelCraft - Debug.run.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VoxelCraft.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/VoxelCraft.vcxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/stb_image_write.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/stb_image_write.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphics/WindowManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/WindowManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphics/WindowManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/WindowManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphics/utility/CascadedShadowMap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/utility/CascadedShadowMap.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphics/utility/Shader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/utility/Shader.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/block/Block.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/block/Block.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/block/Blocks.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/block/Blocks.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/block/Blocks.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/block/Blocks.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +88,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="C++ Project.VoxelCraft - Debug">
+  <component name="RunManager">
     <list>
       <item itemvalue="C++ Project.VoxelCraft - Debug" />
       <item itemvalue="C++ Project.VoxelCraft - Release" />
@@ -125,7 +116,8 @@
       <workItem from="1675260976500" duration="2143000" />
       <workItem from="1675274718653" duration="2042000" />
       <workItem from="1675282781126" duration="242000" />
-      <workItem from="1675346334486" duration="13361000" />
+      <workItem from="1675346334486" duration="15733000" />
+      <workItem from="1675444041080" duration="6623000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1674841034520</created>
@@ -211,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675281902549</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="s">
+      <created>1675367236851</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1675367236851</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

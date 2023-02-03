@@ -125,6 +125,7 @@ void AssetManager::ProcessTextures()
     // Get all .png files in a folder
     std::map<std::string, std::string> textures;
     std::filesystem::path folder((GetPath() + "textures/blocks"));
+    
     for (const auto &entry : std::filesystem::directory_iterator(folder)) {
         if (entry.path().extension() == ".png") {
             auto name = entry.path().stem().string();
@@ -133,5 +134,5 @@ void AssetManager::ProcessTextures()
         }
     }
     
-    PackTextures(textures, GetPath() + "Atlas.png", GetPath() + "Mappings.txt");
+    PackTextures(textures, GetPath() + "textures/blocks/block_atlas.png", GetPath() + "textures/blocks/block_mappings.txt");
 }

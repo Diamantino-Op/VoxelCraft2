@@ -7,59 +7,62 @@
 #include "../graphics/utility/CascadedShadowMap.h"
 
 // Textures for each side of a block
-struct SideTextureIndices
+class BlockTexture
 {
-	SideTextureIndices(int i) : top(i), front(i), right(i), left(i), back(i), bottom(i) {}
-	SideTextureIndices(int top, int side, int bottom) : top(top), front(side), right(side), left(side), back(side), bottom(bottom) {}
-	SideTextureIndices(int top, int front, int right, int left, int back, int bottom) : top(top), front(front), right(right), left(left), back(back), bottom(bottom) {}
+public:
+	BlockTexture(const std::string& all);
+	BlockTexture(const std::string& topBottom, const std::string& side);
+	BlockTexture(const std::string& top, const std::string& side, const std::string& bottom);
+	BlockTexture(const std::string& top, const std::string& front, const std::string& right, const std::string& left, const std::string& back, const std::string& bottom);
 
-	unsigned top;
-	unsigned front;
-	unsigned right;
-	unsigned left;
-	unsigned back;
-	unsigned bottom;
+	std::string GetTopTextureName();
+	std::string GetFrontTextureName();
+	std::string GetRightTextureName();
+	std::string GetLeftTextureName();
+	std::string GetBackTextureName();
+	std::string GetBottomTextureName();
+	
+private:
+	std::string top;
+	std::string front;
+	std::string right;
+	std::string left;
+	std::string back;
+	std::string bottom;
 };
 
 // Defines info for each block
-struct Block
+class Block
 {
-	// This matches order in sprite sheet
+public:
 	enum BlockType : unsigned int
 	{
-		BLOCK_ERROR = MAXUINT,
-
-		BLOCK_AIR = 0,
-		BLOCK_GRASS,
-		BLOCK_DIRT,
-		BLOCK_STONE,
-		BLOCK_LOG,
-		BLOCK_LEAVES,
-
-		BLOCK_COUNT
+		AIR,
+		GROUND,
+		PLANT,
+		STONE,
+		METAL,
+		WOOD
 	};
 
-	BlockType type;
-	std::string name;
+	Block(int id, const std::string& name, const BlockTexture& blockTexture, BlockType type);
 
-	bool operator==(const Block &rhs) const
+	int GetId() const;
+	std::string GetName();
+	BlockTexture GetBlockTexture();
+	[[nodiscard]] BlockType GetType() const;
+
+private:
+	int id;
+	std::string name;
+	BlockTexture blockTexture;
+	BlockType type;
+
+public:
+	bool operator ==(const Block &rhs) const
 	{
 		return type == rhs.type || name == rhs.name;
 	}
 };
 
 typedef std::pair<glm::ivec3, Block> BlockInfo;
-
-// Block-texture data
-namespace BlockData
-{
-	static const SideTextureIndices sideIndices[Block::BLOCK_COUNT] =
-	{
-		0,
-		{ 2, 1, 0 },
-		0,
-		3,
-		{ 5, 4, 5 },
-		6,
-	};
-}

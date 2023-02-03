@@ -215,6 +215,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="lib\glad.c" />
+    <ClCompile Include="src\block\Block.cpp" />
     <ClCompile Include="src\block\Blocks.cpp" />
     <ClCompile Include="src\entity\Entity.cpp" />
     <ClCompile Include="src\entity\Player.cpp" />
