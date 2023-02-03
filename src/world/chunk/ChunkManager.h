@@ -47,7 +47,7 @@ public:
 
 	// World block getters/setters
 	void SetBlock(glm::ivec3 pos, const Block &block, bool network = false);
-	const Block &GetBlock(glm::ivec3 pos);
+	Block &GetBlock(glm::ivec3 pos);
 
 	// Utility functions
 	std::vector<BlockInfo> GetBlocksInVolume(glm::vec3 pos, glm::vec3 size);

@@ -5,15 +5,26 @@
     <projectFile>VoxelCraft.vcxproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/default.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/block/Block.cpp" afterDir="false" />
+    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="s">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VoxelCraft.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/VoxelCraft.vcxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/block/Block.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/block/Block.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/block/Block.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/block/Block.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/block/Blocks.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/block/Blocks.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/block/Blocks.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/block/Blocks.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Player.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Player.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/NetworkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/NetworkManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/RemotePlayers.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/RemotePlayers.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/Math.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/Math.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/Math.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/Math.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/world/TerrainGenerator.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/TerrainGenerator.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/world/TerrainGenerator.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/TerrainGenerator.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/world/chunk/Chunk.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/Chunk.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +66,7 @@
     <setting file="file://$PROJECT_DIR$/src/entity/Entity.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/VoxelCraft2/src/utility/AssetManager.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/world/chunk/Chunk.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -88,7 +100,7 @@
     ]
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="C++ Project.VoxelCraft - Release">
     <list>
       <item itemvalue="C++ Project.VoxelCraft - Debug" />
       <item itemvalue="C++ Project.VoxelCraft - Release" />
@@ -117,7 +129,7 @@
       <workItem from="1675274718653" duration="2042000" />
       <workItem from="1675282781126" duration="242000" />
       <workItem from="1675346334486" duration="15733000" />
-      <workItem from="1675444041080" duration="6623000" />
+      <workItem from="1675444041080" duration="12128000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1674841034520</created>
@@ -210,7 +222,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675367236851</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="s">
+      <created>1675452457873</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1675452457873</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -1,6 +1,14 @@
 #include "Block.h"
 
-#include <utility>
+BlockTexture::BlockTexture()
+{
+    this->top = "default";
+    this->front = "default";
+    this->right = "default";
+    this->left = "default";
+    this->back = "default";
+    this->bottom = "default";
+}
 
 BlockTexture::BlockTexture(const std::string& all)
 {
@@ -70,6 +78,14 @@ std::string BlockTexture::GetBackTextureName()
 std::string BlockTexture::GetBottomTextureName()
 {
     return this->bottom;
+}
+
+Block::Block()
+{
+    this->id = MAXINT; 
+    this->name = "default";
+    this->blockTexture = BlockTexture("default");
+    this->type = AIR;
 }
 
 Block::Block(int id, const std::string& name, const BlockTexture& blockTexture, BlockType type)

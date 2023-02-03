@@ -13,6 +13,7 @@
 #include <iostream>
 #include <ranges>
 
+#include "../../block/Blocks.h"
 #include "../../utility/AssetManager.h"
 
 ChunkManager::ChunkManager() : shader_((AssetManager::Instance().GetPath() + "shaders/shader.vert").data(), (AssetManager::Instance().GetPath() + "shaders/shader.frag").data()), texture_(AssetManager::Instance().GetPath() + "textures/blocks/tileset.png", true, true, GL_REPEAT, GL_NEAREST)
@@ -228,7 +229,7 @@ void ChunkManager::SetBlock(glm::ivec3 pos, const Block &block, bool network)
 		return;
 
 	if (network)
-		NetworkManager::Instance().RegisterBlockUpdate({ block.type, pos });
+		NetworkManager::Instance().RegisterBlockUpdate({ block, pos });
 
 	chunk->SetBlock(pos, block);
 
@@ -245,14 +246,13 @@ void ChunkManager::SetBlock(glm::ivec3 pos, const Block &block, bool network)
 	}
 }
 
-const Block &ChunkManager::GetBlock(glm::ivec3 pos)
+Block &ChunkManager::GetBlock(glm::ivec3 pos)
 {
-	const Chunk *chunk = GetChunk(pos);
+	Chunk *chunk = GetChunk(pos);
 
 	if (chunk == nullptr)
 	{
-		static Block error = { Block::BLOCK_ERROR };
-		return error;
+		return Blocks::Instance().defaultBlock;
 	}
 
 	return chunk->GetBlock(pos);
@@ -278,8 +278,8 @@ std::vector<BlockInfo> ChunkManager::GetBlocksInVolume(glm::vec3 pos, glm::vec3 
 			for (int z = static_cast<int>(glm::floor(zmin)); z <= static_cast<int>(glm::floor(zmax - (glm::fract(zmax) == 0.0f ? 1.0f : 0.0f))); z++)
 			{
 				glm::ivec3 coord = { x, y, z };
-				const Block &block = GetBlock(coord);
-				if (block.type != Block::BLOCK_AIR)
+				Block &block = GetBlock(coord);
+				if (block.GetName() != "air")
 				{
 					result.emplace_back(coord, block);
 				}
@@ -296,16 +296,11 @@ ChunkManager::RaycastResult ChunkManager::Raycast(glm::vec3 pos, glm::vec3 dir, 
 
 	// Check for starting inside block
 	{
-		glm::ivec3 coord = glm::floor(pos);
+		glm::ivec3 coord = floor(pos);
 		Block block = GetBlock(coord);
-		if (block.type != Block::BLOCK_AIR)
+		if (block.GetName() != "air")
 		{
-			RaycastResult result;
-			result.hit = true;
-			result.block = BlockInfo(coord, block);
-			result.pos = pos;
-			result.normal = Math::VectorToDir(-dir);
-			return result;
+			return {true, BlockInfo(coord, block), pos, Math::VectorToDir(-dir)};
 		}
 	}
 
@@ -334,9 +329,7 @@ ChunkManager::RaycastResult ChunkManager::Raycast(glm::vec3 pos, glm::vec3 dir, 
 
 		if (length <= 0)
 		{
-			RaycastResult result;
-			result.hit = false;
-			return result;
+			return {false, BlockInfo(glm::vec3(0), Blocks::Instance().defaultBlock), glm::vec3(0), Math::DIRECTION_UP};
 		}
 
 		pos += dir * min;
@@ -350,14 +343,9 @@ ChunkManager::RaycastResult ChunkManager::Raycast(glm::vec3 pos, glm::vec3 dir, 
 
 		Block block = GetBlock(blockCoord);
 
-		if (block.type != Block::BLOCK_AIR)
+		if (block.GetName() != "air")
 		{
-			RaycastResult result;
-			result.hit = true;
-			result.block = BlockInfo(blockCoord, block);
-			result.pos = pos;
-			result.normal = AxisToDir(static_cast<Math::Axis>(axis), dir[axis] >= 0.0f);
-			return result;
+			return {true, BlockInfo(blockCoord, block), pos, AxisToDir(static_cast<Math::Axis>(axis), dir[axis] >= 0.0f)};
 		}
 	}
 }

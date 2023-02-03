@@ -61,7 +61,7 @@ void NetworkManager::Update(const Player &player)
 	// Handle all block updates
 	for (const BlockUpdate &update : players_->GetBlockUpdates())
 	{
-		ChunkManager::Instance().SetBlock(update.coords, { update.blockType });
+		ChunkManager::Instance().SetBlock(update.coords, update.block);
 	}
 }
 

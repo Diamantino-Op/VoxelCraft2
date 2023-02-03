@@ -13,6 +13,7 @@
 AssetManager::AssetManager()
 {
     assetPath = "resources/";
+    textureMappings = {};
 }
 
 void AssetManager::SetPath(std::string path)
@@ -59,7 +60,7 @@ std::vector<unsigned char> AssetManager::LoadTexture(const std::string& filename
 }
 
 // Save an atlas image and a text file with the mapping from texture names to filenames
-void AssetManager::PackTextures(const std::map<std::string, std::string>& textures, const std::string& atlasFilename, const std::string& mappingFilename)
+void AssetManager::PackTextures(const std::map<std::string, std::string>& textures, const std::string& atlasFilename)
 {
     // Load all the textures into memory
     std::map<std::string, std::vector<unsigned char>> loadedTextures;
@@ -78,13 +79,6 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
     // Allocate memory for the atlas image
     std::vector<unsigned char> atlasImage(atlasWidth * atlasHeight * 4);
 
-    // Write the mapping from texture names to filenames to a text file
-    std::ofstream mappingFile(mappingFilename);
-    if (!mappingFile) {
-        std::cerr << "Failed to open mapping file " << mappingFilename << " for writing" << std::endl;
-        return;
-    }
-
     // Copy the textures into the atlas
     int x = 0, y = 0, i = 0;
     for (const auto &[name, image] : loadedTextures) {
@@ -100,7 +94,7 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
             }
         }
 
-        mappingFile << name << ":" << i << std::endl;
+        textureMappings[name] = i;
 
         i++;
         x += textureSize;
@@ -134,5 +128,16 @@ void AssetManager::ProcessTextures()
         }
     }
     
-    PackTextures(textures, GetPath() + "textures/blocks/block_atlas.png", GetPath() + "textures/blocks/block_mappings.txt");
+    PackTextures(textures, GetPath() + "textures/blocks/block_atlas.png");
+}
+
+int AssetManager::GetTexIndexFromName(const std::string& textureName)
+{
+    for (const auto &[name, index] : textureMappings)
+    {
+        if (name == textureName)
+            return index;
+    }
+
+    return textureMappings["default"];
 }

@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
+#include "block/Blocks.h"
 #include "world/chunk/ChunkManager.h"
 #include "entity/Player.h"
 #include "input/InputManager.h"
@@ -44,6 +45,10 @@ int main(int argc, char *argv[])
 	WindowManager &windowManager = WindowManager::Instance();
 	windowManager.Init(screenX, screenY);
 	windowManager.Maximize();
+
+	Blocks &blocks = Blocks::Instance();
+	blocks.Init();
+	
 	ChunkManager &chunkManager = ChunkManager::Instance();
 	InputManager &inputManager = InputManager::Instance();
 	NetworkManager &networkManager = NetworkManager::Instance();

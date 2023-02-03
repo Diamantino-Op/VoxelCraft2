@@ -10,6 +10,7 @@
 class BlockTexture
 {
 public:
+	BlockTexture();
 	BlockTexture(const std::string& all);
 	BlockTexture(const std::string& topBottom, const std::string& side);
 	BlockTexture(const std::string& top, const std::string& side, const std::string& bottom);
@@ -45,6 +46,7 @@ public:
 		WOOD
 	};
 
+	Block();
 	Block(int id, const std::string& name, const BlockTexture& blockTexture, BlockType type);
 
 	int GetId() const;

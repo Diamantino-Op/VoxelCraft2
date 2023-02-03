@@ -29,7 +29,7 @@ public:
 
 	// Individual block get/set
 	void SetBlock(glm::ivec3 pos, const Block &block);
-	[[nodiscard]] const Block &GetBlock(glm::ivec3 pos) const;
+	[[nodiscard]] Block &GetBlock(glm::ivec3 pos);
 
 	// Position getters
 	[[nodiscard]] glm::ivec2 GetCoord() const; // chunk coords
@@ -60,9 +60,9 @@ private:
 	[[nodiscard]] glm::ivec3 WorldToLocal(glm::ivec3 pos) const; // world block coord to local block coord
 	[[nodiscard]] glm::ivec3 LocalToWorld(glm::ivec3 pos) const; // local block coord to world block coord
 	[[nodiscard]] bool OutOfBounds(glm::ivec3 pos) const; // is this local block coord invalid?
-	[[nodiscard]] const Block &GetBlockLocal(glm::ivec3 pos) const; // get the block at a local coord
+	[[nodiscard]] Block &GetBlockLocal(glm::ivec3 pos); // get the block at a local coord
 	void SetBlockLocal(glm::ivec3 pos, const Block &block); // set the block at a local coord
-	[[nodiscard]] bool CheckForBlock(glm::ivec3 pos) const; // is a solid block at coord?
+	[[nodiscard]] bool CheckForBlock(glm::ivec3 pos); // is a solid block at coord?
 
 };
 

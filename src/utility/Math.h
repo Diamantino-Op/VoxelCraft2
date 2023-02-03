@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <glm/glm.hpp>
 #include <glm/gtx/norm.hpp>
 #include <glm/gtx/compatibility.hpp>
@@ -85,7 +86,7 @@ namespace Math
 	int PositiveMod(int val, int mod);
 
 	// Get UV coordinates from a sprite sheet
-	glm::vec2 GetUVFromSheet(unsigned sizeX, unsigned sizeY, unsigned index, Corner corner);
+	glm::vec2 GetUVFromSheet(unsigned sizeX, unsigned sizeY, const std::string& texName, Corner corner);
 
 	// Get frustum from camera matrix
 	Frastum CalculateFrustum(const glm::mat4 &camera);

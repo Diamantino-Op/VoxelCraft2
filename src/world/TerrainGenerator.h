@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <string>
 #include <vector>
 
 #include <glm/glm.hpp>
@@ -23,7 +24,7 @@ public:
 	std::vector<glm::ivec2> GenerateTreePoints(glm::ivec2 startCorner, glm::ivec2 endCorner);
 
 	// y, x, z
-	static const int tree[10][7][7];
+	static const std::string tree[10][7][7];
 
 private:
 	static constexpr unsigned cacheCapacity = 128;

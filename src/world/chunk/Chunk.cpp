@@ -1,5 +1,6 @@
 #include "Chunk.h"
 #include "ChunkManager.h"
+#include "../../block/Blocks.h"
 #include "glm/gtc/noise.hpp"
 #include "glm/gtx/compatibility.hpp"
 
@@ -24,15 +25,15 @@ void Chunk::Generate(TerrainGenerator &gen)
 
 			for (int y = 0; y < height; y++)
 			{
-				Block block;
+				Block block = Blocks::Instance().defaultBlock;
 
 				// Hardcoded type based on elevation
 				if (y < height - 8)
-					block = { Block::BLOCK_STONE, "stone" };
+					block = Blocks::Instance().GetBlockByName("stone");
 				else if (y < height - 1)
-					block = { Block::BLOCK_DIRT, "dirt" };
+					block = Blocks::Instance().GetBlockByName("dirt");
 				else
-					block = { Block::BLOCK_GRASS, "grass" };
+					block = Blocks::Instance().GetBlockByName("grass_block");
 
 				SetBlockLocal({ x, y, z }, block);
 			}
@@ -70,26 +71,20 @@ void Chunk::Generate(TerrainGenerator &gen)
 				for (int z = -treeRad.y; z <= treeRad.y; z++)
 				{
 					// Get block from tree data
-					Block newBlock = { static_cast<Block::BlockType>(TerrainGenerator::tree[y][x + treeRad.x][z + treeRad.y]) };
+					Block newBlock = Blocks::Instance().GetBlockByName(TerrainGenerator::tree[y][x + treeRad.x][z + treeRad.y]);
 
-					if (newBlock.type != Block::BLOCK_AIR)
+					if (newBlock.GetName() != "air")
 					{
-						if (newBlock.type == Block::BLOCK_LOG)
-							newBlock.name = "log";
-
-						if (newBlock.type == Block::BLOCK_LEAVES)
-							newBlock.name = "leaves";
-						
 						const glm::ivec3 blockPos = {
 							treePoints[i].x + x,
 							gen.GetHeight(treePoints[i]) + y,
 							treePoints[i].y + z
 						};
 
-						const Block &oldBlock = GetBlock(blockPos);
+						Block &oldBlock = GetBlock(blockPos);
 
 						// Only allow leaves to replace air
-						if (newBlock.type != Block::BLOCK_LEAVES || oldBlock.type == Block::BLOCK_AIR)
+						if (newBlock.GetName() != "oak_leaves" || oldBlock.GetName() == "air")
 							SetBlock(blockPos, newBlock);
 					}
 				}
@@ -109,8 +104,8 @@ void Chunk::BuildMesh()
 		{
 			for (int x = 0; x < World::chunkSize; x++)
 			{
-				const Block &block = GetBlockLocal({ x, y, z });
-				if (block.type == Block::BLOCK_AIR)
+				Block &block = GetBlockLocal({ x, y, z });
+				if (block.GetName() == "air")
 					continue;
 
 				// For each direction
@@ -125,36 +120,36 @@ void Chunk::BuildMesh()
 					if (adjacent.y >= 0 && !CheckForBlock(adjacent))
 					{
 						//Pixels
-						const int tilesheetSize = 8;
-						unsigned index = 0;
+						const int tilesheetSize = 16;
+						std::string texName = 0;
 						
 						// Get texture index
 						switch (d)
 						{
 						case Math::DIRECTION_FORWARD:
-							index = BlockData::sideIndices[block.type].front;
+							texName = block.GetBlockTexture().GetFrontTextureName();
 							break;
 						case Math::DIRECTION_BACKWARD:
-							index = BlockData::sideIndices[block.type].back;
+							texName = block.GetBlockTexture().GetBackTextureName();
 							break;
 						case Math::DIRECTION_LEFT:
-							index = BlockData::sideIndices[block.type].left;
+							texName = block.GetBlockTexture().GetLeftTextureName();
 							break;
 						case Math::DIRECTION_RIGHT:
-							index = BlockData::sideIndices[block.type].right;
+							texName = block.GetBlockTexture().GetRightTextureName();
 							break;
 						case Math::DIRECTION_UP:
-							index = BlockData::sideIndices[block.type].top;
+							texName = block.GetBlockTexture().GetTopTextureName();
 							break;
 						case Math::DIRECTION_DOWN:
-							index = BlockData::sideIndices[block.type].bottom;
+							texName = block.GetBlockTexture().GetBottomTextureName();
 							break;
 						default:
 							break;
 						}
 
 						// Get texture coords
-						glm::vec2 offset = GetUVFromSheet(tilesheetSize, tilesheetSize, index, Math::CORNER_TOP_LEFT);
+						glm::vec2 offset = GetUVFromSheet(tilesheetSize, tilesheetSize, texName, Math::CORNER_TOP_LEFT);
 						offset.y = 1.0f - offset.y - (1.0f / tilesheetSize); // flip texture
 
 						unsigned char ambient[Math::CORNER_COUNT];
@@ -221,14 +216,13 @@ void Chunk::SetBlock(glm::ivec3 pos, const Block &block)
 		SetBlockLocal(local, block);
 }
 
-const Block &Chunk::GetBlock(glm::ivec3 pos) const
+Block &Chunk::GetBlock(glm::ivec3 pos)
 {
 	const glm::ivec3 local = WorldToLocal(pos);
 
 	if (OutOfBounds(local))
 	{
-		static Block error = { Block::BLOCK_ERROR };
-		return error;
+		return Blocks::Instance().defaultBlock;
 	}
 	return GetBlockLocal(local);
 }
@@ -319,7 +313,7 @@ bool Chunk::OutOfBounds(glm::ivec3 pos) const
 	return pos.x < 0 || pos.x >= World::chunkSize || pos.y < 0 || pos.y >= World::chunkHeight || pos.z < 0 || pos.z >= World::chunkSize;
 }
 
-const Block &Chunk::GetBlockLocal(glm::ivec3 pos) const
+Block &Chunk::GetBlockLocal(glm::ivec3 pos)
 {
 	return blocks_[pos.x + pos.y * World::chunkArea + pos.z * World::chunkSize];
 }
@@ -333,10 +327,10 @@ void Chunk::SetBlockLocal(glm::ivec3 pos, const Block &block)
 		highestSolidBlock_ = pos.y;
 }
 
-bool Chunk::CheckForBlock(glm::ivec3 pos) const
+bool Chunk::CheckForBlock(glm::ivec3 pos)
 {
 	if (!OutOfBounds(pos))
-		return GetBlockLocal(pos).type != Block::BLOCK_AIR;
+		return GetBlockLocal(pos).GetName() != "air";
 	else
 	{
 		// Block above/below height limits
@@ -345,10 +339,11 @@ bool Chunk::CheckForBlock(glm::ivec3 pos) const
 
 		// Block in another chunk
 		const glm::ivec3 world = LocalToWorld(pos);
-		const Block block = ChunkManager::Instance().GetBlock(world);
+		Block block = ChunkManager::Instance().GetBlock(world);
 
-		assert(block.type != Block::BLOCK_ERROR);
+		//TODO: Fix here
+		assert(block.GetName() != "default");
 
-		return block.type != Block::BLOCK_AIR;
+		return block.GetName() != "air";
 	}
 }

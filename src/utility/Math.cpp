@@ -1,4 +1,8 @@
 #include "Math.h"
+
+#include <string>
+
+#include "AssetManager.h"
 #include "../graphics/utility/Mesh.h"
 
 Math::Direction Math::AxisToDir(Axis axis, bool negative)
@@ -47,8 +51,10 @@ int Math::PositiveMod(int val, int mod)
 	return (mod * ((-val / mod) + 1)) + val - 1;
 }
 
-glm::vec2 Math::GetUVFromSheet(unsigned sizeX, unsigned sizeY, unsigned index, Corner corner)
+glm::vec2 Math::GetUVFromSheet(unsigned sizeX, unsigned sizeY, const std::string& texName, Corner corner)
 {
+	const int index = AssetManager::Instance().GetTexIndexFromName(texName);
+	
 	const unsigned column = index % sizeX;
 	const unsigned row = index / sizeY;
 

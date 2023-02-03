@@ -13,6 +13,8 @@ public:
         static Blocks instance;
         return instance;
     }
+
+    void Init();
     
     Block GetBlockById(int id);
     Block GetBlockByName(const std::string& name);

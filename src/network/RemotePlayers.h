@@ -4,13 +4,14 @@
 
 #include "Socket.h"
 #include "../block/Block.h"
+#include "../block/Blocks.h"
 
 // These are sent over the network
 #pragma pack(push, 1)
 // Info to describe a block change
 struct BlockUpdate
 {
-    Block::BlockType blockType = Block::BlockType::BLOCK_ERROR;
+    Block block = Blocks::Instance().defaultBlock;
     glm::ivec3 coords;
 };
 
