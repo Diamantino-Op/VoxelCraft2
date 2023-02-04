@@ -152,7 +152,6 @@ void Shader::SetVar(const char *name, const glm::vec3 &value) const
 	glUniform3f(glGetUniformLocation(id_, name), value.x, value.y, value.z);
 }
 
-//TODO: maybe fix
 void Shader::SetVar(const char *name, const glm::mat3 &value) const
 {
 	Use();

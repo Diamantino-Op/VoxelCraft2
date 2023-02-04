@@ -95,6 +95,8 @@ int main(int argc, char *argv[])
 		glfwSwapBuffers(windowManager.GetWindow());						// Present frame to screen
 	}
 
+	assetManager.DeleteAtlases();
+
 	return 0;
 }
 

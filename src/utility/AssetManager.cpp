@@ -131,6 +131,11 @@ void AssetManager::ProcessTextures()
     PackTextures(textures, GetPath() + "textures/blocks/block_atlas.png");
 }
 
+void AssetManager::DeleteAtlases()
+{
+    remove((GetPath() + "textures/blocks/block_atlas.png").data());
+}
+
 int AssetManager::GetTexIndexFromName(const std::string& textureName)
 {
     for (const auto &[name, index] : textureMappings)

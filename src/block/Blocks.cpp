@@ -1,5 +1,7 @@
 #include "Blocks.h"
 
+#include <iostream>
+
 Blocks::Blocks()
 {
     defaultBlock = Block(MAXINT, "default", BlockTexture("default"), Block::AIR);

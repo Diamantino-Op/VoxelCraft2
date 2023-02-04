@@ -1,4 +1,7 @@
 #include "Chunk.h"
+
+#include <iostream>
+
 #include "ChunkManager.h"
 #include "../../block/Blocks.h"
 #include "glm/gtc/noise.hpp"
@@ -121,7 +124,7 @@ void Chunk::BuildMesh()
 					{
 						//Pixels
 						const int tilesheetSize = 16;
-						std::string texName = 0;
+						std::string texName = "";
 						
 						// Get texture index
 						switch (d)
@@ -305,7 +308,7 @@ glm::ivec3 Chunk::WorldToLocal(glm::ivec3 pos) const
 glm::ivec3 Chunk::LocalToWorld(glm::ivec3 pos) const
 {
 	const glm::vec3 world = GetWorldPos();
-	return glm::ivec3(pos.x + world.x, pos.y, pos.z + world.z);
+	return {pos.x + world.x, pos.y, pos.z + world.z};
 }
 
 bool Chunk::OutOfBounds(glm::ivec3 pos) const
@@ -331,19 +334,20 @@ bool Chunk::CheckForBlock(glm::ivec3 pos)
 {
 	if (!OutOfBounds(pos))
 		return GetBlockLocal(pos).GetName() != "air";
-	else
-	{
-		// Block above/below height limits
-		if (pos.y < 0 || pos.y >= World::chunkHeight)
-			return false;
+	
+	// Block above/below height limits
+	if (pos.y < 0 || pos.y >= World::chunkHeight)
+		return false;
 
-		// Block in another chunk
-		const glm::ivec3 world = LocalToWorld(pos);
-		Block block = ChunkManager::Instance().GetBlock(world);
+	// Block in another chunk
+	const glm::ivec3 world = LocalToWorld(pos);
+	Block block = ChunkManager::Instance().GetBlock(world);
 
-		//TODO: Fix here
-		assert(block.GetName() != "default");
+	if (block.GetName() == "default")
+		std::cout << "Block not found at: " << world.x << ", " << world.y << ", " << world.z << std::endl;
 
-		return block.GetName() != "air";
-	}
+	//TODO: Fix here
+	//assert(block.GetName() != "default");
+
+	return block.GetName() != "air";
 }
