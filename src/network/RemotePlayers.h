@@ -11,7 +11,7 @@
 // Info to describe a block change
 struct BlockUpdate
 {
-    Block block = Blocks::Instance().defaultBlock;
+    Block block = Blocks::Instance().GetBlockByName("air");
     glm::ivec3 coords;
 };
 

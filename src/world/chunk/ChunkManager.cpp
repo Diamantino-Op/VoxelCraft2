@@ -252,7 +252,7 @@ Block &ChunkManager::GetBlock(glm::ivec3 pos)
 
 	if (chunk == nullptr)
 	{
-		return Blocks::Instance().defaultBlock;
+		return Blocks::Instance().GetBlockByName("air");
 	}
 
 	return chunk->GetBlock(pos);
@@ -329,7 +329,7 @@ ChunkManager::RaycastResult ChunkManager::Raycast(glm::vec3 pos, glm::vec3 dir, 
 
 		if (length <= 0)
 		{
-			return {false, BlockInfo(glm::vec3(0), Blocks::Instance().defaultBlock), glm::vec3(0), Math::DIRECTION_UP};
+			return {false, BlockInfo(glm::vec3(0), Blocks::Instance().GetBlockByName("air")), glm::vec3(0), Math::DIRECTION_UP};
 		}
 
 		pos += dir * min;

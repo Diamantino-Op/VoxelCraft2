@@ -5,7 +5,17 @@
     <projectFile>VoxelCraft.vcxproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="s" />
+    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/textures/blocks/block_atlas.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.run/VoxelCraft - Debug.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.run/VoxelCraft - Debug.run.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.run/VoxelCraft - Release.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.run/VoxelCraft - Release.run.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/block/Blocks.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/block/Blocks.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/block/Blocks.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/block/Blocks.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/RemotePlayers.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/RemotePlayers.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,10 +54,10 @@
     <setting file="file://$PROJECT_DIR$/include/stb_image_write.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Main.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/block/Block.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/VoxelCraft2/src/block/Blocks.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Entity.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://D:/VoxelCraft2/src/utility/AssetManager.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/world/chunk/Chunk.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -111,7 +121,8 @@
       <workItem from="1675282781126" duration="242000" />
       <workItem from="1675346334486" duration="15733000" />
       <workItem from="1675444041080" duration="12452000" />
-      <workItem from="1675511742546" duration="6251000" />
+      <workItem from="1675511742546" duration="13012000" />
+      <workItem from="1675545650372" duration="343000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1674841034520</created>
@@ -225,7 +236,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675526301946</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="s">
+      <created>1675526573510</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1675526573510</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,6 +257,17 @@
     <MESSAGE value="j" />
     <MESSAGE value="s" />
     <option name="LAST_COMMIT_MESSAGE" value="s" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/utility/Math.cpp</url>
+          <line>53</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="p4-ProjectCache">
     <option name="serverState">

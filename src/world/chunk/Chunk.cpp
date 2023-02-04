@@ -28,7 +28,7 @@ void Chunk::Generate(TerrainGenerator &gen)
 
 			for (int y = 0; y < height; y++)
 			{
-				Block block = Blocks::Instance().defaultBlock;
+				Block block = Blocks::Instance().GetBlockByName("air");
 
 				// Hardcoded type based on elevation
 				if (y < height - 8)
@@ -225,8 +225,9 @@ Block &Chunk::GetBlock(glm::ivec3 pos)
 
 	if (OutOfBounds(local))
 	{
-		return Blocks::Instance().defaultBlock;
+		return Blocks::Instance().GetBlockByName("air");
 	}
+	
 	return GetBlockLocal(local);
 }
 
