@@ -5,20 +5,7 @@
     <projectFile>VoxelCraft.vcxproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VoxelCraft.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/VoxelCraft.vcxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/VoxelCraft.rc" beforeDir="false" afterPath="$PROJECT_DIR$/resources/VoxelCraft.rc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/textures/blocks/block_atlas.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/textures/blocks/tileset.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/block/Blocks.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/block/Blocks.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphics/utility/Shader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/utility/Shader.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="s" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,6 +47,7 @@
     <setting file="file://$PROJECT_DIR$/src/entity/Entity.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/VoxelCraft2/src/utility/AssetManager.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/world/chunk/Chunk.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -123,7 +111,7 @@
       <workItem from="1675282781126" duration="242000" />
       <workItem from="1675346334486" duration="15733000" />
       <workItem from="1675444041080" duration="12452000" />
-      <workItem from="1675511742546" duration="6031000" />
+      <workItem from="1675511742546" duration="6251000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1674841034520</created>
@@ -230,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675461699423</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="s">
+      <created>1675526301946</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1675526301946</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
