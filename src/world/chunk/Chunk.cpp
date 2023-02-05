@@ -155,7 +155,7 @@ void Chunk::BuildMesh()
 
 						// Get texture coords
 						glm::vec2 offset = GetUVFromSheet(atlasSize, textureSize, texName, Math::CORNER_TOP_LEFT);
-						offset.y = 1.0f - offset.y - (1.0f /  static_cast<float>(atlasSize)); // flip texture
+						offset.y = 1.0f - offset.y - (1.0f /  static_cast<float>(atlasSize / textureSize)); // flip texture
 
 						unsigned char ambient[Math::CORNER_COUNT];
 
@@ -192,7 +192,7 @@ void Chunk::BuildMesh()
 
 						mesh_.AddQuad(
 							static_cast<Math::Direction>(d),
-							glm::vec3(x + 0.5f, y + 0.5f, z + 0.5f) + normal * 0.5f, 1.0f / atlasSize, offset, ambient
+							glm::vec3(static_cast<float>(x) + 0.5f, static_cast<float>(y) + 0.5f, static_cast<float>(z) + 0.5f) + normal * 0.5f, 1.0f / (static_cast<float>(atlasSize) / static_cast<float>(textureSize)), offset, ambient
 						);
 					}
 				}
@@ -305,7 +305,7 @@ void Chunk::Draw()
 glm::ivec3 Chunk::WorldToLocal(glm::ivec3 pos) const
 {
 	const glm::vec3 world = GetWorldPos();
-	return glm::ivec3(pos.x - world.x, pos.y, pos.z - world.z);
+	return {pos.x - world.x, pos.y, pos.z - world.z};
 }
 
 glm::ivec3 Chunk::LocalToWorld(glm::ivec3 pos) const

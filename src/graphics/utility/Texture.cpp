@@ -22,7 +22,7 @@ Texture::Texture(const std::string path, bool alphaChannel, bool mipmap, GLenum 
 	if (data)
 	{
 		// Send pixel data to texture
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width_, height_, 0, alphaChannel ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, width_, height_, 0, alphaChannel ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, data);
 
 		// Generate mipmaps
 		if (mipmap)

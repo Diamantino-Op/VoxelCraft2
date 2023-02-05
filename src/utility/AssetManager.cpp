@@ -40,8 +40,10 @@ int AssetManager::GetTextureSize() const
 // Load a texture file into memory
 std::vector<unsigned char> AssetManager::LoadTexture(const std::string& filename, int& width, int& height, int& channels)
 {
+    stbi_set_flip_vertically_on_load(false);
+    
     // Load the image using stb_image
-    unsigned char *data = stbi_load(filename.c_str(), &width, &height, &channels, 0);
+    unsigned char *data = stbi_load(filename.data(), &width, &height, &channels, 0);
     if (!data) {
         std::cerr << "Failed to load image " << filename << ": " << stbi_failure_reason() << std::endl;
         return {};

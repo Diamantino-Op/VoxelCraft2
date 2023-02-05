@@ -53,14 +53,14 @@ int Math::PositiveMod(int val, int mod)
 
 glm::vec2 Math::GetUVFromSheet(int atlasSize, int textureSize, const std::string& texName, Corner corner)
 {
-	const int index = AssetManager::Instance().GetTexIndexFromName(texName);
+	const unsigned index = AssetManager::Instance().GetTexIndexFromName(texName);
 
-	const int atlasItems = atlasSize / textureSize;
+	const unsigned atlasItems = atlasSize / textureSize;
 	
 	const unsigned column = index % atlasItems;
 	const unsigned row = index / atlasItems;
 
-	glm::vec2 topLeft = { static_cast<float>(column) / static_cast<float>(atlasSize), static_cast<float>(row) / static_cast<float>(atlasSize) };
+	glm::vec2 topLeft = { static_cast<float>(column) / static_cast<float>(atlasItems), static_cast<float>(row) / static_cast<float>(atlasItems) };
 
 	switch (corner)
 	{

@@ -65,7 +65,7 @@ bool ChunkManager::ChunkInRange(glm::vec3 playerPos, glm::vec3 chunkPos) const
 {
 	// Check if chunk is closer to player than render distance
 	const glm::vec3 pos = chunkPos + glm::vec3(World::chunkSize, 0.0f, World::chunkSize) / 2.f;
-	const float distanceSquared = glm::distance2(glm::vec2(pos.x, pos.z), glm::vec2(playerPos.x, playerPos.z));
+	const float distanceSquared = distance2(glm::vec2(pos.x, pos.z), glm::vec2(playerPos.x, playerPos.z));
 	return distanceSquared <= World::renderDistance * World::renderDistance;
 }
 
