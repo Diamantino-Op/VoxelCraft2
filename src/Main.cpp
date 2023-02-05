@@ -46,21 +46,22 @@ int main(int argc, char *argv[])
 	windowManager.Init(screenX, screenY);
 	windowManager.Maximize();
 
+	AssetManager &assetManager = AssetManager::Instance();
+
+	if (!(assetPath == nullptr || assetPath[0] == '\0'))
+		assetManager.SetPath(assetPath);
+
+	assetManager.ProcessTextures();
+
 	Blocks &blocks = Blocks::Instance();
 	blocks.Init();
 	
 	ChunkManager &chunkManager = ChunkManager::Instance();
 	InputManager &inputManager = InputManager::Instance();
 	NetworkManager &networkManager = NetworkManager::Instance();
-	AssetManager &assetManager = AssetManager::Instance();
 
 	if (!(serverIp == nullptr || serverIp[0] == '\0'))
 		networkManager.Start(serverIp);
-
-	if (!(assetPath == nullptr || assetPath[0] == '\0'))
-		assetManager.SetPath(assetPath);
-
-	assetManager.ProcessTextures();
 	
 	Player player;
 	CascadedShadowMap shadows({ { 2048, 0.025f }, { 2048, 0.125f }, { 2048, 1.0f } }); // Cascade resolution, z-depths

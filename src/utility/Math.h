@@ -86,7 +86,7 @@ namespace Math
 	int PositiveMod(int val, int mod);
 
 	// Get UV coordinates from a sprite sheet
-	glm::vec2 GetUVFromSheet(unsigned sizeX, unsigned sizeY, const std::string& texName, Corner corner);
+	glm::vec2 GetUVFromSheet(int atlasSize, int textureSize, const std::string& texName, Corner corner);
 
 	// Get frustum from camera matrix
 	Frastum CalculateFrustum(const glm::mat4 &camera);

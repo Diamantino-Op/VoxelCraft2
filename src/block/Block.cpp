@@ -2,12 +2,12 @@
 
 BlockTexture::BlockTexture()
 {
-    this->top = "air";
-    this->front = "air";
-    this->right = "air";
-    this->left = "air";
-    this->back = "air";
-    this->bottom = "air";
+    this->top = "default";
+    this->front = "default";
+    this->right = "default";
+    this->left = "default";
+    this->back = "default";
+    this->bottom = "default";
 }
 
 BlockTexture::BlockTexture(const std::string& all)
