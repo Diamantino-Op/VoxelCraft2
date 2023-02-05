@@ -51,14 +51,16 @@ int Math::PositiveMod(int val, int mod)
 	return (mod * ((-val / mod) + 1)) + val - 1;
 }
 
-glm::vec2 Math::GetUVFromSheet(unsigned sizeX, unsigned sizeY, const std::string& texName, Corner corner)
+glm::vec2 Math::GetUVFromSheet(unsigned atlasSize, unsigned textureSize, const std::string& texName, Corner corner)
 {
 	const int index = AssetManager::Instance().GetTexIndexFromName(texName);
-	
-	const unsigned column = index % sizeX;
-	const unsigned row = index / sizeY;
 
-	glm::vec2 topLeft = { static_cast<float>(column) / static_cast<float>(sizeX), static_cast<float>(row) / static_cast<float>(sizeY) };
+	const unsigned atlasItems = (atlasSize / textureSize);
+	
+	const unsigned column = index % atlasItems;
+	const unsigned row = index / atlasItems;
+
+	glm::vec2 topLeft = { static_cast<float>(column) / static_cast<float>(atlasSize), static_cast<float>(row) / static_cast<float>(atlasSize) };
 
 	switch (corner)
 	{

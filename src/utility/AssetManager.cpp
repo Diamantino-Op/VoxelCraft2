@@ -27,6 +27,16 @@ std::string AssetManager::GetPath()
     return assetPath;
 }
 
+int AssetManager::GetAtlasDimension() const
+{
+    return atlasDimension;
+}
+
+int AssetManager::GetTextureSize() const
+{
+    return textureSize;
+}
+
 // Load a texture file into memory
 std::vector<unsigned char> AssetManager::LoadTexture(const std::string& filename, int& width, int& height, int& channels)
 {
@@ -70,21 +80,20 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
         loadedTextures[name] = LoadTexture(filename, width, height, channels);
     }
 
-    const int textureSize = 16;
+    textureSize = 16;
     
     // Find the size of the square atlas needed to fit all the textures
     const int atlasSize = static_cast<int>(std::ceil(std::sqrt(loadedTextures.size())));
-    const int atlasWidth = atlasSize * textureSize;
-    const int atlasHeight = atlasSize * textureSize;
+    atlasDimension = atlasSize * textureSize;
     // Allocate memory for the atlas image
-    std::vector<unsigned char> atlasImage(atlasWidth * atlasHeight * 4);
+    std::vector<unsigned char> atlasImage(atlasDimension * atlasDimension * 4);
 
     // Copy the textures into the atlas
     int x = 0, y = 0, i = 0;
     for (const auto &[name, image] : loadedTextures) {
         for (int row = 0; row < textureSize; ++row) {
             for (int col = 0; col < textureSize; ++col) {
-                const int atlasPos = (y + row) * atlasWidth * 4 + (x + col) * 4;
+                const int atlasPos = (y + row) * atlasDimension * 4 + (x + col) * 4;
                 const int imagePos = row * textureSize * 4 + col * 4;
                 
                 atlasImage[atlasPos + 0] = image[imagePos + 0];
@@ -98,14 +107,14 @@ void AssetManager::PackTextures(const std::map<std::string, std::string>& textur
 
         i++;
         x += textureSize;
-        if (x >= atlasWidth) {
+        if (x >= atlasDimension) {
             x = 0;
             y += textureSize;
         }
     }
 
     // Save the atlas image to a file using stb_image_write
-	if (!stbi_write_png(atlasFilename.data(), atlasWidth, atlasHeight, 4, atlasImage.data(), 0)) {
+	if (!stbi_write_png(atlasFilename.data(), atlasDimension, atlasDimension, 4, atlasImage.data(), 0)) {
 		std::cout << "Failed to write atlas image to " << atlasFilename << ": " << stbi_failure_reason() << std::endl;
 	}
     else

@@ -2,12 +2,12 @@
 
 BlockTexture::BlockTexture()
 {
-    this->top = "default";
-    this->front = "default";
-    this->right = "default";
-    this->left = "default";
-    this->back = "default";
-    this->bottom = "default";
+    this->top = "air";
+    this->front = "air";
+    this->right = "air";
+    this->left = "air";
+    this->back = "air";
+    this->bottom = "air";
 }
 
 BlockTexture::BlockTexture(const std::string& all)
@@ -82,9 +82,9 @@ std::string BlockTexture::GetBottomTextureName()
 
 Block::Block()
 {
-    this->id = MAXINT; 
-    this->name = "default";
-    this->blockTexture = BlockTexture("default");
+    this->id = 0; 
+    this->name = "air";
+    this->blockTexture = BlockTexture("air");
     this->type = AIR;
 }
 

@@ -10,7 +10,6 @@
 #include <GLFW/glfw3.h>
 #include <glm/gtx/norm.hpp>
 
-#include <iostream>
 #include <ranges>
 
 #include "../../block/Blocks.h"

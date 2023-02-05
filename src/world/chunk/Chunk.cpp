@@ -4,6 +4,7 @@
 
 #include "ChunkManager.h"
 #include "../../block/Blocks.h"
+#include "../../utility/AssetManager.h"
 #include "glm/gtc/noise.hpp"
 #include "glm/gtx/compatibility.hpp"
 
@@ -28,7 +29,7 @@ void Chunk::Generate(TerrainGenerator &gen)
 
 			for (int y = 0; y < height; y++)
 			{
-				Block block = Blocks::Instance().GetBlockByName("air");
+				Block block;
 
 				// Hardcoded type based on elevation
 				if (y < height - 8)
@@ -123,7 +124,8 @@ void Chunk::BuildMesh()
 					if (adjacent.y >= 0 && !CheckForBlock(adjacent))
 					{
 						//Pixels
-						const int tilesheetSize = 16;
+						const int atlasSize = AssetManager::Instance().GetAtlasDimension();
+						const int textureSize = AssetManager::Instance().GetTextureSize();
 						std::string texName = "";
 						
 						// Get texture index
@@ -152,8 +154,8 @@ void Chunk::BuildMesh()
 						}
 
 						// Get texture coords
-						glm::vec2 offset = GetUVFromSheet(tilesheetSize, tilesheetSize, texName, Math::CORNER_TOP_LEFT);
-						offset.y = 1.0f - offset.y - (1.0f / tilesheetSize); // flip texture
+						glm::vec2 offset = GetUVFromSheet(atlasSize, textureSize, texName, Math::CORNER_TOP_LEFT);
+						offset.y = 1.0f - offset.y - (1.0f /  static_cast<float>(atlasSize)); // flip texture
 
 						unsigned char ambient[Math::CORNER_COUNT];
 
@@ -190,7 +192,7 @@ void Chunk::BuildMesh()
 
 						mesh_.AddQuad(
 							static_cast<Math::Direction>(d),
-							glm::vec3(x + 0.5f, y + 0.5f, z + 0.5f) + normal * 0.5f, 1.0f / tilesheetSize, offset, ambient
+							glm::vec3(x + 0.5f, y + 0.5f, z + 0.5f) + normal * 0.5f, 1.0f / atlasSize, offset, ambient
 						);
 					}
 				}
@@ -344,10 +346,7 @@ bool Chunk::CheckForBlock(glm::ivec3 pos)
 	const glm::ivec3 world = LocalToWorld(pos);
 	Block block = ChunkManager::Instance().GetBlock(world);
 
-	if (block.GetName() == "default")
-		std::cout << "Block not found at: " << world.x << ", " << world.y << ", " << world.z << std::endl;
-
-	//TODO: Fix here
+	//TODO: Maybe?
 	//assert(block.GetName() != "default");
 
 	return block.GetName() != "air";

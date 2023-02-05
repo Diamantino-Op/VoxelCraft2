@@ -19,6 +19,9 @@ public:
     void SetPath(std::string path);
     std::string GetPath();
 
+    [[nodiscard]] int GetAtlasDimension() const;
+    [[nodiscard]] int GetTextureSize() const;
+
     std::vector<unsigned char> LoadTexture(const std::string &filename, int &width, int &height, int &channels);
     void PackTextures(const std::map<std::string, std::string> &textures, const std::string &atlasFilename);
     void ProcessTextures();
@@ -28,5 +31,7 @@ public:
     
 private:
     std::string assetPath;
+    int atlasDimension;
+    int textureSize;
     std::map<std::string, int> textureMappings;
 };
