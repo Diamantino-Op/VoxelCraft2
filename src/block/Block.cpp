@@ -82,9 +82,11 @@ std::string BlockTexture::GetBottomTextureName()
 
 Block::Block()
 {
-    this->id = MAXINT; 
-    this->name = "default";
-    this->blockTexture = BlockTexture("default");
+    this->id = MAXINT;
+    //this->name = "default";
+    this->name = "air";
+    //this->blockTexture = BlockTexture("default");
+    this->blockTexture = BlockTexture("air");
     this->type = AIR;
 }
 

@@ -28,6 +28,7 @@ void Chunk::Generate(TerrainGenerator &gen)
 
 			for (int y = 0; y < height; y++)
 			{
+				//Block block = Blocks::Instance().defaultBlock;
 				Block block = Blocks::Instance().GetBlockByName("air");
 
 				// Hardcoded type based on elevation
@@ -40,6 +41,22 @@ void Chunk::Generate(TerrainGenerator &gen)
 
 				SetBlockLocal({ x, y, z }, block);
 			}
+
+			//for (int y = 0; y < World::chunkHeight; y++)
+			//{
+			//	//Block block = Blocks::Instance().defaultBlock;
+			//	Block block = Blocks::Instance().GetBlockByName("air");
+
+			//	// Hardcoded type based on elevation
+			//	if (y < height - 8)
+			//		block = Blocks::Instance().GetBlockByName("stone");
+			//	else if (y < height - 1)
+			//		block = Blocks::Instance().GetBlockByName("dirt");
+			//	else if (y < height)
+			//		block = Blocks::Instance().GetBlockByName("grass_block");
+
+			//	SetBlockLocal({ x, y, z }, block);
+			//}
 		}
 	}
 	
@@ -123,7 +140,7 @@ void Chunk::BuildMesh()
 					if (adjacent.y >= 0 && !CheckForBlock(adjacent))
 					{
 						//Pixels
-						const int tilesheetSize = 16;
+						const int tilesheetSize = 6;
 						std::string texName = "";
 						
 						// Get texture index
@@ -225,9 +242,8 @@ Block &Chunk::GetBlock(glm::ivec3 pos)
 
 	if (OutOfBounds(local))
 	{
-		return Blocks::Instance().GetBlockByName("air");
+		return Blocks::Instance().defaultBlock;
 	}
-	
 	return GetBlockLocal(local);
 }
 
@@ -342,6 +358,11 @@ bool Chunk::CheckForBlock(glm::ivec3 pos)
 
 	// Block in another chunk
 	const glm::ivec3 world = LocalToWorld(pos);
+
+	if (world.x == 512 && world.y == 88 && world.z == -337) {
+		int debug = 1;
+	}
+
 	Block block = ChunkManager::Instance().GetBlock(world);
 
 	if (block.GetName() == "default")

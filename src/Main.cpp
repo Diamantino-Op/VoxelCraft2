@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
 	if (!(serverIp == nullptr || serverIp[0] == '\0'))
 		networkManager.Start(serverIp);
 
-	if (!(assetPath == nullptr || assetPath[0] == '\0'))
-		assetManager.SetPath(assetPath);
+	/*if (!(assetPath == nullptr || assetPath[0] == '\0'))*/
+		assetManager.SetPath("C:\\Users\\loris\\source\\repos\\VoxelCraft2-main\\VoxelCraft2-main\\Output\\x64\\Release\\resources");
 
 	assetManager.ProcessTextures();
 	

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <map>
+#include <array>
 
 #include "Block.h"
 
@@ -16,12 +16,14 @@ public:
 
     void Init();
     
-    Block& GetBlockById(int id);
-    Block& GetBlockByName(const std::string& name);
+    Block GetBlockById(int id);
+    Block GetBlockByName(const std::string& name);
+
+    Block defaultBlock;
     
 private:
     Blocks();
     
-    std::map<std::string, Block> blocks;
+    std::array<Block, 22> blocks;
     
 };
