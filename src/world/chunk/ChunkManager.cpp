@@ -99,7 +99,7 @@ void ChunkManager::UpdateChunks(glm::vec3 playerPos, float dt)
 	unsigned loadedChunks = 0;
 
 	// Create initial chunks 
-	const glm::ivec2 playerChunkCoord = ToChunkPosition(glm::floor(playerPos));
+	const glm::ivec2 playerChunkCoord = ToChunkPosition(floor(playerPos));
 	const Chunk *playerChunk = GetChunk(playerChunkCoord);
 	if (playerChunk == nullptr || !playerChunk->MeshBuilt())
 	{

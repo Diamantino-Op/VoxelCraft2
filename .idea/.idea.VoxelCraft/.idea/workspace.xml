@@ -7,9 +7,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9b3682e8-755c-4f71-948f-eae3c91644ed" name="Changes" comment="s">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VoxelCraft/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphics/utility/Texture.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphics/utility/Texture.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/AssetManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AssetManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/Math.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/Math.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/Chunk.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp" afterDir="false" />
     </list>
@@ -55,6 +52,7 @@
     <setting file="file://$PROJECT_DIR$/src/entity/Entity.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/entity/Player.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/VoxelCraft2/src/utility/AssetManager.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/world/chunk/Chunk.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -87,7 +85,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="C++ Project.VoxelCraft - Release">
+  <component name="RunManager" selected="C++ Project.VoxelCraft - Debug">
     <list>
       <item itemvalue="C++ Project.VoxelCraft - Debug" />
       <item itemvalue="C++ Project.VoxelCraft - Release" />
@@ -120,7 +118,7 @@
       <workItem from="1675511742546" duration="13012000" />
       <workItem from="1675545650372" duration="445000" />
       <workItem from="1675597707560" duration="4615000" />
-      <workItem from="1675602416994" duration="7521000" />
+      <workItem from="1675602416994" duration="10353000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1674841034520</created>
@@ -262,7 +260,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675608482126</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="s">
+      <created>1675616533745</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1675616533745</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,17 +281,6 @@
     <MESSAGE value="j" />
     <MESSAGE value="s" />
     <option name="LAST_COMMIT_MESSAGE" value="s" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/src/world/chunk/ChunkManager.cpp</url>
-          <line>55</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="p4-ProjectCache">
     <option name="serverState">

@@ -1,7 +1,5 @@
 #include "Chunk.h"
 
-#include <iostream>
-
 #include "ChunkManager.h"
 #include "../../block/Blocks.h"
 #include "../../utility/AssetManager.h"
